@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "appTitle": "Timetablist",
+  "@appTitle": {
+    "description": "The application title."
+  },
+  "helloWorld": "Hello World!",
+  "@helloWorld": {
+    "description": "Placeholder greeting shown on the initial screen."
+  }
+}
