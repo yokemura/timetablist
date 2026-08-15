@@ -108,6 +108,12 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Hello World!'**
   String get helloWorld;
+
+  /// Default name assigned when a new document is created. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Timetable'**
+  String get defaultDocumentName;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

@@ -14,4 +14,7 @@ class SJa extends S {
 
   @override
   String get helloWorld => 'こんにちは世界！';
+
+  @override
+  String get defaultDocumentName => 'タイムテーブル';
 }

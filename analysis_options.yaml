@@ -12,3 +12,5 @@ analyzer:
     - windows/**
     - macos/**
     - linux/**
+    - '**/*.freezed.dart'
+    - '**/*.g.dart'

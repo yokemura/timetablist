@@ -14,4 +14,7 @@ class SEn extends S {
 
   @override
   String get helloWorld => 'Hello World!';
+
+  @override
+  String get defaultDocumentName => 'Timetable';
 }

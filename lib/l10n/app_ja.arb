@@ -1,5 +1,6 @@
 {
   "@@locale": "ja",
   "appTitle": "Timetablist",
-  "helloWorld": "こんにちは世界！"
+  "helloWorld": "こんにちは世界！",
+  "defaultDocumentName": "タイムテーブル"
 }
