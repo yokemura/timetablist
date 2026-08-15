@@ -108,6 +108,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Timetable'**
   String get defaultDocumentName;
+
+  /// Tooltip of the menu icon in the title bar.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menuTooltip;
+
+  /// Menu item: export the document to a JSON file.
+  ///
+  /// In en, this message translates to:
+  /// **'Export'**
+  String get menuExport;
+
+  /// Menu item: import a document from a JSON file, overwriting the current one.
+  ///
+  /// In en, this message translates to:
+  /// **'Import'**
+  String get menuImport;
+
+  /// Menu item: reset the document to the initial empty state.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear (New)'**
+  String get menuClear;
+
+  /// Menu item: undo the last data change.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get menuUndo;
+
+  /// Menu item: redo the last undone data change.
+  ///
+  /// In en, this message translates to:
+  /// **'Redo'**
+  String get menuRedo;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

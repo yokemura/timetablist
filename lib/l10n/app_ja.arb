@@ -1,5 +1,11 @@
 {
   "@@locale": "ja",
   "appTitle": "Timetablist",
-  "defaultDocumentName": "タイムテーブル"
+  "defaultDocumentName": "タイムテーブル",
+  "menuTooltip": "メニュー",
+  "menuExport": "エクスポート",
+  "menuImport": "インポート",
+  "menuClear": "クリア（新規作成）",
+  "menuUndo": "取り消す",
+  "menuRedo": "やり直す"
 }

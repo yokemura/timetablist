@@ -14,4 +14,22 @@ class SJa extends S {
 
   @override
   String get defaultDocumentName => 'タイムテーブル';
+
+  @override
+  String get menuTooltip => 'メニュー';
+
+  @override
+  String get menuExport => 'エクスポート';
+
+  @override
+  String get menuImport => 'インポート';
+
+  @override
+  String get menuClear => 'クリア（新規作成）';
+
+  @override
+  String get menuUndo => '取り消す';
+
+  @override
+  String get menuRedo => 'やり直す';
 }

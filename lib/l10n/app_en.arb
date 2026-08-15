@@ -7,5 +7,29 @@
   "defaultDocumentName": "Timetable",
   "@defaultDocumentName": {
     "description": "Default name assigned when a new document is created. Stored as-is and not retranslated later."
+  },
+  "menuTooltip": "Menu",
+  "@menuTooltip": {
+    "description": "Tooltip of the menu icon in the title bar."
+  },
+  "menuExport": "Export",
+  "@menuExport": {
+    "description": "Menu item: export the document to a JSON file."
+  },
+  "menuImport": "Import",
+  "@menuImport": {
+    "description": "Menu item: import a document from a JSON file, overwriting the current one."
+  },
+  "menuClear": "Clear (New)",
+  "@menuClear": {
+    "description": "Menu item: reset the document to the initial empty state."
+  },
+  "menuUndo": "Undo",
+  "@menuUndo": {
+    "description": "Menu item: undo the last data change."
+  },
+  "menuRedo": "Redo",
+  "@menuRedo": {
+    "description": "Menu item: redo the last undone data change."
   }
 }

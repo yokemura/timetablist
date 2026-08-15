@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'l10n/generated/s.dart';
 import 'models/models.dart';
 import 'state/state.dart';
+import 'ui/app_shell.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,18 +46,8 @@ class MainApp extends StatelessWidget {
       onGenerateTitle: (context) => S.of(context).appTitle,
       localizationsDelegates: S.localizationsDelegates,
       supportedLocales: S.supportedLocales,
-      home: const HomePage(),
+      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
+      home: const AppShell(),
     );
-  }
-}
-
-/// Placeholder home screen; replaced by the real shell in the next step.
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final document = ref.watch(documentProvider);
-    return Scaffold(body: Center(child: Text(document.name)));
   }
 }

@@ -14,4 +14,22 @@ class SEn extends S {
 
   @override
   String get defaultDocumentName => 'Timetable';
+
+  @override
+  String get menuTooltip => 'Menu';
+
+  @override
+  String get menuExport => 'Export';
+
+  @override
+  String get menuImport => 'Import';
+
+  @override
+  String get menuClear => 'Clear (New)';
+
+  @override
+  String get menuUndo => 'Undo';
+
+  @override
+  String get menuRedo => 'Redo';
 }
