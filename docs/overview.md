@@ -8,6 +8,7 @@
 - プラットフォーム: Web
 - 技術スタック
   - フレームワーク: Flutter / Dart
+    - fvm による Flutter バージョン管理
   - アーキテクチャ: RiverpodベースのMVVM (Freezed使用)
 - アカウント不要
   - データ保存はローカルストレージ
