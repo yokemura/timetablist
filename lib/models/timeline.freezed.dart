@@ -210,8 +210,8 @@ return $default(_that.id,_that.name,_that.startTime,_that.slots);case _:
 }
 
 /// @nodoc
+@JsonSerializable()
 
-@JsonSerializable(explicitToJson: true)
 class _Timeline extends Timeline {
   const _Timeline({required this.id, required this.name, @TimelineTimeConverter() required this.startTime, required  List<Slot> slots}): _slots = slots,super._();
   factory _Timeline.fromJson(Map<String, dynamic> json) => _$TimelineFromJson(json);

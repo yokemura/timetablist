@@ -103,12 +103,6 @@ abstract class S {
   /// **'Timetablist'**
   String get appTitle;
 
-  /// Placeholder greeting shown on the initial screen.
-  ///
-  /// In en, this message translates to:
-  /// **'Hello World!'**
-  String get helloWorld;
-
   /// Default name assigned when a new document is created. Stored as-is and not retranslated later.
   ///
   /// In en, this message translates to:

@@ -13,8 +13,5 @@ class SJa extends S {
   String get appTitle => 'Timetablist';
 
   @override
-  String get helloWorld => 'こんにちは世界！';
-
-  @override
   String get defaultDocumentName => 'タイムテーブル';
 }

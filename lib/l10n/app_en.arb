@@ -4,10 +4,6 @@
   "@appTitle": {
     "description": "The application title."
   },
-  "helloWorld": "Hello World!",
-  "@helloWorld": {
-    "description": "Placeholder greeting shown on the initial screen."
-  },
   "defaultDocumentName": "Timetable",
   "@defaultDocumentName": {
     "description": "Default name assigned when a new document is created. Stored as-is and not retranslated later."

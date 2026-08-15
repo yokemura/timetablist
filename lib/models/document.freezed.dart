@@ -210,8 +210,8 @@ return $default(_that.name,_that.timelines,_that.slotCategories,_that.participan
 }
 
 /// @nodoc
+@JsonSerializable()
 
-@JsonSerializable(explicitToJson: true)
 class _Document extends Document {
   const _Document({required this.name,  List<Timeline> timelines = const [],  List<SlotCategory> slotCategories = const [],  List<Participant> participants = const []}): _timelines = timelines,_slotCategories = slotCategories,_participants = participants,super._();
   factory _Document.fromJson(Map<String, dynamic> json) => _$DocumentFromJson(json);
