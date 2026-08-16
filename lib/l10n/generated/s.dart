@@ -180,6 +180,168 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Requirement mismatch'**
   String get requirementMismatchLabel;
+
+  /// Button in the slot category pane that opens the creation sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'New slot type'**
+  String get createSlotCategoryButton;
+
+  /// Button in the participant pane that opens the creation sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'New participant'**
+  String get createParticipantButton;
+
+  /// Title of the slot category creation bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'New slot type'**
+  String get slotCategoryCreateTitle;
+
+  /// Title of the participant creation bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'New participant'**
+  String get participantCreateTitle;
+
+  /// Label of name input fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get fieldName;
+
+  /// Label of slot duration input fields, in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration (min)'**
+  String get fieldDurationMinutes;
+
+  /// Label of the performance-slot attribute checkbox.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance slot'**
+  String get fieldPerformanceAttribute;
+
+  /// Confirm button of creation sheets.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get actionCreate;
+
+  /// Cancel button of sheets and dialogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get actionCancel;
+
+  /// Warning shown when the entered slot category name is already taken.
+  ///
+  /// In en, this message translates to:
+  /// **'A slot type with this name already exists'**
+  String get errorDuplicateCategoryName;
+
+  /// Warning shown when the entered participant name is already taken.
+  ///
+  /// In en, this message translates to:
+  /// **'A participant with this name already exists'**
+  String get errorDuplicateParticipantName;
+
+  /// Warning shown when the checked requirement items contradict each other.
+  ///
+  /// In en, this message translates to:
+  /// **'Requirements contradict each other'**
+  String get errorRequirementsContradiction;
+
+  /// Short badge label indicating a slot category has the performance attribute.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get performanceAttributeLabel;
+
+  /// Short display of a duration in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String durationMinutesLabel(int minutes);
+
+  /// Requirement editor row: minimum slot duration in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Min duration (min)'**
+  String get reqMinDurationLabel;
+
+  /// Requirement editor row: maximum slot duration in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Max duration (min)'**
+  String get reqMaxDurationLabel;
+
+  /// Requirement editor row: wants to finish by the given time.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish by'**
+  String get reqFinishByLabel;
+
+  /// Requirement editor row: wants to start at or after the given time.
+  ///
+  /// In en, this message translates to:
+  /// **'Start at or after'**
+  String get reqStartAfterLabel;
+
+  /// Requirement editor row: preferred performance order, inclusive lower bound.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer position or later'**
+  String get reqOrderFromLabel;
+
+  /// Requirement editor row: preferred performance order, exclusive upper bound.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer position earlier than'**
+  String get reqOrderBeforeLabel;
+
+  /// List item summary: minimum duration requirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Min {minutes} min'**
+  String reqSummaryMinDuration(int minutes);
+
+  /// List item summary: maximum duration requirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Max {minutes} min'**
+  String reqSummaryMaxDuration(int minutes);
+
+  /// List item summary: finish-by requirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish by {time}'**
+  String reqSummaryFinishBy(String time);
+
+  /// List item summary: start-after requirement.
+  ///
+  /// In en, this message translates to:
+  /// **'Start after {time}'**
+  String reqSummaryStartAfter(String time);
+
+  /// List item summary: preferred order lower bound (inclusive).
+  ///
+  /// In en, this message translates to:
+  /// **'Position {position}+'**
+  String reqSummaryOrderFrom(int position);
+
+  /// List item summary: preferred order upper bound (exclusive).
+  ///
+  /// In en, this message translates to:
+  /// **'Position < {position}'**
+  String reqSummaryOrderBefore(int position);
+
+  /// Separator used when joining requirement summaries into one line.
+  ///
+  /// In en, this message translates to:
+  /// **', '**
+  String get reqSummarySeparator;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

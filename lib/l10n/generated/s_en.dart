@@ -54,4 +54,102 @@ class SEn extends S {
 
   @override
   String get requirementMismatchLabel => 'Requirement mismatch';
+
+  @override
+  String get createSlotCategoryButton => 'New slot type';
+
+  @override
+  String get createParticipantButton => 'New participant';
+
+  @override
+  String get slotCategoryCreateTitle => 'New slot type';
+
+  @override
+  String get participantCreateTitle => 'New participant';
+
+  @override
+  String get fieldName => 'Name';
+
+  @override
+  String get fieldDurationMinutes => 'Duration (min)';
+
+  @override
+  String get fieldPerformanceAttribute => 'Performance slot';
+
+  @override
+  String get actionCreate => 'Create';
+
+  @override
+  String get actionCancel => 'Cancel';
+
+  @override
+  String get errorDuplicateCategoryName =>
+      'A slot type with this name already exists';
+
+  @override
+  String get errorDuplicateParticipantName =>
+      'A participant with this name already exists';
+
+  @override
+  String get errorRequirementsContradiction =>
+      'Requirements contradict each other';
+
+  @override
+  String get performanceAttributeLabel => 'Performance';
+
+  @override
+  String durationMinutesLabel(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get reqMinDurationLabel => 'Min duration (min)';
+
+  @override
+  String get reqMaxDurationLabel => 'Max duration (min)';
+
+  @override
+  String get reqFinishByLabel => 'Finish by';
+
+  @override
+  String get reqStartAfterLabel => 'Start at or after';
+
+  @override
+  String get reqOrderFromLabel => 'Prefer position or later';
+
+  @override
+  String get reqOrderBeforeLabel => 'Prefer position earlier than';
+
+  @override
+  String reqSummaryMinDuration(int minutes) {
+    return 'Min $minutes min';
+  }
+
+  @override
+  String reqSummaryMaxDuration(int minutes) {
+    return 'Max $minutes min';
+  }
+
+  @override
+  String reqSummaryFinishBy(String time) {
+    return 'Finish by $time';
+  }
+
+  @override
+  String reqSummaryStartAfter(String time) {
+    return 'Start after $time';
+  }
+
+  @override
+  String reqSummaryOrderFrom(int position) {
+    return 'Position $position+';
+  }
+
+  @override
+  String reqSummaryOrderBefore(int position) {
+    return 'Position < $position';
+  }
+
+  @override
+  String get reqSummarySeparator => ', ';
 }

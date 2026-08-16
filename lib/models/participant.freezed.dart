@@ -216,8 +216,8 @@ return $default(_that.minDurationMinutes,_that.maxDurationMinutes,_that.finishBy
 /// @nodoc
 @JsonSerializable()
 
-class _ParticipantRequirements implements ParticipantRequirements {
-  const _ParticipantRequirements({this.minDurationMinutes, this.maxDurationMinutes, @TimelineTimeConverter() this.finishBy, @TimelineTimeConverter() this.startAfter, this.preferredOrderFrom, this.preferredOrderBefore});
+class _ParticipantRequirements extends ParticipantRequirements {
+  const _ParticipantRequirements({this.minDurationMinutes, this.maxDurationMinutes, @TimelineTimeConverter() this.finishBy, @TimelineTimeConverter() this.startAfter, this.preferredOrderFrom, this.preferredOrderBefore}): super._();
   factory _ParticipantRequirements.fromJson(Map<String, dynamic> json) => _$ParticipantRequirementsFromJson(json);
 
 @override final  int? minDurationMinutes;

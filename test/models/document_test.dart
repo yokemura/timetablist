@@ -158,6 +158,64 @@ void main() {
     });
   });
 
+  group('ParticipantRequirements.hasContradiction', () {
+    test('is false for empty or consistent requirements', () {
+      expect(const ParticipantRequirements().hasContradiction, isFalse);
+      expect(
+        ParticipantRequirements(
+          minDurationMinutes: 30,
+          maxDurationMinutes: 60,
+          startAfter: TimelineTime.parse('18:00'),
+          finishBy: TimelineTime.parse('19:00'),
+          preferredOrderFrom: 2,
+          preferredOrderBefore: 5,
+        ).hasContradiction,
+        isFalse,
+      );
+    });
+
+    test('detects min duration above max duration', () {
+      expect(
+        const ParticipantRequirements(
+          minDurationMinutes: 60,
+          maxDurationMinutes: 30,
+        ).hasContradiction,
+        isTrue,
+      );
+    });
+
+    test('detects start-after at or past finish-by', () {
+      expect(
+        ParticipantRequirements(
+          startAfter: TimelineTime.parse('19:00'),
+          finishBy: TimelineTime.parse('19:00'),
+        ).hasContradiction,
+        isTrue,
+      );
+    });
+
+    test('detects a time window shorter than the min duration', () {
+      expect(
+        ParticipantRequirements(
+          minDurationMinutes: 90,
+          startAfter: TimelineTime.parse('18:00'),
+          finishBy: TimelineTime.parse('19:00'),
+        ).hasContradiction,
+        isTrue,
+      );
+    });
+
+    test('detects an empty preferred-order range', () {
+      expect(
+        const ParticipantRequirements(
+          preferredOrderFrom: 3,
+          preferredOrderBefore: 3,
+        ).hasContradiction,
+        isTrue,
+      );
+    });
+  });
+
   group('generateEntityId', () {
     test('returns unique UUID-shaped ids', () {
       final ids = {generateEntityId(), generateEntityId(), generateEntityId()};

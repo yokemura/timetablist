@@ -101,7 +101,7 @@ final class DocumentProvider
   }
 }
 
-String _$documentHash() => r'928c6d70fbacfadc548d1debd17011f93d1c0b8a';
+String _$documentHash() => r'5d160497e235671aa44cceba63b8b6eaedc6b843';
 
 /// Applies all document mutations.
 ///

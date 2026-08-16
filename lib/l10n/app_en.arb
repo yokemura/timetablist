@@ -65,5 +65,148 @@
   "requirementMismatchLabel": "Requirement mismatch",
   "@requirementMismatchLabel": {
     "description": "Fixed short warning shown on a placed participant whose requirements are not met. Details appear in the property pane."
+  },
+  "createSlotCategoryButton": "New slot type",
+  "@createSlotCategoryButton": {
+    "description": "Button in the slot category pane that opens the creation sheet."
+  },
+  "createParticipantButton": "New participant",
+  "@createParticipantButton": {
+    "description": "Button in the participant pane that opens the creation sheet."
+  },
+  "slotCategoryCreateTitle": "New slot type",
+  "@slotCategoryCreateTitle": {
+    "description": "Title of the slot category creation bottom sheet."
+  },
+  "participantCreateTitle": "New participant",
+  "@participantCreateTitle": {
+    "description": "Title of the participant creation bottom sheet."
+  },
+  "fieldName": "Name",
+  "@fieldName": {
+    "description": "Label of name input fields."
+  },
+  "fieldDurationMinutes": "Duration (min)",
+  "@fieldDurationMinutes": {
+    "description": "Label of slot duration input fields, in minutes."
+  },
+  "fieldPerformanceAttribute": "Performance slot",
+  "@fieldPerformanceAttribute": {
+    "description": "Label of the performance-slot attribute checkbox."
+  },
+  "actionCreate": "Create",
+  "@actionCreate": {
+    "description": "Confirm button of creation sheets."
+  },
+  "actionCancel": "Cancel",
+  "@actionCancel": {
+    "description": "Cancel button of sheets and dialogs."
+  },
+  "errorDuplicateCategoryName": "A slot type with this name already exists",
+  "@errorDuplicateCategoryName": {
+    "description": "Warning shown when the entered slot category name is already taken."
+  },
+  "errorDuplicateParticipantName": "A participant with this name already exists",
+  "@errorDuplicateParticipantName": {
+    "description": "Warning shown when the entered participant name is already taken."
+  },
+  "errorRequirementsContradiction": "Requirements contradict each other",
+  "@errorRequirementsContradiction": {
+    "description": "Warning shown when the checked requirement items contradict each other."
+  },
+  "performanceAttributeLabel": "Performance",
+  "@performanceAttributeLabel": {
+    "description": "Short badge label indicating a slot category has the performance attribute."
+  },
+  "durationMinutesLabel": "{minutes} min",
+  "@durationMinutesLabel": {
+    "description": "Short display of a duration in minutes.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "reqMinDurationLabel": "Min duration (min)",
+  "@reqMinDurationLabel": {
+    "description": "Requirement editor row: minimum slot duration in minutes."
+  },
+  "reqMaxDurationLabel": "Max duration (min)",
+  "@reqMaxDurationLabel": {
+    "description": "Requirement editor row: maximum slot duration in minutes."
+  },
+  "reqFinishByLabel": "Finish by",
+  "@reqFinishByLabel": {
+    "description": "Requirement editor row: wants to finish by the given time."
+  },
+  "reqStartAfterLabel": "Start at or after",
+  "@reqStartAfterLabel": {
+    "description": "Requirement editor row: wants to start at or after the given time."
+  },
+  "reqOrderFromLabel": "Prefer position or later",
+  "@reqOrderFromLabel": {
+    "description": "Requirement editor row: preferred performance order, inclusive lower bound."
+  },
+  "reqOrderBeforeLabel": "Prefer position earlier than",
+  "@reqOrderBeforeLabel": {
+    "description": "Requirement editor row: preferred performance order, exclusive upper bound."
+  },
+  "reqSummaryMinDuration": "Min {minutes} min",
+  "@reqSummaryMinDuration": {
+    "description": "List item summary: minimum duration requirement.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "reqSummaryMaxDuration": "Max {minutes} min",
+  "@reqSummaryMaxDuration": {
+    "description": "List item summary: maximum duration requirement.",
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "reqSummaryFinishBy": "Finish by {time}",
+  "@reqSummaryFinishBy": {
+    "description": "List item summary: finish-by requirement.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reqSummaryStartAfter": "Start after {time}",
+  "@reqSummaryStartAfter": {
+    "description": "List item summary: start-after requirement.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reqSummaryOrderFrom": "Position {position}+",
+  "@reqSummaryOrderFrom": {
+    "description": "List item summary: preferred order lower bound (inclusive).",
+    "placeholders": {
+      "position": {
+        "type": "int"
+      }
+    }
+  },
+  "reqSummaryOrderBefore": "Position < {position}",
+  "@reqSummaryOrderBefore": {
+    "description": "List item summary: preferred order upper bound (exclusive).",
+    "placeholders": {
+      "position": {
+        "type": "int"
+      }
+    }
+  },
+  "reqSummarySeparator": ", ",
+  "@reqSummarySeparator": {
+    "description": "Separator used when joining requirement summaries into one line."
   }
 }

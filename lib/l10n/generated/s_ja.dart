@@ -54,4 +54,99 @@ class SJa extends S {
 
   @override
   String get requirementMismatchLabel => '要求不一致';
+
+  @override
+  String get createSlotCategoryButton => '枠タイプ作成';
+
+  @override
+  String get createParticipantButton => '演者作成';
+
+  @override
+  String get slotCategoryCreateTitle => '枠タイプ作成';
+
+  @override
+  String get participantCreateTitle => '演者作成';
+
+  @override
+  String get fieldName => '名前';
+
+  @override
+  String get fieldDurationMinutes => '時間長（分）';
+
+  @override
+  String get fieldPerformanceAttribute => '出演枠属性';
+
+  @override
+  String get actionCreate => '作成';
+
+  @override
+  String get actionCancel => 'キャンセル';
+
+  @override
+  String get errorDuplicateCategoryName => '同じ名前の枠タイプがあります';
+
+  @override
+  String get errorDuplicateParticipantName => '同じ名前の演者がいます';
+
+  @override
+  String get errorRequirementsContradiction => '要求項目に矛盾があります';
+
+  @override
+  String get performanceAttributeLabel => '出演枠';
+
+  @override
+  String durationMinutesLabel(int minutes) {
+    return '$minutes分';
+  }
+
+  @override
+  String get reqMinDurationLabel => '最低時間（分）';
+
+  @override
+  String get reqMaxDurationLabel => '最長時間（分）';
+
+  @override
+  String get reqFinishByLabel => '〜までに終了したい';
+
+  @override
+  String get reqStartAfterLabel => '〜以降に開始したい';
+
+  @override
+  String get reqOrderFromLabel => '〜番目以降を希望';
+
+  @override
+  String get reqOrderBeforeLabel => '〜番目より前を希望';
+
+  @override
+  String reqSummaryMinDuration(int minutes) {
+    return '最低$minutes分';
+  }
+
+  @override
+  String reqSummaryMaxDuration(int minutes) {
+    return '最長$minutes分';
+  }
+
+  @override
+  String reqSummaryFinishBy(String time) {
+    return '$timeまでに終了';
+  }
+
+  @override
+  String reqSummaryStartAfter(String time) {
+    return '$time以降に開始';
+  }
+
+  @override
+  String reqSummaryOrderFrom(int position) {
+    return '$position番目以降';
+  }
+
+  @override
+  String reqSummaryOrderBefore(int position) {
+    return '$position番目より前';
+  }
+
+  @override
+  String get reqSummarySeparator => '・';
 }
