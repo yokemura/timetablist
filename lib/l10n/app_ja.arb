@@ -40,5 +40,22 @@
   "reqSummaryStartAfter": "{time}以降に開始",
   "reqSummaryOrderFrom": "{position}番目以降",
   "reqSummaryOrderBefore": "{position}番目より前",
-  "reqSummarySeparator": "・"
+  "reqSummarySeparator": "・",
+  "createTimelineButton": "タイムライン作成",
+  "timelineCreateTitle": "タイムライン作成",
+  "fieldSequenceStart": "シーケンス開始時間",
+  "fieldHasPrep": "準備あり",
+  "fieldHasInterval": "インターバルあり",
+  "fieldHasTeardown": "撤収あり",
+  "fieldPerformanceCount": "枠数",
+  "fieldPerformanceStart": "出演枠の開始時刻",
+  "fieldTeardownStart": "撤収の開始時刻",
+  "fieldEndTime": "終了時刻",
+  "errorTimelineExceedsMax": "終了時刻がタイムラインの最大時刻を超えています",
+  "slotCategoryPickerCreateNew": "新規作成",
+  "defaultCategoryPrep": "準備",
+  "defaultCategoryPerformance": "出演枠",
+  "defaultCategoryInterval": "転換",
+  "defaultCategoryTeardown": "撤収",
+  "defaultTimelineName": "タイムライン{n}"
 }

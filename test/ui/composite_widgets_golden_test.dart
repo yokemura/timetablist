@@ -8,6 +8,7 @@ import 'package:timetablist/state/state.dart';
 import 'package:timetablist/ui/app_shell.dart';
 import 'package:timetablist/ui/sheets/participant_create_sheet.dart';
 import 'package:timetablist/ui/sheets/slot_category_create_sheet.dart';
+import 'package:timetablist/ui/sheets/timeline_create_sheet.dart';
 import 'package:timetablist/ui/widgets/requirements_editor.dart';
 
 import '../support/recording_document_store.dart';
@@ -133,6 +134,16 @@ void main() {
             width: 400,
             child: ExcludeFocus(
               child: Material(child: ParticipantCreateSheet()),
+            ),
+          ),
+        ),
+        GoldenTestScenario(
+          name: 'timeline create sheet',
+          child: const SizedBox(
+            width: 400,
+            height: 560,
+            child: ExcludeFocus(
+              child: Material(child: TimelineCreateSheet()),
             ),
           ),
         ),

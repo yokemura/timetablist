@@ -199,6 +199,37 @@ void main() {
   });
 
   group('DocumentEditor timelines and slots', () {
+    test('addTimelineWithCategories commits categories and timeline together',
+        () {
+      final (:container, :store) = createHarness();
+      final editor = container.read(documentEditorProvider.notifier);
+      const category = SlotCategory(
+        id: 'perf',
+        name: '出演枠',
+        durationMinutes: 30,
+        isPerformanceSlot: true,
+      );
+
+      editor.addTimelineWithCategories(
+        newCategories: const [category],
+        timeline: Timeline(
+          id: 'day1',
+          name: 'タイムライン1',
+          startTime: TimelineTime.parse('10:00'),
+          slots: const [Slot(id: 's1', categoryId: 'perf')],
+        ),
+      );
+
+      final document = container.read(documentProvider);
+      expect(document.slotCategories, [category]);
+      expect(document.timelines, hasLength(1));
+      expect(document.endTimeOf(document.timelines.single).toDisplayString(), '10:30');
+
+      editor.undo();
+      expect(container.read(documentProvider).timelines, isEmpty);
+      expect(container.read(documentProvider).slotCategories, isEmpty);
+    });
+
     test('duplicates a timeline with fresh IDs and no participants', () {
       final (:container, :store) = createHarness(
         initialDocument: sampleDocument(),

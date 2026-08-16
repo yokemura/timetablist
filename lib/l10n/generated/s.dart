@@ -342,6 +342,108 @@ abstract class S {
   /// In en, this message translates to:
   /// **', '**
   String get reqSummarySeparator;
+
+  /// Button in the timeline pane that opens the creation sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'New timeline'**
+  String get createTimelineButton;
+
+  /// Title of the timeline creation bottom sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'New timeline'**
+  String get timelineCreateTitle;
+
+  /// Start time of the timeline sequence in the create sheet.
+  ///
+  /// In en, this message translates to:
+  /// **'Sequence start'**
+  String get fieldSequenceStart;
+
+  /// Checkbox: prepend a preparation slot to the timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Include preparation'**
+  String get fieldHasPrep;
+
+  /// Checkbox: insert interval slots between performance slots.
+  ///
+  /// In en, this message translates to:
+  /// **'Include intervals'**
+  String get fieldHasInterval;
+
+  /// Checkbox: append a teardown slot to the timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Include teardown'**
+  String get fieldHasTeardown;
+
+  /// How many performance slots to create.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of slots'**
+  String get fieldPerformanceCount;
+
+  /// Read-only start time of the first performance slot, derived from the sequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance start'**
+  String get fieldPerformanceStart;
+
+  /// Read-only start time of the teardown slot, derived from the sequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Teardown start'**
+  String get fieldTeardownStart;
+
+  /// Read-only end time of the timeline, derived from the sequence.
+  ///
+  /// In en, this message translates to:
+  /// **'End time'**
+  String get fieldEndTime;
+
+  /// Warning when the drafted timeline would end after 30:00.
+  ///
+  /// In en, this message translates to:
+  /// **'The end time exceeds the timeline maximum'**
+  String get errorTimelineExceedsMax;
+
+  /// Dropdown item that switches the slot category picker to the new-category fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Create new'**
+  String get slotCategoryPickerCreateNew;
+
+  /// Default name for a newly created preparation slot category. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Preparation'**
+  String get defaultCategoryPrep;
+
+  /// Default name for a newly created performance slot category. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance'**
+  String get defaultCategoryPerformance;
+
+  /// Default name for a newly created interval slot category. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Changeover'**
+  String get defaultCategoryInterval;
+
+  /// Default name for a newly created teardown slot category. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Teardown'**
+  String get defaultCategoryTeardown;
+
+  /// Default name assigned when a new timeline is created. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline {n}'**
+  String defaultTimelineName(int n);
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

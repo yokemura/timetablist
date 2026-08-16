@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
+import 'package:timetablist/ui/panes/participant_pane.dart';
 import 'package:timetablist/ui/widgets/participant_list_item.dart';
 import 'package:timetablist/ui/widgets/requirements_editor.dart';
 import 'package:timetablist/ui/widgets/slot_category_list_item.dart';
@@ -175,8 +176,20 @@ void main() {
 
     // Alice is assigned to a slot; only Bob remains in the pane.
     expect(find.byType(ParticipantListItem), findsOneWidget);
-    expect(find.text('Bob'), findsOneWidget);
-    expect(find.text('Alice'), findsNothing);
+    expect(
+      find.descendant(
+        of: find.byType(ParticipantPane),
+        matching: find.text('Bob'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(ParticipantPane),
+        matching: find.text('Alice'),
+      ),
+      findsNothing,
+    );
   });
 
   testWidgets('clicking items selects them; empty space selects the document',

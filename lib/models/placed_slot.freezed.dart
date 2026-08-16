@@ -243,8 +243,8 @@ return $default(_that.slot,_that.category,_that.participant,_that.startTime,_tha
 /// @nodoc
 
 
-class _PlacedSlot implements PlacedSlot {
-  const _PlacedSlot({required this.slot, required this.category, required this.participant, required this.startTime, required this.endTime, required this.index, this.performanceOrder});
+class _PlacedSlot extends PlacedSlot {
+  const _PlacedSlot({required this.slot, required this.category, required this.participant, required this.startTime, required this.endTime, required this.index, this.performanceOrder}): super._();
   
 
 @override final  Slot slot;

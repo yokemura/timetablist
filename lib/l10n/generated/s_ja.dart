@@ -149,4 +149,57 @@ class SJa extends S {
 
   @override
   String get reqSummarySeparator => '・';
+
+  @override
+  String get createTimelineButton => 'タイムライン作成';
+
+  @override
+  String get timelineCreateTitle => 'タイムライン作成';
+
+  @override
+  String get fieldSequenceStart => 'シーケンス開始時間';
+
+  @override
+  String get fieldHasPrep => '準備あり';
+
+  @override
+  String get fieldHasInterval => 'インターバルあり';
+
+  @override
+  String get fieldHasTeardown => '撤収あり';
+
+  @override
+  String get fieldPerformanceCount => '枠数';
+
+  @override
+  String get fieldPerformanceStart => '出演枠の開始時刻';
+
+  @override
+  String get fieldTeardownStart => '撤収の開始時刻';
+
+  @override
+  String get fieldEndTime => '終了時刻';
+
+  @override
+  String get errorTimelineExceedsMax => '終了時刻がタイムラインの最大時刻を超えています';
+
+  @override
+  String get slotCategoryPickerCreateNew => '新規作成';
+
+  @override
+  String get defaultCategoryPrep => '準備';
+
+  @override
+  String get defaultCategoryPerformance => '出演枠';
+
+  @override
+  String get defaultCategoryInterval => '転換';
+
+  @override
+  String get defaultCategoryTeardown => '撤収';
+
+  @override
+  String defaultTimelineName(int n) {
+    return 'タイムライン$n';
+  }
 }

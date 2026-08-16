@@ -181,7 +181,15 @@ class DocumentEditor extends _$DocumentEditor {
 
   // --- Timelines ---
 
-  void addTimeline(Timeline timeline) {
+  void addTimeline(Timeline timeline) =>
+      addTimelineWithCategories(timeline: timeline);
+
+  /// Adds [timeline] and any [newCategories] it references in one undoable
+  /// change (used by the create-timeline sheet).
+  void addTimelineWithCategories({
+    required Timeline timeline,
+    List<SlotCategory> newCategories = const [],
+  }) {
     if (timeline.slots.isEmpty) {
       throw ArgumentError.value(
         timeline,
@@ -189,9 +197,29 @@ class DocumentEditor extends _$DocumentEditor {
         'A timeline must contain at least one slot',
       );
     }
-    _commit(
-      _document.copyWith(timelines: [..._document.timelines, timeline]),
+    final names = <String>{};
+    for (final category in newCategories) {
+      if (_document.isSlotCategoryNameTaken(category.name) ||
+          !names.add(category.name)) {
+        throw ArgumentError.value(
+          category.name,
+          'name',
+          'Slot category name is taken',
+        );
+      }
+    }
+    final next = _document.copyWith(
+      slotCategories: [..._document.slotCategories, ...newCategories],
+      timelines: [..._document.timelines, timeline],
     );
+    if (!next.endTimeOf(timeline).isWithinMax) {
+      throw ArgumentError.value(
+        timeline,
+        'timeline',
+        'End time exceeds the timeline maximum',
+      );
+    }
+    _commit(next);
   }
 
   void renameTimeline(String id, String name) =>

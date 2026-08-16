@@ -208,5 +208,78 @@
   "reqSummarySeparator": ", ",
   "@reqSummarySeparator": {
     "description": "Separator used when joining requirement summaries into one line."
+  },
+  "createTimelineButton": "New timeline",
+  "@createTimelineButton": {
+    "description": "Button in the timeline pane that opens the creation sheet."
+  },
+  "timelineCreateTitle": "New timeline",
+  "@timelineCreateTitle": {
+    "description": "Title of the timeline creation bottom sheet."
+  },
+  "fieldSequenceStart": "Sequence start",
+  "@fieldSequenceStart": {
+    "description": "Start time of the timeline sequence in the create sheet."
+  },
+  "fieldHasPrep": "Include preparation",
+  "@fieldHasPrep": {
+    "description": "Checkbox: prepend a preparation slot to the timeline."
+  },
+  "fieldHasInterval": "Include intervals",
+  "@fieldHasInterval": {
+    "description": "Checkbox: insert interval slots between performance slots."
+  },
+  "fieldHasTeardown": "Include teardown",
+  "@fieldHasTeardown": {
+    "description": "Checkbox: append a teardown slot to the timeline."
+  },
+  "fieldPerformanceCount": "Number of slots",
+  "@fieldPerformanceCount": {
+    "description": "How many performance slots to create."
+  },
+  "fieldPerformanceStart": "Performance start",
+  "@fieldPerformanceStart": {
+    "description": "Read-only start time of the first performance slot, derived from the sequence."
+  },
+  "fieldTeardownStart": "Teardown start",
+  "@fieldTeardownStart": {
+    "description": "Read-only start time of the teardown slot, derived from the sequence."
+  },
+  "fieldEndTime": "End time",
+  "@fieldEndTime": {
+    "description": "Read-only end time of the timeline, derived from the sequence."
+  },
+  "errorTimelineExceedsMax": "The end time exceeds the timeline maximum",
+  "@errorTimelineExceedsMax": {
+    "description": "Warning when the drafted timeline would end after 30:00."
+  },
+  "slotCategoryPickerCreateNew": "Create new",
+  "@slotCategoryPickerCreateNew": {
+    "description": "Dropdown item that switches the slot category picker to the new-category fields."
+  },
+  "defaultCategoryPrep": "Preparation",
+  "@defaultCategoryPrep": {
+    "description": "Default name for a newly created preparation slot category. Stored as-is and not retranslated later."
+  },
+  "defaultCategoryPerformance": "Performance",
+  "@defaultCategoryPerformance": {
+    "description": "Default name for a newly created performance slot category. Stored as-is and not retranslated later."
+  },
+  "defaultCategoryInterval": "Changeover",
+  "@defaultCategoryInterval": {
+    "description": "Default name for a newly created interval slot category. Stored as-is and not retranslated later."
+  },
+  "defaultCategoryTeardown": "Teardown",
+  "@defaultCategoryTeardown": {
+    "description": "Default name for a newly created teardown slot category. Stored as-is and not retranslated later."
+  },
+  "defaultTimelineName": "Timeline {n}",
+  "@defaultTimelineName": {
+    "description": "Default name assigned when a new timeline is created. Stored as-is and not retranslated later.",
+    "placeholders": {
+      "n": {
+        "type": "int"
+      }
+    }
   }
 }

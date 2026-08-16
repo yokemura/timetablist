@@ -152,4 +152,58 @@ class SEn extends S {
 
   @override
   String get reqSummarySeparator => ', ';
+
+  @override
+  String get createTimelineButton => 'New timeline';
+
+  @override
+  String get timelineCreateTitle => 'New timeline';
+
+  @override
+  String get fieldSequenceStart => 'Sequence start';
+
+  @override
+  String get fieldHasPrep => 'Include preparation';
+
+  @override
+  String get fieldHasInterval => 'Include intervals';
+
+  @override
+  String get fieldHasTeardown => 'Include teardown';
+
+  @override
+  String get fieldPerformanceCount => 'Number of slots';
+
+  @override
+  String get fieldPerformanceStart => 'Performance start';
+
+  @override
+  String get fieldTeardownStart => 'Teardown start';
+
+  @override
+  String get fieldEndTime => 'End time';
+
+  @override
+  String get errorTimelineExceedsMax =>
+      'The end time exceeds the timeline maximum';
+
+  @override
+  String get slotCategoryPickerCreateNew => 'Create new';
+
+  @override
+  String get defaultCategoryPrep => 'Preparation';
+
+  @override
+  String get defaultCategoryPerformance => 'Performance';
+
+  @override
+  String get defaultCategoryInterval => 'Changeover';
+
+  @override
+  String get defaultCategoryTeardown => 'Teardown';
+
+  @override
+  String defaultTimelineName(int n) {
+    return 'Timeline $n';
+  }
 }
