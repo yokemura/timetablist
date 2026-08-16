@@ -81,14 +81,31 @@ class DocumentEditor extends _$DocumentEditor {
         'Slot category name is taken',
       );
     }
-    _commit(
-      _document.copyWith(
-        slotCategories: [
-          for (final category in _document.slotCategories)
-            if (category.id == updated.id) updated else category,
-        ],
-      ),
+    final next = _document.copyWith(
+      slotCategories: [
+        for (final category in _document.slotCategories)
+          if (category.id == updated.id) updated else category,
+      ],
     );
+    _validateTimelineBounds(next);
+    _commit(next);
+  }
+
+  /// Updates only the duration of a slot category used by placed slots.
+  void updateSlotCategoryDuration(String id, int durationMinutes) {
+    _requireDuration(durationMinutes);
+    final category = _requireSlotCategory(id);
+    updateSlotCategory(category.copyWith(durationMinutes: durationMinutes));
+  }
+
+  int slotCategoryUsageCount(String categoryId) {
+    var count = 0;
+    for (final timeline in _document.timelines) {
+      for (final slot in timeline.slots) {
+        if (slot.categoryId == categoryId) count += 1;
+      }
+    }
+    return count;
   }
 
   /// Deletes the category, every slot using it, and timelines left empty.
@@ -225,9 +242,173 @@ class DocumentEditor extends _$DocumentEditor {
   void renameTimeline(String id, String name) =>
       _commit(_updateTimeline(id, (timeline) => timeline.copyWith(name: name)));
 
-  void setTimelineStartTime(String id, TimelineTime startTime) => _commit(
-    _updateTimeline(id, (timeline) => timeline.copyWith(startTime: startTime)),
-  );
+  void setTimelineStartTime(String id, TimelineTime startTime) {
+    final next = _updateTimeline(
+      id,
+      (timeline) => timeline.copyWith(startTime: startTime),
+    );
+    _validateTimelineBounds(next);
+    _commit(next);
+  }
+
+  /// Shifts every slot by changing the timeline start time.
+  void shiftTimelineStartTime(String id, TimelineTime newStart) {
+    if (newStart.minutesFromMidnight < TimelineTime.midnight.minutesFromMidnight) {
+      throw ArgumentError('Start time cannot be before 0:00');
+    }
+    setTimelineStartTime(id, newStart);
+  }
+
+  /// Shifts every slot so the timeline end becomes [newEnd].
+  void shiftTimelineEndTime(String id, TimelineTime newEnd) {
+    final timeline = _requireTimeline(id);
+    final oldEnd = _document.endTimeOf(timeline);
+    final deltaMinutes = newEnd.difference(oldEnd).inMinutes;
+    final newStartMinutes = timeline.startTime.minutesFromMidnight + deltaMinutes;
+    if (newStartMinutes < TimelineTime.midnight.minutesFromMidnight) {
+      throw ArgumentError('Start time cannot be before 0:00');
+    }
+    shiftTimelineStartTime(id, TimelineTime(newStartMinutes));
+  }
+
+  /// Absorbs a start-time change by resizing (or forking) the first slot's type.
+  void adjustTimelineStartViaFirstSlot(
+    String id,
+    TimelineTime newStart, {
+    required String derivedCategoryName,
+  }) {
+    final timeline = _requireTimeline(id);
+    final oldStart = timeline.startTime;
+    if (newStart == oldStart) return;
+
+    final deltaMinutes = oldStart.difference(newStart).inMinutes;
+    final firstSlot = timeline.slots.first;
+    final category = _requireSlotCategory(firstSlot.categoryId);
+    final newDuration = category.durationMinutes + deltaMinutes;
+    if (newDuration <= 0) {
+      throw ArgumentError.value(
+        newStart,
+        'newStart',
+        'First slot duration would be zero or negative',
+      );
+    }
+
+    Document next;
+    if (slotCategoryUsageCount(category.id) == 1) {
+      next = _document.copyWith(
+        slotCategories: [
+          for (final c in _document.slotCategories)
+            if (c.id == category.id)
+              c.copyWith(durationMinutes: newDuration)
+            else
+              c,
+        ],
+        timelines: [
+          for (final t in _document.timelines)
+            if (t.id == id) t.copyWith(startTime: newStart) else t,
+        ],
+      );
+    } else {
+      if (_document.isSlotCategoryNameTaken(derivedCategoryName)) {
+        throw ArgumentError.value(
+          derivedCategoryName,
+          'derivedCategoryName',
+          'Slot category name is taken',
+        );
+      }
+      final forked = SlotCategory(
+        id: generateEntityId(),
+        name: derivedCategoryName,
+        durationMinutes: newDuration,
+        isPerformanceSlot: category.isPerformanceSlot,
+      );
+      next = _document.copyWith(
+        slotCategories: [..._document.slotCategories, forked],
+        timelines: [
+          for (final t in _document.timelines)
+            if (t.id == id)
+              t.copyWith(
+                startTime: newStart,
+                slots: [
+                  firstSlot.copyWith(categoryId: forked.id),
+                  ...timeline.slots.skip(1),
+                ],
+              )
+            else
+              t,
+        ],
+      );
+    }
+    _validateTimelineBounds(next);
+    _commit(next);
+  }
+
+  /// Absorbs an end-time change by resizing (or forking) the last slot's type.
+  void adjustTimelineEndViaLastSlot(
+    String id,
+    TimelineTime newEnd, {
+    required String derivedCategoryName,
+  }) {
+    final timeline = _requireTimeline(id);
+    final oldEnd = _document.endTimeOf(timeline);
+    if (newEnd == oldEnd) return;
+
+    final deltaMinutes = newEnd.difference(oldEnd).inMinutes;
+    final lastSlot = timeline.slots.last;
+    final category = _requireSlotCategory(lastSlot.categoryId);
+    final newDuration = category.durationMinutes + deltaMinutes;
+    if (newDuration <= 0) {
+      throw ArgumentError.value(
+        newEnd,
+        'newEnd',
+        'Last slot duration would be zero or negative',
+      );
+    }
+
+    Document next;
+    if (slotCategoryUsageCount(category.id) == 1) {
+      next = _document.copyWith(
+        slotCategories: [
+          for (final c in _document.slotCategories)
+            if (c.id == category.id)
+              c.copyWith(durationMinutes: newDuration)
+            else
+              c,
+        ],
+      );
+    } else {
+      if (_document.isSlotCategoryNameTaken(derivedCategoryName)) {
+        throw ArgumentError.value(
+          derivedCategoryName,
+          'derivedCategoryName',
+          'Slot category name is taken',
+        );
+      }
+      final forked = SlotCategory(
+        id: generateEntityId(),
+        name: derivedCategoryName,
+        durationMinutes: newDuration,
+        isPerformanceSlot: category.isPerformanceSlot,
+      );
+      next = _document.copyWith(
+        slotCategories: [..._document.slotCategories, forked],
+        timelines: [
+          for (final t in _document.timelines)
+            if (t.id == id)
+              t.copyWith(
+                slots: [
+                  ...timeline.slots.sublist(0, timeline.slots.length - 1),
+                  lastSlot.copyWith(categoryId: forked.id),
+                ],
+              )
+            else
+              t,
+        ],
+      );
+    }
+    _validateTimelineBounds(next);
+    _commit(next);
+  }
 
   /// Deletes the timeline. Assigned participants return to the pane
   /// (they simply become unassigned); slot categories are kept.
@@ -309,25 +490,110 @@ class DocumentEditor extends _$DocumentEditor {
     final category = _requireSlotCategory(categoryId);
     final timeline = _requireTimeline(timelineId);
     _requireSlot(timeline, slotId);
-    _commit(
-      _updateTimeline(
-        timelineId,
-        (timeline) => timeline.copyWith(
-          slots: [
-            for (final slot in timeline.slots)
-              if (slot.id == slotId)
-                slot.copyWith(
-                  categoryId: categoryId,
-                  participantId: category.isPerformanceSlot
-                      ? slot.participantId
-                      : null,
-                )
-              else
-                slot,
-          ],
-        ),
+    final next = _updateTimeline(
+      timelineId,
+      (timeline) => timeline.copyWith(
+        slots: [
+          for (final slot in timeline.slots)
+            if (slot.id == slotId)
+              slot.copyWith(
+                categoryId: categoryId,
+                participantId: category.isPerformanceSlot
+                    ? slot.participantId
+                    : null,
+              )
+            else
+              slot,
+        ],
       ),
     );
+    _validateTimelineBounds(next);
+    _commit(next);
+  }
+
+  /// Creates [newCategory] and assigns it to [slotId] in one undoable change.
+  void changeSlotCategoryWithNew({
+    required String timelineId,
+    required String slotId,
+    required SlotCategory newCategory,
+  }) {
+    if (_document.isSlotCategoryNameTaken(newCategory.name)) {
+      throw ArgumentError.value(
+        newCategory.name,
+        'name',
+        'Slot category name is taken',
+      );
+    }
+    final timeline = _requireTimeline(timelineId);
+    _requireSlot(timeline, slotId);
+    final next = _document.copyWith(
+      slotCategories: [..._document.slotCategories, newCategory],
+      timelines: [
+        for (final t in _document.timelines)
+          if (t.id == timelineId)
+            t.copyWith(
+              slots: [
+                for (final slot in t.slots)
+                  if (slot.id == slotId)
+                    slot.copyWith(
+                      categoryId: newCategory.id,
+                      participantId: newCategory.isPerformanceSlot
+                          ? slot.participantId
+                          : null,
+                    )
+                  else
+                    slot,
+              ],
+            )
+          else
+            t,
+      ],
+    );
+    _validateTimelineBounds(next);
+    _commit(next);
+  }
+
+  /// Gives [slotId] its own slot category with [newDurationMinutes].
+  void setSlotDurationForSlotOnly({
+    required String timelineId,
+    required String slotId,
+    required int newDurationMinutes,
+    required String derivedCategoryName,
+  }) {
+    _requireDuration(newDurationMinutes);
+    if (_document.isSlotCategoryNameTaken(derivedCategoryName)) {
+      throw ArgumentError.value(
+        derivedCategoryName,
+        'derivedCategoryName',
+        'Slot category name is taken',
+      );
+    }
+    final timeline = _requireTimeline(timelineId);
+    final slot = _requireSlot(timeline, slotId);
+    final category = _requireSlotCategory(slot.categoryId);
+    final forked = SlotCategory(
+      id: generateEntityId(),
+      name: derivedCategoryName,
+      durationMinutes: newDurationMinutes,
+      isPerformanceSlot: category.isPerformanceSlot,
+    );
+    final next = _document.copyWith(
+      slotCategories: [..._document.slotCategories, forked],
+      timelines: [
+        for (final t in _document.timelines)
+          if (t.id == timelineId)
+            t.copyWith(
+              slots: [
+                for (final s in t.slots)
+                  if (s.id == slotId) s.copyWith(categoryId: forked.id) else s,
+              ],
+            )
+          else
+            t,
+      ],
+    );
+    _validateTimelineBounds(next);
+    _commit(next);
   }
 
   /// Assigns [participantId] to the slot (null to unassign). A participant
@@ -396,6 +662,27 @@ class DocumentEditor extends _$DocumentEditor {
   }
 
   // --- Internals ---
+
+  void _requireDuration(int durationMinutes) {
+    if (durationMinutes < 1 ||
+        durationMinutes > TimelineLimits.maxSlotDurationMinutes) {
+      throw ArgumentError.value(
+        durationMinutes,
+        'durationMinutes',
+        'Duration out of range',
+      );
+    }
+  }
+
+  void _validateTimelineBounds(Document document) {
+    for (final timeline in document.timelines) {
+      if (!document.endTimeOf(timeline).isWithinMax) {
+        throw ArgumentError(
+          'End time exceeds the timeline maximum',
+        );
+      }
+    }
+  }
 
   void _commit(Document next) {
     final current = state;

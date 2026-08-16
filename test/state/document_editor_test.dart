@@ -303,6 +303,99 @@ void main() {
       expect(slot.categoryId, 'gap');
       expect(slot.participantId, isNull);
     });
+
+    test('shiftTimelineStartTime moves every slot', () {
+      final (:container, :store) = createHarness(
+        initialDocument: sampleDocument(),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      editor.shiftTimelineStartTime(
+        'day1',
+        TimelineTime.fromHoursAndMinutes(hour: 9, minute: 0),
+      );
+
+      final document = container.read(documentProvider);
+      final timeline = document.timelineById('day1')!;
+      expect(timeline.startTime.toDisplayString(), '9:00');
+      expect(document.endTimeOf(timeline).toDisplayString(), '10:10');
+    });
+
+    test('adjustTimelineStartViaFirstSlot forks a shared category', () {
+      final (:container, :store) = createHarness(
+        initialDocument: sampleDocument(),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      editor.adjustTimelineStartViaFirstSlot(
+        'day1',
+        TimelineTime.fromHoursAndMinutes(hour: 9, minute: 30),
+        derivedCategoryName: '出演枠(60分)',
+      );
+
+      final document = container.read(documentProvider);
+      final timeline = document.timelineById('day1')!;
+      final firstSlotCategory =
+          document.slotCategoryById(timeline.slots.first.categoryId)!;
+      expect(timeline.startTime.toDisplayString(), '9:30');
+      expect(document.endTimeOf(timeline).toDisplayString(), '11:10');
+      expect(firstSlotCategory.name, '出演枠(60分)');
+      expect(firstSlotCategory.durationMinutes, 60);
+      expect(document.slotCategoryById('perf')!.durationMinutes, 30);
+    });
+
+    test('setSlotDurationForSlotOnly forks the slot type', () {
+      final (:container, :store) = createHarness(
+        initialDocument: sampleDocument(),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      editor.setSlotDurationForSlotOnly(
+        timelineId: 'day1',
+        slotId: 's1',
+        newDurationMinutes: 45,
+        derivedCategoryName: '出演枠(45分)',
+      );
+
+      final document = container.read(documentProvider);
+      final slot = document.timelineById('day1')!.slots.first;
+      final forked = document.slotCategoryById(slot.categoryId)!;
+      expect(forked.name, '出演枠(45分)');
+      expect(forked.durationMinutes, 45);
+      expect(document.slotCategoryById('perf')!.durationMinutes, 30);
+      expect(document.endTimeOf(document.timelineById('day1')!).toDisplayString(),
+          '11:25');
+    });
+
+    test('updateSlotCategoryDuration rejects timelines past the maximum', () {
+      final (:container, :store) = createHarness(
+        initialDocument: Document(
+          name: 'タイムテーブル',
+          slotCategories: const [
+            SlotCategory(
+              id: 'long',
+              name: 'Long',
+              durationMinutes: 1700,
+              isPerformanceSlot: false,
+            ),
+          ],
+          timelines: [
+            Timeline(
+              id: 'day1',
+              name: 'Late',
+              startTime: TimelineTime.fromHoursAndMinutes(hour: 10, minute: 0),
+              slots: const [Slot(id: 's1', categoryId: 'long')],
+            ),
+          ],
+        ),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      expect(
+        () => editor.updateSlotCategoryDuration('long', 1800),
+        throwsArgumentError,
+      );
+    });
   });
 
   group('DocumentEditor undo/redo and persistence', () {

@@ -202,4 +202,117 @@ class SJa extends S {
   String defaultTimelineName(int n) {
     return 'タイムライン$n';
   }
+
+  @override
+  String get fieldDocumentName => 'ドキュメント名';
+
+  @override
+  String get fieldTimelineName => 'タイムライン名';
+
+  @override
+  String get fieldStartTime => '開始時刻';
+
+  @override
+  String get fieldPerformanceSlotCount => '出演枠数';
+
+  @override
+  String get fieldSlotCategory => '枠タイプ';
+
+  @override
+  String get fieldParticipant => '演者';
+
+  @override
+  String get fieldParticipantNone => '未割り当て';
+
+  @override
+  String get sectionSlotCategoryDetails => '枠タイプ情報';
+
+  @override
+  String get sectionParticipantDetails => '演者情報';
+
+  @override
+  String get sectionRequirements => '要求項目';
+
+  @override
+  String get sectionRequirementViolations => '要求不一致';
+
+  @override
+  String get actionDelete => '削除';
+
+  @override
+  String get actionDuplicate => '複製';
+
+  @override
+  String get actionOk => 'OK';
+
+  @override
+  String timelineCopyName(String name) {
+    return '(コピー)$name';
+  }
+
+  @override
+  String categoryNameWithDuration(String name, int minutes) {
+    return '$name($minutes分)';
+  }
+
+  @override
+  String get confirmDeleteTimeline => 'このタイムラインを削除しますか？';
+
+  @override
+  String get confirmDeleteSlotCategory => 'この枠タイプを削除しますか？使用中の枠も削除されます。';
+
+  @override
+  String get confirmDeleteSlot => 'この枠を削除しますか？';
+
+  @override
+  String get confirmDeleteParticipant => 'この演者を削除しますか？';
+
+  @override
+  String get confirmRemovePerformanceAttribute =>
+      '出演枠属性のない枠タイプに変更しますか？割り当て済みの演者は未割り当てになります。';
+
+  @override
+  String get dialogTimelineStartChangeTitle => '開始時刻の変更';
+
+  @override
+  String get dialogTimelineEndChangeTitle => '終了時刻の変更';
+
+  @override
+  String get dialogSlotDurationChangeTitle => '時間長の変更';
+
+  @override
+  String get choiceAdjustFirstSlotOnly => '最初の枠のみを拡大・縮小する';
+
+  @override
+  String get choiceAdjustLastSlotOnly => '最後の枠のみを拡大・縮小する';
+
+  @override
+  String get choiceMoveAllSlots => 'すべての枠を移動する';
+
+  @override
+  String get choiceAdjustThisSlotOnly => 'この枠のみを変更';
+
+  @override
+  String get choiceAdjustAllSameType => 'すべての同じタイプの枠を変更';
+
+  @override
+  String get errorTimelineStartBeforeMidnight => '開始時刻を0:00より前にできません';
+
+  @override
+  String get violationBelowMinDuration => '枠の大きさが最低時間を下回っています';
+
+  @override
+  String get violationAboveMaxDuration => '枠の大きさが最長時間を超えています';
+
+  @override
+  String get violationFinishesTooLate => '枠の終了時刻が希望より遅いです';
+
+  @override
+  String get violationStartsTooEarly => '枠の開始時刻が希望より早いです';
+
+  @override
+  String get violationOrderTooEarly => '出演順が希望より早いです';
+
+  @override
+  String get violationOrderTooLate => '出演順が希望より遅いです';
 }

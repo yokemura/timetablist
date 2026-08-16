@@ -206,4 +206,123 @@ class SEn extends S {
   String defaultTimelineName(int n) {
     return 'Timeline $n';
   }
+
+  @override
+  String get fieldDocumentName => 'Document name';
+
+  @override
+  String get fieldTimelineName => 'Timeline name';
+
+  @override
+  String get fieldStartTime => 'Start time';
+
+  @override
+  String get fieldPerformanceSlotCount => 'Performance slots';
+
+  @override
+  String get fieldSlotCategory => 'Slot type';
+
+  @override
+  String get fieldParticipant => 'Participant';
+
+  @override
+  String get fieldParticipantNone => 'Unassigned';
+
+  @override
+  String get sectionSlotCategoryDetails => 'Slot type details';
+
+  @override
+  String get sectionParticipantDetails => 'Participant details';
+
+  @override
+  String get sectionRequirements => 'Requirements';
+
+  @override
+  String get sectionRequirementViolations => 'Requirement mismatches';
+
+  @override
+  String get actionDelete => 'Delete';
+
+  @override
+  String get actionDuplicate => 'Duplicate';
+
+  @override
+  String get actionOk => 'OK';
+
+  @override
+  String timelineCopyName(String name) {
+    return '(Copy) $name';
+  }
+
+  @override
+  String categoryNameWithDuration(String name, int minutes) {
+    return '$name ($minutes min)';
+  }
+
+  @override
+  String get confirmDeleteTimeline => 'Delete this timeline?';
+
+  @override
+  String get confirmDeleteSlotCategory =>
+      'Delete this slot type? Slots using it will be removed.';
+
+  @override
+  String get confirmDeleteSlot => 'Delete this slot?';
+
+  @override
+  String get confirmDeleteParticipant => 'Delete this participant?';
+
+  @override
+  String get confirmRemovePerformanceAttribute =>
+      'Change to a non-performance slot type? The assigned participant will be unassigned.';
+
+  @override
+  String get dialogTimelineStartChangeTitle => 'Change start time';
+
+  @override
+  String get dialogTimelineEndChangeTitle => 'Change end time';
+
+  @override
+  String get dialogSlotDurationChangeTitle => 'Change slot duration';
+
+  @override
+  String get choiceAdjustFirstSlotOnly => 'Adjust the first slot only';
+
+  @override
+  String get choiceAdjustLastSlotOnly => 'Adjust the last slot only';
+
+  @override
+  String get choiceMoveAllSlots => 'Move all slots';
+
+  @override
+  String get choiceAdjustThisSlotOnly => 'Change this slot only';
+
+  @override
+  String get choiceAdjustAllSameType => 'Change all slots of this type';
+
+  @override
+  String get errorTimelineStartBeforeMidnight =>
+      'Start time cannot be before 0:00';
+
+  @override
+  String get violationBelowMinDuration => 'Slot duration is below the minimum';
+
+  @override
+  String get violationAboveMaxDuration => 'Slot duration exceeds the maximum';
+
+  @override
+  String get violationFinishesTooLate =>
+      'Slot ends after the requested finish time';
+
+  @override
+  String get violationStartsTooEarly =>
+      'Slot starts before the requested start time';
+
+  @override
+  String get violationOrderTooEarly =>
+      'Performance order is earlier than requested';
+
+  @override
+  String get violationOrderTooLate =>
+      'Performance order is later than requested';
 }

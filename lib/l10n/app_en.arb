@@ -281,5 +281,162 @@
         "type": "int"
       }
     }
+  },
+  "fieldDocumentName": "Document name",
+  "@fieldDocumentName": {
+    "description": "Label of the document name field in the property pane."
+  },
+  "fieldTimelineName": "Timeline name",
+  "@fieldTimelineName": {
+    "description": "Label of the timeline name field in the property pane."
+  },
+  "fieldStartTime": "Start time",
+  "@fieldStartTime": {
+    "description": "Label of a timeline or slot start time field."
+  },
+  "fieldPerformanceSlotCount": "Performance slots",
+  "@fieldPerformanceSlotCount": {
+    "description": "Read-only count of performance slots on a timeline."
+  },
+  "fieldSlotCategory": "Slot type",
+  "@fieldSlotCategory": {
+    "description": "Label of the slot type selector on a placed slot."
+  },
+  "fieldParticipant": "Participant",
+  "@fieldParticipant": {
+    "description": "Label of the participant selector on a performance slot."
+  },
+  "fieldParticipantNone": "Unassigned",
+  "@fieldParticipantNone": {
+    "description": "Dropdown item when no participant is assigned to a slot."
+  },
+  "sectionSlotCategoryDetails": "Slot type details",
+  "@sectionSlotCategoryDetails": {
+    "description": "Section heading for read-only slot type fields on a placed slot."
+  },
+  "sectionParticipantDetails": "Participant details",
+  "@sectionParticipantDetails": {
+    "description": "Section heading for participant fields shown on a placed slot."
+  },
+  "sectionRequirements": "Requirements",
+  "@sectionRequirements": {
+    "description": "Section heading for participant requirement fields."
+  },
+  "sectionRequirementViolations": "Requirement mismatches",
+  "@sectionRequirementViolations": {
+    "description": "Section heading listing requirement violations for a placed slot."
+  },
+  "actionDelete": "Delete",
+  "@actionDelete": {
+    "description": "Destructive action button in the property pane."
+  },
+  "actionDuplicate": "Duplicate",
+  "@actionDuplicate": {
+    "description": "Action button that duplicates the selected timeline."
+  },
+  "actionOk": "OK",
+  "@actionOk": {
+    "description": "Dismiss button on error dialogs."
+  },
+  "timelineCopyName": "(Copy) {name}",
+  "@timelineCopyName": {
+    "description": "Name assigned when duplicating a timeline. Stored as-is and not retranslated later.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "categoryNameWithDuration": "{name} ({minutes} min)",
+  "@categoryNameWithDuration": {
+    "description": "Derived slot type name when forking a type with a new duration. Stored as-is and not retranslated later.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "confirmDeleteTimeline": "Delete this timeline?",
+  "@confirmDeleteTimeline": {
+    "description": "Confirmation dialog before deleting a timeline."
+  },
+  "confirmDeleteSlotCategory": "Delete this slot type? Slots using it will be removed.",
+  "@confirmDeleteSlotCategory": {
+    "description": "Confirmation dialog before deleting a slot category."
+  },
+  "confirmDeleteSlot": "Delete this slot?",
+  "@confirmDeleteSlot": {
+    "description": "Confirmation dialog before deleting a placed slot."
+  },
+  "confirmDeleteParticipant": "Delete this participant?",
+  "@confirmDeleteParticipant": {
+    "description": "Confirmation dialog before deleting a participant."
+  },
+  "confirmRemovePerformanceAttribute": "Change to a non-performance slot type? The assigned participant will be unassigned.",
+  "@confirmRemovePerformanceAttribute": {
+    "description": "Confirmation dialog before changing a slot to a non-performance type."
+  },
+  "dialogTimelineStartChangeTitle": "Change start time",
+  "@dialogTimelineStartChangeTitle": {
+    "description": "Title of the dialog shown when the timeline start time is edited."
+  },
+  "dialogTimelineEndChangeTitle": "Change end time",
+  "@dialogTimelineEndChangeTitle": {
+    "description": "Title of the dialog shown when the timeline end time is edited."
+  },
+  "dialogSlotDurationChangeTitle": "Change slot duration",
+  "@dialogSlotDurationChangeTitle": {
+    "description": "Title of the dialog shown when a placed slot's duration is edited."
+  },
+  "choiceAdjustFirstSlotOnly": "Adjust the first slot only",
+  "@choiceAdjustFirstSlotOnly": {
+    "description": "Timeline start-time dialog option."
+  },
+  "choiceAdjustLastSlotOnly": "Adjust the last slot only",
+  "@choiceAdjustLastSlotOnly": {
+    "description": "Timeline end-time dialog option."
+  },
+  "choiceMoveAllSlots": "Move all slots",
+  "@choiceMoveAllSlots": {
+    "description": "Timeline time dialog option that shifts the whole sequence."
+  },
+  "choiceAdjustThisSlotOnly": "Change this slot only",
+  "@choiceAdjustThisSlotOnly": {
+    "description": "Slot duration dialog option that forks the slot type."
+  },
+  "choiceAdjustAllSameType": "Change all slots of this type",
+  "@choiceAdjustAllSameType": {
+    "description": "Slot duration dialog option that updates the shared slot type."
+  },
+  "errorTimelineStartBeforeMidnight": "Start time cannot be before 0:00",
+  "@errorTimelineStartBeforeMidnight": {
+    "description": "Error when moving slots would start before midnight."
+  },
+  "violationBelowMinDuration": "Slot duration is below the minimum",
+  "@violationBelowMinDuration": {
+    "description": "Requirement violation shown in the property pane."
+  },
+  "violationAboveMaxDuration": "Slot duration exceeds the maximum",
+  "@violationAboveMaxDuration": {
+    "description": "Requirement violation shown in the property pane."
+  },
+  "violationFinishesTooLate": "Slot ends after the requested finish time",
+  "@violationFinishesTooLate": {
+    "description": "Requirement violation shown in the property pane."
+  },
+  "violationStartsTooEarly": "Slot starts before the requested start time",
+  "@violationStartsTooEarly": {
+    "description": "Requirement violation shown in the property pane."
+  },
+  "violationOrderTooEarly": "Performance order is earlier than requested",
+  "@violationOrderTooEarly": {
+    "description": "Requirement violation shown in the property pane."
+  },
+  "violationOrderTooLate": "Performance order is later than requested",
+  "@violationOrderTooLate": {
+    "description": "Requirement violation shown in the property pane."
   }
 }

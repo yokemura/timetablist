@@ -444,6 +444,222 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Timeline {n}'**
   String defaultTimelineName(int n);
+
+  /// Label of the document name field in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Document name'**
+  String get fieldDocumentName;
+
+  /// Label of the timeline name field in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline name'**
+  String get fieldTimelineName;
+
+  /// Label of a timeline or slot start time field.
+  ///
+  /// In en, this message translates to:
+  /// **'Start time'**
+  String get fieldStartTime;
+
+  /// Read-only count of performance slots on a timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance slots'**
+  String get fieldPerformanceSlotCount;
+
+  /// Label of the slot type selector on a placed slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot type'**
+  String get fieldSlotCategory;
+
+  /// Label of the participant selector on a performance slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant'**
+  String get fieldParticipant;
+
+  /// Dropdown item when no participant is assigned to a slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Unassigned'**
+  String get fieldParticipantNone;
+
+  /// Section heading for read-only slot type fields on a placed slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot type details'**
+  String get sectionSlotCategoryDetails;
+
+  /// Section heading for participant fields shown on a placed slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Participant details'**
+  String get sectionParticipantDetails;
+
+  /// Section heading for participant requirement fields.
+  ///
+  /// In en, this message translates to:
+  /// **'Requirements'**
+  String get sectionRequirements;
+
+  /// Section heading listing requirement violations for a placed slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Requirement mismatches'**
+  String get sectionRequirementViolations;
+
+  /// Destructive action button in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get actionDelete;
+
+  /// Action button that duplicates the selected timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Duplicate'**
+  String get actionDuplicate;
+
+  /// Dismiss button on error dialogs.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get actionOk;
+
+  /// Name assigned when duplicating a timeline. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'(Copy) {name}'**
+  String timelineCopyName(String name);
+
+  /// Derived slot type name when forking a type with a new duration. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'{name} ({minutes} min)'**
+  String categoryNameWithDuration(String name, int minutes);
+
+  /// Confirmation dialog before deleting a timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this timeline?'**
+  String get confirmDeleteTimeline;
+
+  /// Confirmation dialog before deleting a slot category.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this slot type? Slots using it will be removed.'**
+  String get confirmDeleteSlotCategory;
+
+  /// Confirmation dialog before deleting a placed slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this slot?'**
+  String get confirmDeleteSlot;
+
+  /// Confirmation dialog before deleting a participant.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this participant?'**
+  String get confirmDeleteParticipant;
+
+  /// Confirmation dialog before changing a slot to a non-performance type.
+  ///
+  /// In en, this message translates to:
+  /// **'Change to a non-performance slot type? The assigned participant will be unassigned.'**
+  String get confirmRemovePerformanceAttribute;
+
+  /// Title of the dialog shown when the timeline start time is edited.
+  ///
+  /// In en, this message translates to:
+  /// **'Change start time'**
+  String get dialogTimelineStartChangeTitle;
+
+  /// Title of the dialog shown when the timeline end time is edited.
+  ///
+  /// In en, this message translates to:
+  /// **'Change end time'**
+  String get dialogTimelineEndChangeTitle;
+
+  /// Title of the dialog shown when a placed slot's duration is edited.
+  ///
+  /// In en, this message translates to:
+  /// **'Change slot duration'**
+  String get dialogSlotDurationChangeTitle;
+
+  /// Timeline start-time dialog option.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust the first slot only'**
+  String get choiceAdjustFirstSlotOnly;
+
+  /// Timeline end-time dialog option.
+  ///
+  /// In en, this message translates to:
+  /// **'Adjust the last slot only'**
+  String get choiceAdjustLastSlotOnly;
+
+  /// Timeline time dialog option that shifts the whole sequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Move all slots'**
+  String get choiceMoveAllSlots;
+
+  /// Slot duration dialog option that forks the slot type.
+  ///
+  /// In en, this message translates to:
+  /// **'Change this slot only'**
+  String get choiceAdjustThisSlotOnly;
+
+  /// Slot duration dialog option that updates the shared slot type.
+  ///
+  /// In en, this message translates to:
+  /// **'Change all slots of this type'**
+  String get choiceAdjustAllSameType;
+
+  /// Error when moving slots would start before midnight.
+  ///
+  /// In en, this message translates to:
+  /// **'Start time cannot be before 0:00'**
+  String get errorTimelineStartBeforeMidnight;
+
+  /// Requirement violation shown in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot duration is below the minimum'**
+  String get violationBelowMinDuration;
+
+  /// Requirement violation shown in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot duration exceeds the maximum'**
+  String get violationAboveMaxDuration;
+
+  /// Requirement violation shown in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot ends after the requested finish time'**
+  String get violationFinishesTooLate;
+
+  /// Requirement violation shown in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot starts before the requested start time'**
+  String get violationStartsTooEarly;
+
+  /// Requirement violation shown in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance order is earlier than requested'**
+  String get violationOrderTooEarly;
+
+  /// Requirement violation shown in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance order is later than requested'**
+  String get violationOrderTooLate;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {
