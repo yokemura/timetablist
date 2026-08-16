@@ -144,6 +144,42 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Redo'**
   String get menuRedo;
+
+  /// Validation error for numeric fields when the input is not an integer.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a whole number'**
+  String get errorInvalidInteger;
+
+  /// Validation error when a number is below the minimum.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter {min} or more'**
+  String errorIntegerMin(int min);
+
+  /// Validation error when a number is above the maximum.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter {max} or less'**
+  String errorIntegerMax(int max);
+
+  /// Validation error for time fields when the input cannot be parsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a time as hours:minutes (e.g. 25:05)'**
+  String get errorInvalidTime;
+
+  /// Validation error for time fields when the time is past the timeline maximum.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a time between 0:00 and 30:00'**
+  String get errorTimeOutOfRange;
+
+  /// Fixed short warning shown on a placed participant whose requirements are not met. Details appear in the property pane.
+  ///
+  /// In en, this message translates to:
+  /// **'Requirement mismatch'**
+  String get requirementMismatchLabel;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

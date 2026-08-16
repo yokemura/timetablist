@@ -36,6 +36,17 @@ class TimelineTime implements Comparable<TimelineTime> {
     return TimelineTime.fromHoursAndMinutes(hour: hour, minute: minute);
   }
 
+  /// Like [parse], but returns null instead of throwing on invalid input.
+  static TimelineTime? tryParse(String value) {
+    try {
+      return TimelineTime.parse(value);
+    } on FormatException {
+      return null;
+    } on ArgumentError {
+      return null;
+    }
+  }
+
   static const midnight = TimelineTime(0);
   static const max = TimelineTime(TimelineLimits.maxMinutesFromMidnight);
 

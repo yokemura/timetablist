@@ -7,5 +7,11 @@
   "menuImport": "インポート",
   "menuClear": "クリア（新規作成）",
   "menuUndo": "取り消す",
-  "menuRedo": "やり直す"
+  "menuRedo": "やり直す",
+  "errorInvalidInteger": "整数を入力してください",
+  "errorIntegerMin": "{min}以上を入力してください",
+  "errorIntegerMax": "{max}以下を入力してください",
+  "errorInvalidTime": "時刻を「時:分」形式で入力してください（例: 25:05）",
+  "errorTimeOutOfRange": "0:00〜30:00の範囲で入力してください",
+  "requirementMismatchLabel": "要求不一致"
 }

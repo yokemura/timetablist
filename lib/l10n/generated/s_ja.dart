@@ -32,4 +32,26 @@ class SJa extends S {
 
   @override
   String get menuRedo => 'やり直す';
+
+  @override
+  String get errorInvalidInteger => '整数を入力してください';
+
+  @override
+  String errorIntegerMin(int min) {
+    return '$min以上を入力してください';
+  }
+
+  @override
+  String errorIntegerMax(int max) {
+    return '$max以下を入力してください';
+  }
+
+  @override
+  String get errorInvalidTime => '時刻を「時:分」形式で入力してください（例: 25:05）';
+
+  @override
+  String get errorTimeOutOfRange => '0:00〜30:00の範囲で入力してください';
+
+  @override
+  String get requirementMismatchLabel => '要求不一致';
 }

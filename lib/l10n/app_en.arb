@@ -31,5 +31,39 @@
   "menuRedo": "Redo",
   "@menuRedo": {
     "description": "Menu item: redo the last undone data change."
+  },
+  "errorInvalidInteger": "Enter a whole number",
+  "@errorInvalidInteger": {
+    "description": "Validation error for numeric fields when the input is not an integer."
+  },
+  "errorIntegerMin": "Enter {min} or more",
+  "@errorIntegerMin": {
+    "description": "Validation error when a number is below the minimum.",
+    "placeholders": {
+      "min": {
+        "type": "int"
+      }
+    }
+  },
+  "errorIntegerMax": "Enter {max} or less",
+  "@errorIntegerMax": {
+    "description": "Validation error when a number is above the maximum.",
+    "placeholders": {
+      "max": {
+        "type": "int"
+      }
+    }
+  },
+  "errorInvalidTime": "Enter a time as hours:minutes (e.g. 25:05)",
+  "@errorInvalidTime": {
+    "description": "Validation error for time fields when the input cannot be parsed."
+  },
+  "errorTimeOutOfRange": "Enter a time between 0:00 and 30:00",
+  "@errorTimeOutOfRange": {
+    "description": "Validation error for time fields when the time is past the timeline maximum."
+  },
+  "requirementMismatchLabel": "Requirement mismatch",
+  "@requirementMismatchLabel": {
+    "description": "Fixed short warning shown on a placed participant whose requirements are not met. Details appear in the property pane."
   }
 }

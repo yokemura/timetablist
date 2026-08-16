@@ -32,4 +32,26 @@ class SEn extends S {
 
   @override
   String get menuRedo => 'Redo';
+
+  @override
+  String get errorInvalidInteger => 'Enter a whole number';
+
+  @override
+  String errorIntegerMin(int min) {
+    return 'Enter $min or more';
+  }
+
+  @override
+  String errorIntegerMax(int max) {
+    return 'Enter $max or less';
+  }
+
+  @override
+  String get errorInvalidTime => 'Enter a time as hours:minutes (e.g. 25:05)';
+
+  @override
+  String get errorTimeOutOfRange => 'Enter a time between 0:00 and 30:00';
+
+  @override
+  String get requirementMismatchLabel => 'Requirement mismatch';
 }

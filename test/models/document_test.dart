@@ -19,6 +19,14 @@ void main() {
       expect(TimelineTime.parse('30:00'), TimelineTime.max);
     });
 
+    test('tryParse returns null for invalid input', () {
+      expect(TimelineTime.tryParse('8:05'), const TimelineTime(8 * 60 + 5));
+      expect(TimelineTime.tryParse('805'), isNull);
+      expect(TimelineTime.tryParse('8:60'), isNull);
+      expect(TimelineTime.tryParse('-1:00'), isNull);
+      expect(TimelineTime.tryParse('a:bc'), isNull);
+    });
+
     test('allows times past 24:00 up to the max', () {
       expect(TimelineTime.max.hour, TimelineLimits.maxHour);
       expect(TimelineTime.max.isWithinMax, isTrue);
