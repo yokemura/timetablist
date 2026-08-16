@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/generated/s.dart';
 import '../../state/state.dart';
 import '../sheets/slot_category_create_sheet.dart';
+import '../timeline/drag_data.dart';
+import '../widgets/drag_ghosts.dart';
 import '../widgets/slot_category_list_item.dart';
 
 /// Top-left pane: scrollable slot category list plus a creation button.
@@ -31,7 +33,7 @@ class SlotCategoryPane extends ConsumerWidget {
                 itemCount: document.slotCategories.length,
                 itemBuilder: (context, index) {
                   final category = document.slotCategories[index];
-                  return SlotCategoryListItem(
+                  final item = SlotCategoryListItem(
                     category: category,
                     selected:
                         selection ==
@@ -41,6 +43,12 @@ class SlotCategoryPane extends ConsumerWidget {
                         .select(
                           Selection.slotCategory(slotCategoryId: category.id),
                         ),
+                  );
+                  return Draggable<SlotCategoryDragData>(
+                    data: SlotCategoryDragData(category),
+                    dragAnchorStrategy: pointerDragAnchorStrategy,
+                    feedback: SlotCategoryDragGhost(category: category),
+                    child: item,
                   );
                 },
               ),

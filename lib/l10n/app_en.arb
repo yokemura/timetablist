@@ -438,5 +438,25 @@
   "violationOrderTooLate": "Performance order is later than requested",
   "@violationOrderTooLate": {
     "description": "Requirement violation shown in the property pane."
+  },
+  "autoGapCategoryName": "Changeover slot",
+  "@autoGapCategoryName": {
+    "description": "Base name of the changeover slot category auto-created when a drop leaves a gap. Numbered (1), (2)... when taken. Stored as-is and not retranslated later."
+  },
+  "confirmCreateGapSlot": "Create a changeover slot to fill the gap?",
+  "@confirmCreateGapSlot": {
+    "description": "Confirmation dialog when a slot is dropped beyond the timeline start or end, leaving a gap."
+  },
+  "choiceCreateTimelineWithSlot": "Create with this slot only",
+  "@choiceCreateTimelineWithSlot": {
+    "description": "Empty-area drop dialog option: create a timeline containing only the dragged slot."
+  },
+  "choiceCreateTimelineFromTemplate": "Create from template",
+  "@choiceCreateTimelineFromTemplate": {
+    "description": "Empty-area drop dialog option: open the regular timeline creation sheet instead."
+  },
+  "confirmSwapParticipant": "This slot already has a participant. Replace them?",
+  "@confirmSwapParticipant": {
+    "description": "Confirmation dialog when a participant is dropped on a slot that already has one."
   }
 }

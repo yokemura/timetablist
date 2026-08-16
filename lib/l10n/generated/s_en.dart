@@ -325,4 +325,21 @@ class SEn extends S {
   @override
   String get violationOrderTooLate =>
       'Performance order is later than requested';
+
+  @override
+  String get autoGapCategoryName => 'Changeover slot';
+
+  @override
+  String get confirmCreateGapSlot =>
+      'Create a changeover slot to fill the gap?';
+
+  @override
+  String get choiceCreateTimelineWithSlot => 'Create with this slot only';
+
+  @override
+  String get choiceCreateTimelineFromTemplate => 'Create from template';
+
+  @override
+  String get confirmSwapParticipant =>
+      'This slot already has a participant. Replace them?';
 }

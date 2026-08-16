@@ -61,6 +61,16 @@ abstract class Document with _$Document {
     );
   }
 
+  /// [base] if free, otherwise `base(1)`, `base(2)`, ... (first free number).
+  String nextAvailableSlotCategoryName(String base) {
+    if (!isSlotCategoryNameTaken(base)) return base;
+    var n = 1;
+    while (isSlotCategoryNameTaken('$base($n)')) {
+      n += 1;
+    }
+    return '$base($n)';
+  }
+
   Set<String> assignedParticipantIds() {
     return {
       for (final timeline in timelines)

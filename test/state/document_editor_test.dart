@@ -367,6 +367,109 @@ void main() {
           '11:25');
     });
 
+    test('insertSlotWithLeadingGap moves the start and fills the gap', () {
+      final (:container, :store) = createHarness(
+        initialDocument: sampleDocument(),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      final slot = editor.insertSlotWithLeadingGap(
+        timelineId: 'day1',
+        categoryId: 'perf',
+        newStartTime: TimelineTime.fromHoursAndMinutes(hour: 9, minute: 0),
+        gapCategoryName: '転換枠',
+      );
+
+      final document = container.read(documentProvider);
+      final timeline = document.timelineById('day1')!;
+      expect(timeline.startTime.toDisplayString(), '9:00');
+      expect(timeline.slots, hasLength(5));
+      expect(timeline.slots[0].id, slot.id);
+      final gapCategory =
+          document.slotCategoryById(timeline.slots[1].categoryId)!;
+      expect(gapCategory.name, '転換枠');
+      // 9:00 + 30 (dropped) + 30 (gap) = old start 10:00.
+      expect(gapCategory.durationMinutes, 30);
+      expect(gapCategory.isPerformanceSlot, isFalse);
+      expect(document.endTimeOf(timeline).toDisplayString(), '11:10');
+    });
+
+    test('insertSlotWithTrailingGap fills the gap and appends the slot', () {
+      final (:container, :store) = createHarness(
+        initialDocument: sampleDocument(),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      final slot = editor.insertSlotWithTrailingGap(
+        timelineId: 'day1',
+        categoryId: 'perf',
+        slotStartTime: TimelineTime.fromHoursAndMinutes(hour: 12, minute: 0),
+        gapCategoryName: '転換枠',
+      );
+
+      final document = container.read(documentProvider);
+      final timeline = document.timelineById('day1')!;
+      expect(timeline.slots, hasLength(5));
+      expect(timeline.slots.last.id, slot.id);
+      final gapCategory =
+          document.slotCategoryById(timeline.slots[3].categoryId)!;
+      // Old end 11:10 → new slot start 12:00 = 50-minute gap.
+      expect(gapCategory.durationMinutes, 50);
+      expect(document.endTimeOf(timeline).toDisplayString(), '12:30');
+    });
+
+    test('gap insertion rejects taken gap names', () {
+      final (:container, :store) = createHarness(
+        initialDocument: sampleDocument(),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      expect(
+        () => editor.insertSlotWithLeadingGap(
+          timelineId: 'day1',
+          categoryId: 'perf',
+          newStartTime: TimelineTime.fromHoursAndMinutes(hour: 9, minute: 0),
+          gapCategoryName: '転換', // Already exists in the sample document.
+        ),
+        throwsArgumentError,
+      );
+    });
+
+    test('insertSlot rejects timelines past the maximum', () {
+      final (:container, :store) = createHarness(
+        initialDocument: Document(
+          name: 'タイムテーブル',
+          slotCategories: const [
+            SlotCategory(
+              id: 'long',
+              name: 'Long',
+              durationMinutes: 600,
+              isPerformanceSlot: false,
+            ),
+          ],
+          timelines: [
+            Timeline(
+              id: 'day1',
+              name: 'Late',
+              startTime: TimelineTime.fromHoursAndMinutes(hour: 19, minute: 0),
+              slots: const [Slot(id: 's1', categoryId: 'long')],
+            ),
+          ],
+        ),
+      );
+      final editor = container.read(documentEditorProvider.notifier);
+
+      // 19:00 + 600 + 600 = 39:00 > 30:00.
+      expect(
+        () => editor.insertSlot(
+          timelineId: 'day1',
+          index: 1,
+          categoryId: 'long',
+        ),
+        throwsArgumentError,
+      );
+    });
+
     test('updateSlotCategoryDuration rejects timelines past the maximum', () {
       final (:container, :store) = createHarness(
         initialDocument: Document(

@@ -315,4 +315,19 @@ class SJa extends S {
 
   @override
   String get violationOrderTooLate => '出演順が希望より遅いです';
+
+  @override
+  String get autoGapCategoryName => '転換枠';
+
+  @override
+  String get confirmCreateGapSlot => '空いた時間に転換枠を自動作成して配置しますか？';
+
+  @override
+  String get choiceCreateTimelineWithSlot => 'この枠のみで作成';
+
+  @override
+  String get choiceCreateTimelineFromTemplate => 'テンプレートから作成';
+
+  @override
+  String get confirmSwapParticipant => 'この枠にはすでに演者が割り当てられています。入れ替えますか？';
 }

@@ -15,6 +15,7 @@ enum SlotDurationAdjustment {
 Future<bool?> showConfirmDialog(
   BuildContext context, {
   required String message,
+  String? confirmLabel,
 }) {
   final s = S.of(context);
   return showDialog<bool>(
@@ -28,7 +29,41 @@ Future<bool?> showConfirmDialog(
         ),
         FilledButton(
           onPressed: () => Navigator.of(context).pop(true),
-          child: Text(s.actionDelete),
+          child: Text(confirmLabel ?? s.actionDelete),
+        ),
+      ],
+    ),
+  );
+}
+
+enum NewTimelineDropChoice { slotOnly, template }
+
+/// Asked when a slot category is dropped outside every lane: create a
+/// timeline with just that slot, or open the regular template sheet.
+Future<NewTimelineDropChoice?> showNewTimelineDropDialog(
+  BuildContext context,
+) {
+  final s = S.of(context);
+  return showDialog<NewTimelineDropChoice>(
+    context: context,
+    builder: (context) => SimpleDialog(
+      title: Text(s.timelineCreateTitle),
+      children: [
+        SimpleDialogOption(
+          onPressed: () => Navigator.of(context).pop(
+            NewTimelineDropChoice.slotOnly,
+          ),
+          child: Text(s.choiceCreateTimelineWithSlot),
+        ),
+        SimpleDialogOption(
+          onPressed: () => Navigator.of(context).pop(
+            NewTimelineDropChoice.template,
+          ),
+          child: Text(s.choiceCreateTimelineFromTemplate),
+        ),
+        SimpleDialogOption(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(s.actionCancel),
         ),
       ],
     ),

@@ -216,6 +216,30 @@ void main() {
     });
   });
 
+  group('Document.nextAvailableSlotCategoryName', () {
+    test('numbers taken names with the first free suffix', () {
+      const document = Document(
+        name: 'タイムテーブル',
+        slotCategories: [
+          SlotCategory(
+            id: 'a',
+            name: '転換枠',
+            durationMinutes: 10,
+            isPerformanceSlot: false,
+          ),
+          SlotCategory(
+            id: 'b',
+            name: '転換枠(1)',
+            durationMinutes: 10,
+            isPerformanceSlot: false,
+          ),
+        ],
+      );
+      expect(document.nextAvailableSlotCategoryName('転換枠'), '転換枠(2)');
+      expect(document.nextAvailableSlotCategoryName('準備'), '準備');
+    });
+  });
+
   group('generateEntityId', () {
     test('returns unique UUID-shaped ids', () {
       final ids = {generateEntityId(), generateEntityId(), generateEntityId()};

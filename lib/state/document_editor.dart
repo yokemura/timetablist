@@ -454,13 +454,117 @@ class DocumentEditor extends _$DocumentEditor {
       throw RangeError.range(index, 0, timeline.slots.length, 'index');
     }
     final slot = Slot(id: generateEntityId(), categoryId: categoryId);
-    _commit(
-      _updateTimeline(
-        timelineId,
-        (timeline) =>
-            timeline.copyWith(slots: [...timeline.slots]..insert(index, slot)),
-      ),
+    final next = _updateTimeline(
+      timelineId,
+      (timeline) =>
+          timeline.copyWith(slots: [...timeline.slots]..insert(index, slot)),
     );
+    _validateTimelineBounds(next);
+    _commit(next);
+    return slot;
+  }
+
+  /// Drops a slot before the timeline start: the start moves to
+  /// [newStartTime], the new slot goes first, and an auto-created changeover
+  /// category (named [gapCategoryName]) fills the gap up to the old start.
+  Slot insertSlotWithLeadingGap({
+    required String timelineId,
+    required String categoryId,
+    required TimelineTime newStartTime,
+    required String gapCategoryName,
+  }) {
+    final timeline = _requireTimeline(timelineId);
+    final category = _requireSlotCategory(categoryId);
+    final gapMinutes =
+        timeline.startTime.difference(newStartTime).inMinutes -
+        category.durationMinutes;
+    if (gapMinutes <= 0) {
+      throw ArgumentError.value(
+        newStartTime,
+        'newStartTime',
+        'No gap remains before the timeline start',
+      );
+    }
+    if (_document.isSlotCategoryNameTaken(gapCategoryName)) {
+      throw ArgumentError.value(
+        gapCategoryName,
+        'gapCategoryName',
+        'Slot category name is taken',
+      );
+    }
+    final gapCategory = SlotCategory(
+      id: generateEntityId(),
+      name: gapCategoryName,
+      durationMinutes: gapMinutes,
+      isPerformanceSlot: false,
+    );
+    final slot = Slot(id: generateEntityId(), categoryId: categoryId);
+    final gapSlot = Slot(id: generateEntityId(), categoryId: gapCategory.id);
+    final next = _document.copyWith(
+      slotCategories: [..._document.slotCategories, gapCategory],
+      timelines: [
+        for (final t in _document.timelines)
+          if (t.id == timelineId)
+            t.copyWith(
+              startTime: newStartTime,
+              slots: [slot, gapSlot, ...t.slots],
+            )
+          else
+            t,
+      ],
+    );
+    _validateTimelineBounds(next);
+    _commit(next);
+    return slot;
+  }
+
+  /// Drops a slot after the timeline end: an auto-created changeover category
+  /// (named [gapCategoryName]) fills the gap from the old end to
+  /// [slotStartTime], then the new slot goes last.
+  Slot insertSlotWithTrailingGap({
+    required String timelineId,
+    required String categoryId,
+    required TimelineTime slotStartTime,
+    required String gapCategoryName,
+  }) {
+    final timeline = _requireTimeline(timelineId);
+    _requireSlotCategory(categoryId);
+    final gapMinutes =
+        slotStartTime.difference(_document.endTimeOf(timeline)).inMinutes;
+    if (gapMinutes <= 0) {
+      throw ArgumentError.value(
+        slotStartTime,
+        'slotStartTime',
+        'No gap remains after the timeline end',
+      );
+    }
+    if (_document.isSlotCategoryNameTaken(gapCategoryName)) {
+      throw ArgumentError.value(
+        gapCategoryName,
+        'gapCategoryName',
+        'Slot category name is taken',
+      );
+    }
+    final gapCategory = SlotCategory(
+      id: generateEntityId(),
+      name: gapCategoryName,
+      durationMinutes: gapMinutes,
+      isPerformanceSlot: false,
+    );
+    final slot = Slot(id: generateEntityId(), categoryId: categoryId);
+    final gapSlot = Slot(id: generateEntityId(), categoryId: gapCategory.id);
+    final next = _document.copyWith(
+      slotCategories: [..._document.slotCategories, gapCategory],
+      timelines: [
+        for (final t in _document.timelines)
+          if (t.id == timelineId)
+            t.copyWith(slots: [...t.slots, gapSlot, slot])
+          else
+            t,
+      ],
+    );
+    _validateTimelineBounds(next);
+    _commit(next);
     return slot;
   }
 

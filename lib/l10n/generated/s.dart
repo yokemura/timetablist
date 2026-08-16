@@ -660,6 +660,36 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Performance order is later than requested'**
   String get violationOrderTooLate;
+
+  /// Base name of the changeover slot category auto-created when a drop leaves a gap. Numbered (1), (2)... when taken. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Changeover slot'**
+  String get autoGapCategoryName;
+
+  /// Confirmation dialog when a slot is dropped beyond the timeline start or end, leaving a gap.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a changeover slot to fill the gap?'**
+  String get confirmCreateGapSlot;
+
+  /// Empty-area drop dialog option: create a timeline containing only the dragged slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Create with this slot only'**
+  String get choiceCreateTimelineWithSlot;
+
+  /// Empty-area drop dialog option: open the regular timeline creation sheet instead.
+  ///
+  /// In en, this message translates to:
+  /// **'Create from template'**
+  String get choiceCreateTimelineFromTemplate;
+
+  /// Confirmation dialog when a participant is dropped on a slot that already has one.
+  ///
+  /// In en, this message translates to:
+  /// **'This slot already has a participant. Replace them?'**
+  String get confirmSwapParticipant;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

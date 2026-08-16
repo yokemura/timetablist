@@ -1,33 +1,81 @@
 import 'package:flutter/material.dart';
 
 import '../../models/models.dart';
+import '../timeline/drag_data.dart';
 import '../timeline/time_layout.dart';
+import 'drag_ghosts.dart';
 import 'placed_participant_view.dart';
 
 /// A slot on a timeline. Square corners and no outer padding so it does not
 /// look draggable; a participant inside has padding and rounded corners.
+///
+/// When [timelineId] is set, the participant block becomes a drag source, and
+/// when [onParticipantDropped] is set, performance slots accept participant
+/// drops.
 class PlacedSlotView extends StatelessWidget {
   const PlacedSlotView({
     required this.placed,
     required this.selected,
     required this.onTap,
+    this.timelineId,
+    this.onParticipantDropped,
     super.key,
   });
 
   final PlacedSlot placed;
   final bool selected;
   final VoidCallback onTap;
+  final String? timelineId;
+  final ValueChanged<ParticipantDragData>? onParticipantDropped;
 
   @override
   Widget build(BuildContext context) {
+    if (placed.category.isPerformanceSlot && onParticipantDropped != null) {
+      return DragTarget<ParticipantDragData>(
+        onAcceptWithDetails: (details) =>
+            onParticipantDropped!(details.data),
+        builder: (context, candidates, rejected) =>
+            _buildSlot(context, highlighted: candidates.isNotEmpty),
+      );
+    }
+    return _buildSlot(context, highlighted: false);
+  }
+
+  Widget _buildSlot(BuildContext context, {required bool highlighted}) {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final participant = placed.participant;
     final hasMismatch =
         participant != null && placed.requirementViolations().isNotEmpty;
 
+    Widget? participantChild;
+    if (participant != null) {
+      participantChild = PlacedParticipantView(
+        participant: participant,
+        hasMismatch: hasMismatch,
+      );
+      final timelineId = this.timelineId;
+      if (timelineId != null) {
+        participantChild = Draggable<ParticipantDragData>(
+          data: ParticipantDragData(
+            participant: participant,
+            fromTimelineId: timelineId,
+            fromSlotId: placed.slot.id,
+          ),
+          dragAnchorStrategy: pointerDragAnchorStrategy,
+          feedback: ParticipantDragGhost(participant: participant),
+          // The participant leaves the slot while dragging, per the spec.
+          childWhenDragging: const SizedBox.shrink(),
+          child: participantChild,
+        );
+      }
+    }
+
+    final baseColor = selected
+        ? scheme.secondaryContainer
+        : scheme.surfaceContainerHighest;
     return Material(
-      color: selected ? scheme.secondaryContainer : scheme.surfaceContainerHighest,
+      color: highlighted ? scheme.tertiaryContainer : baseColor,
       shape: Border(
         bottom: BorderSide(color: scheme.outlineVariant),
         left: BorderSide(color: scheme.outlineVariant),
@@ -47,13 +95,10 @@ class PlacedSlotView extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
             ),
-            if (participant != null)
+            if (participantChild != null)
               Padding(
                 padding: const EdgeInsets.all(TimeLayout.participantPadding),
-                child: PlacedParticipantView(
-                  participant: participant,
-                  hasMismatch: hasMismatch,
-                ),
+                child: participantChild,
               ),
           ],
         ),

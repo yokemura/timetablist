@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../l10n/generated/s.dart';
 import '../../state/state.dart';
 import '../sheets/participant_create_sheet.dart';
+import '../timeline/drag_data.dart';
+import '../widgets/drag_ghosts.dart';
 import '../widgets/participant_list_item.dart';
 
 /// Bottom-left pane: scrollable participant list plus a creation button.
@@ -35,7 +37,7 @@ class ParticipantPane extends ConsumerWidget {
                 itemCount: participants.length,
                 itemBuilder: (context, index) {
                   final participant = participants[index];
-                  return ParticipantListItem(
+                  final item = ParticipantListItem(
                     participant: participant,
                     selected:
                         selection ==
@@ -45,6 +47,14 @@ class ParticipantPane extends ConsumerWidget {
                         .select(
                           Selection.participant(participantId: participant.id),
                         ),
+                  );
+                  return Draggable<ParticipantDragData>(
+                    data: ParticipantDragData(participant: participant),
+                    dragAnchorStrategy: pointerDragAnchorStrategy,
+                    feedback: ParticipantDragGhost(participant: participant),
+                    // The participant leaves the pane while dragging.
+                    childWhenDragging: const SizedBox.shrink(),
+                    child: item,
                   );
                 },
               ),
