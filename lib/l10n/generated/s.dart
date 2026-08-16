@@ -690,6 +690,24 @@ abstract class S {
   /// In en, this message translates to:
   /// **'This slot already has a participant. Replace them?'**
   String get confirmSwapParticipant;
+
+  /// Confirmation dialog for the menu's clear (new document) action.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear everything and start a new timetable?'**
+  String get confirmClearDocument;
+
+  /// Confirmation dialog shown before an import overwrites the current document.
+  ///
+  /// In en, this message translates to:
+  /// **'Replace the current contents with the imported file? (Undo history will be cleared.)'**
+  String get confirmImportReplace;
+
+  /// Error dialog shown when the picked import file cannot be parsed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read the file. Make sure it is a JSON file exported from this app.'**
+  String get errorImportFailed;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

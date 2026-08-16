@@ -25,7 +25,14 @@ class TimelineLane extends StatefulWidget {
   });
 
   static const width = 168.0;
+
+  /// Space reserved above the 0:00 line so a timeline starting at 0:00 still
+  /// has room for its name label (drawn directly above its first slot).
   static const headerHeight = 28.0;
+
+  /// Padding between the timeline component and the slots it contains.
+  static const slotPadding = 3.0;
+
   static const insertionBarThickness = 3.0;
 
   final Timeline timeline;
@@ -60,6 +67,10 @@ class _TimelineLaneState extends State<TimelineLane> {
     );
   }
 
+  /// Y within the lane for a clock time (the top strip is above 0:00).
+  double _laneY(TimelineTime time) =>
+      TimelineLane.headerHeight + _layout.yOf(time);
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -67,7 +78,15 @@ class _TimelineLaneState extends State<TimelineLane> {
     final timeline = widget.timeline;
     final selected =
         widget.selection == Selection.timeline(timelineId: timeline.id);
-    final midnightY = _layout.yOf(TimeLayout.afterMidnight);
+    final midnightY = _laneY(TimeLayout.afterMidnight);
+
+    // The timeline component: name label above the first slot, then the
+    // slots inset by [TimelineLane.slotPadding] on the remaining sides.
+    final blockTop = _laneY(timeline.startTime) - TimelineLane.headerHeight;
+    final endTime = widget.placedSlots.isEmpty
+        ? timeline.startTime
+        : widget.placedSlots.last.endTime;
+    final blockBottom = _laneY(endTime) + TimelineLane.slotPadding;
 
     Widget stack = Stack(
       children: [
@@ -85,12 +104,49 @@ class _TimelineLaneState extends State<TimelineLane> {
           bottom: 0,
           child: ColoredBox(color: scheme.surfaceContainerHighest),
         ),
+        Positioned(
+          top: blockTop,
+          height: blockBottom - blockTop,
+          left: 0,
+          right: 0,
+          child: Material(
+            color: selected
+                ? scheme.secondaryContainer
+                : scheme.surfaceContainer,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(
+                  height:
+                      TimelineLane.headerHeight - TimelineLane.slotPadding,
+                  child: InkWell(
+                    onTap: () => widget.onSelect(
+                      Selection.timeline(timelineId: timeline.id),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          timeline.name,
+                          style: theme.textTheme.labelSmall,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         for (final placed in widget.placedSlots)
           Positioned(
-            top: _layout.yOf(placed.startTime),
+            top: _laneY(placed.startTime),
             height: _layout.heightOf(placed.startTime, placed.endTime),
-            left: 0,
-            right: 0,
+            left: TimelineLane.slotPadding,
+            right: TimelineLane.slotPadding,
             child: PlacedSlotView(
               placed: placed,
               selected:
@@ -114,11 +170,11 @@ class _TimelineLaneState extends State<TimelineLane> {
           ),
         if (_pendingDrop != null)
           Positioned(
-            top: _layout.yOf(_pendingDrop!.barTime) -
+            top: _laneY(_pendingDrop!.barTime) -
                 TimelineLane.insertionBarThickness / 2,
             height: TimelineLane.insertionBarThickness,
-            left: 0,
-            right: 0,
+            left: TimelineLane.slotPadding,
+            right: TimelineLane.slotPadding,
             child: ColoredBox(color: scheme.primary),
           ),
       ],
@@ -143,42 +199,11 @@ class _TimelineLaneState extends State<TimelineLane> {
 
     return SizedBox(
       width: TimelineLane.width,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Material(
-            color: selected
-                ? scheme.secondaryContainer
-                : scheme.surfaceContainer,
-            child: InkWell(
-              onTap: () =>
-                  widget.onSelect(Selection.timeline(timelineId: timeline.id)),
-              child: SizedBox(
-                height: TimelineLane.headerHeight,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      timeline.name,
-                      style: theme.textTheme.labelSmall,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: _layout.totalHeight,
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: () => widget.onSelect(const Selection.document()),
-              child: stack,
-            ),
-          ),
-        ],
+      height: TimelineLane.headerHeight + _layout.totalHeight,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () => widget.onSelect(const Selection.document()),
+        child: stack,
       ),
     );
   }

@@ -8,6 +8,7 @@ import '../dialogs/app_dialogs.dart';
 import '../sheets/timeline_create_sheet.dart';
 import '../timeline/drag_data.dart';
 import '../timeline/slot_drop.dart';
+import '../timeline/slot_height_measurer.dart';
 import '../timeline/time_layout.dart';
 import '../widgets/time_ruler.dart';
 import '../widgets/timeline_lane.dart';
@@ -143,9 +144,25 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
+    final theme = Theme.of(context);
     final document = ref.watch(documentProvider);
     final selection = ref.watch(effectiveSelectionProvider);
-    final layout = TimeLayout.fromDocument(document);
+    // Merge with the ambient default style the same way the Text widgets do,
+    // so measurement uses the exact style that renders.
+    final defaultStyle = DefaultTextStyle.of(context).style;
+    final measurer = SlotHeightMeasurer(
+      titleStyle: defaultStyle.merge(theme.textTheme.labelSmall),
+      nameStyle: defaultStyle.merge(
+        theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
+      ),
+      warningStyle: defaultStyle.merge(theme.textTheme.labelSmall),
+      slotContentWidth: TimelineLane.width - TimelineLane.slotPadding * 2,
+      warningLabel: s.requirementMismatchLabel,
+    );
+    final layout = TimeLayout.fromDocument(
+      document,
+      measureSlot: measurer.heightOf,
+    );
 
     return ColoredBox(
       color: Theme.of(context).colorScheme.surfaceContainerLow,

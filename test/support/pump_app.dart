@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:timetablist/files/document_file_port.dart';
 import 'package:timetablist/l10n/generated/s.dart';
 import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
@@ -12,6 +13,7 @@ import 'recording_document_store.dart';
 Future<ProviderContainer> pumpApp(
   WidgetTester tester, {
   Document? initialDocument,
+  DocumentFilePort? filePort,
 }) async {
   final container = ProviderContainer(
     overrides: [
@@ -19,6 +21,8 @@ Future<ProviderContainer> pumpApp(
         initialDocument ?? Document.empty(name: 'タイムテーブル'),
       ),
       documentStoreProvider.overrideWithValue(RecordingDocumentStore()),
+      if (filePort != null)
+        documentFilePortProvider.overrideWithValue(filePort),
     ],
   );
   addTearDown(container.dispose);

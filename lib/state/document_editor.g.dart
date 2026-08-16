@@ -148,7 +148,7 @@ final class DocumentEditorProvider
   }
 }
 
-String _$documentEditorHash() => r'7ff3cca4c407f191ec31c7ea6a9132ccbddcf959';
+String _$documentEditorHash() => r'0f2ff9c661503853102caf2e66b911963687ab69';
 
 /// Applies all document mutations.
 ///

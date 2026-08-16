@@ -330,4 +330,14 @@ class SJa extends S {
 
   @override
   String get confirmSwapParticipant => 'この枠にはすでに演者が割り当てられています。入れ替えますか？';
+
+  @override
+  String get confirmClearDocument => '内容をすべてクリアして新規作成しますか？';
+
+  @override
+  String get confirmImportReplace =>
+      '現在の内容を読み込んだファイルの内容で置き換えますか？（取り消しの履歴は消去されます）';
+
+  @override
+  String get errorImportFailed => 'ファイルを読み込めませんでした。エクスポートしたJSONファイルかご確認ください。';
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../l10n/generated/s.dart';
 import '../../models/models.dart';
 import '../timeline/drag_data.dart';
 import '../timeline/time_layout.dart';
@@ -90,8 +91,11 @@ class PlacedSlotView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               child: Text(
-                placed.category.name,
+                // e.g. "13:00 転換(30分)"
+                '${placed.startTime.toDisplayString()} '
+                '${S.of(context).categoryNameWithDuration(placed.category.name, placed.durationMinutes)}',
                 style: theme.textTheme.labelSmall,
+                maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ),

@@ -82,18 +82,27 @@ class TimeLayout {
   }
 
   /// Builds a layout from every placed slot in [document].
-  factory TimeLayout.fromDocument(Document document) {
+  ///
+  /// [measureSlot] returns the minimum height a slot needs; it defaults to
+  /// the [slotMinHeight] heuristic. Pass a text-measuring implementation
+  /// (see `SlotHeightMeasurer`) so wrapped participant names fit.
+  factory TimeLayout.fromDocument(
+    Document document, {
+    double Function(PlacedSlot placed)? measureSlot,
+  }) {
+    final measure = measureSlot ??
+        (placed) => slotMinHeight(
+              durationMinutes: placed.durationMinutes,
+              hasParticipant: placed.participant != null,
+              hasWarning: placed.requirementViolations().isNotEmpty,
+            );
     return TimeLayout.fromDemands([
       for (final timeline in document.timelines)
         for (final placed in document.placedSlotsOf(timeline))
           TimeSpanDemand(
             start: placed.startTime,
             end: placed.endTime,
-            minHeight: slotMinHeight(
-              durationMinutes: placed.durationMinutes,
-              hasParticipant: placed.participant != null,
-              hasWarning: placed.requirementViolations().isNotEmpty,
-            ),
+            minHeight: measure(placed),
           ),
     ]);
   }

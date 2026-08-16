@@ -1,11 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/generated/s.dart';
+import '../models/models.dart';
 import '../state/state.dart';
+import 'dialogs/app_dialogs.dart';
 
 enum MenuAction { export, import, clear, undo, redo }
 
@@ -16,6 +19,50 @@ class TitleBar extends ConsumerWidget {
   static const height = 40.0;
 
   static final _brandSiteUri = Uri.parse('https://ymck.net/');
+
+  Future<void> _export(WidgetRef ref) {
+    final document = ref.read(documentProvider);
+    final name = document.name.trim();
+    return ref.read(documentFilePortProvider).exportJson(
+          fileName: '${name.isEmpty ? 'timetable' : name}.json',
+          json: const JsonEncoder.withIndent('  ').convert(document.toJson()),
+        );
+  }
+
+  Future<void> _import(BuildContext context, WidgetRef ref) async {
+    final s = S.of(context);
+    final text = await ref.read(documentFilePortProvider).importJson();
+    if (text == null || !context.mounted) return;
+
+    final Document imported;
+    try {
+      imported = Document.fromJson(jsonDecode(text) as Map<String, dynamic>);
+    } catch (_) {
+      await showErrorDialog(context, s.errorImportFailed);
+      return;
+    }
+
+    final confirmed = await showConfirmDialog(
+      context,
+      message: s.confirmImportReplace,
+      confirmLabel: s.actionOk,
+    );
+    if (confirmed != true || !context.mounted) return;
+    ref.read(documentEditorProvider.notifier).replaceDocument(imported);
+  }
+
+  Future<void> _clear(BuildContext context, WidgetRef ref) async {
+    final s = S.of(context);
+    final confirmed = await showConfirmDialog(
+      context,
+      message: s.confirmClearDocument,
+      confirmLabel: s.actionOk,
+    );
+    if (confirmed != true || !context.mounted) return;
+    ref
+        .read(documentEditorProvider.notifier)
+        .clearDocument(documentName: s.defaultDocumentName);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -54,10 +101,11 @@ class TitleBar extends ConsumerWidget {
                   case MenuAction.redo:
                     editor.redo();
                   case MenuAction.export:
+                    unawaited(_export(ref));
                   case MenuAction.import:
+                    unawaited(_import(context, ref));
                   case MenuAction.clear:
-                    // Wired up in the menu-actions step.
-                    break;
+                    unawaited(_clear(context, ref));
                 }
               },
               itemBuilder: (context) => [

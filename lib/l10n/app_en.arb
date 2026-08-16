@@ -458,5 +458,17 @@
   "confirmSwapParticipant": "This slot already has a participant. Replace them?",
   "@confirmSwapParticipant": {
     "description": "Confirmation dialog when a participant is dropped on a slot that already has one."
+  },
+  "confirmClearDocument": "Clear everything and start a new timetable?",
+  "@confirmClearDocument": {
+    "description": "Confirmation dialog for the menu's clear (new document) action."
+  },
+  "confirmImportReplace": "Replace the current contents with the imported file? (Undo history will be cleared.)",
+  "@confirmImportReplace": {
+    "description": "Confirmation dialog shown before an import overwrites the current document."
+  },
+  "errorImportFailed": "Could not read the file. Make sure it is a JSON file exported from this app.",
+  "@errorImportFailed": {
+    "description": "Error dialog shown when the picked import file cannot be parsed."
   }
 }

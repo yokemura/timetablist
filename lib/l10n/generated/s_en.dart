@@ -342,4 +342,16 @@ class SEn extends S {
   @override
   String get confirmSwapParticipant =>
       'This slot already has a participant. Replace them?';
+
+  @override
+  String get confirmClearDocument =>
+      'Clear everything and start a new timetable?';
+
+  @override
+  String get confirmImportReplace =>
+      'Replace the current contents with the imported file? (Undo history will be cleared.)';
+
+  @override
+  String get errorImportFailed =>
+      'Could not read the file. Make sure it is a JSON file exported from this app.';
 }

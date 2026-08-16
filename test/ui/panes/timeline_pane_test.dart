@@ -109,6 +109,42 @@ void main() {
     );
   });
 
+  testWidgets('slots grow to fit participant names that wrap', (tester) async {
+    final document = Document(
+      name: 'タイムテーブル',
+      slotCategories: const [
+        SlotCategory(
+          id: 'perf',
+          name: '出演枠',
+          durationMinutes: 30,
+          isPerformanceSlot: true,
+        ),
+      ],
+      participants: const [
+        Participant(
+          id: 'long',
+          name: 'とてもとても長い名前の演者グループ・アンサンブル・オーケストラ合唱団',
+        ),
+      ],
+      timelines: [
+        Timeline(
+          id: 'day1',
+          name: '１日目',
+          startTime: TimelineTime.midnight,
+          slots: const [
+            Slot(id: 's1', categoryId: 'perf', participantId: 'long'),
+          ],
+        ),
+      ],
+    );
+
+    await pumpApp(tester, initialDocument: document);
+
+    // Regression: fixed-height estimates used to overflow (RenderFlex error)
+    // when the name wrapped to multiple lines.
+    expect(tester.takeException(), isNull);
+  });
+
   testWidgets('clicking a slot or timeline name updates the selection',
       (tester) async {
     final container = await pumpApp(

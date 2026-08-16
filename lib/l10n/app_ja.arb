@@ -98,5 +98,8 @@
   "confirmCreateGapSlot": "空いた時間に転換枠を自動作成して配置しますか？",
   "choiceCreateTimelineWithSlot": "この枠のみで作成",
   "choiceCreateTimelineFromTemplate": "テンプレートから作成",
-  "confirmSwapParticipant": "この枠にはすでに演者が割り当てられています。入れ替えますか？"
+  "confirmSwapParticipant": "この枠にはすでに演者が割り当てられています。入れ替えますか？",
+  "confirmClearDocument": "内容をすべてクリアして新規作成しますか？",
+  "confirmImportReplace": "現在の内容を読み込んだファイルの内容で置き換えますか？（取り消しの履歴は消去されます）",
+  "errorImportFailed": "ファイルを読み込めませんでした。エクスポートしたJSONファイルかご確認ください。"
 }
