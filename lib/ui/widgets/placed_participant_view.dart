@@ -7,10 +7,7 @@ import '../../models/models.dart';
 /// Rounded corners and padding (applied by the parent) give the impression
 /// that this block can be dragged; the slot around it cannot.
 class PlacedParticipantView extends StatelessWidget {
-  const PlacedParticipantView({
-    required this.participant,
-    super.key,
-  });
+  const PlacedParticipantView({required this.participant, super.key});
 
   final Participant participant;
 
@@ -18,14 +15,14 @@ class PlacedParticipantView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Material(
-      color: theme.colorScheme.primaryContainer,
+      color: theme.colorScheme.surface,
       borderRadius: BorderRadius.circular(8),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         child: Text(
           participant.name,
           style: theme.textTheme.titleSmall?.copyWith(
-            color: theme.colorScheme.onPrimaryContainer,
+            color: theme.colorScheme.onSurface,
             fontWeight: FontWeight.w600,
           ),
         ),

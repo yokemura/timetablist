@@ -21,6 +21,13 @@ class SlotCategoryDragGhost extends StatelessWidget {
       hasParticipant: false,
       hasWarning: false,
     );
+    final isPerformance = category.isPerformanceSlot;
+    final fill = isPerformance
+        ? scheme.primaryContainer
+        : scheme.surfaceContainerHighest;
+    final titleColor = isPerformance
+        ? scheme.onPrimaryContainer
+        : scheme.onSurface;
     return Material(
       type: MaterialType.transparency,
       child: Opacity(
@@ -29,14 +36,14 @@ class SlotCategoryDragGhost extends StatelessWidget {
           width: TimelineLane.width,
           height: height,
           decoration: BoxDecoration(
-            color: scheme.surfaceContainerHighest,
+            color: fill,
             border: Border.all(color: scheme.outlineVariant),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
           alignment: Alignment.topLeft,
           child: Text(
             category.name,
-            style: theme.textTheme.labelSmall,
+            style: theme.textTheme.labelSmall?.copyWith(color: titleColor),
             overflow: TextOverflow.ellipsis,
           ),
         ),

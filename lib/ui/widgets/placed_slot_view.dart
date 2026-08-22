@@ -74,15 +74,40 @@ class PlacedSlotView extends StatelessWidget {
       }
     }
 
-    final baseColor = selected
-        ? scheme.secondaryContainer
-        : scheme.surfaceContainerHighest;
+    final isPerformance = placed.category.isPerformanceSlot;
+    final Color fill;
+    if (highlighted) {
+      fill = scheme.tertiaryContainer;
+    } else if (isPerformance) {
+      fill = scheme.primaryContainer;
+    } else if (selected) {
+      fill = scheme.secondaryContainer;
+    } else {
+      fill = scheme.surfaceContainerHighest;
+    }
+
+    final Color titleColor;
+    if (highlighted) {
+      titleColor = scheme.onTertiaryContainer;
+    } else if (isPerformance) {
+      titleColor = scheme.onPrimaryContainer;
+    } else if (selected) {
+      titleColor = scheme.onSecondaryContainer;
+    } else {
+      titleColor = scheme.onSurface;
+    }
+
+    final borderColor = selected && !highlighted
+        ? (isPerformance ? scheme.primary : scheme.outlineVariant)
+        : scheme.outlineVariant;
+    final borderWidth = selected && isPerformance && !highlighted ? 2.0 : 1.0;
+
     return Material(
-      color: highlighted ? scheme.tertiaryContainer : baseColor,
+      color: fill,
       shape: Border(
-        bottom: BorderSide(color: scheme.outlineVariant),
-        left: BorderSide(color: scheme.outlineVariant),
-        right: BorderSide(color: scheme.outlineVariant),
+        bottom: BorderSide(color: borderColor, width: borderWidth),
+        left: BorderSide(color: borderColor, width: borderWidth),
+        right: BorderSide(color: borderColor, width: borderWidth),
       ),
       child: InkWell(
         onTap: onTap,
@@ -94,7 +119,7 @@ class PlacedSlotView extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               child: Text(
                 placedSlotTitle(placed, S.of(context)),
-                style: theme.textTheme.labelSmall,
+                style: theme.textTheme.labelSmall?.copyWith(color: titleColor),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
