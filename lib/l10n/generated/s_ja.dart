@@ -19,10 +19,13 @@ class SJa extends S {
   String get menuTooltip => 'メニュー';
 
   @override
-  String get menuExport => 'エクスポート';
+  String get menuExport => 'ファイルに保存';
 
   @override
-  String get menuImport => 'インポート';
+  String get menuExportCsv => 'CSVエクスポート';
+
+  @override
+  String get menuImport => 'ファイルを読み込む';
 
   @override
   String get menuNew => '新規作成';
@@ -305,5 +308,26 @@ class SJa extends S {
       '現在の内容を読み込んだファイルの内容で置き換えますか？（取り消しの履歴は消去されます）';
 
   @override
-  String get errorImportFailed => 'ファイルを読み込めませんでした。エクスポートしたJSONファイルかご確認ください。';
+  String get errorImportFailed => 'ファイルを読み込めませんでした。このアプリで保存したJSONファイルかご確認ください。';
+
+  @override
+  String get errorExportFailed => 'ファイルを書き出せませんでした。';
+
+  @override
+  String get csvHeaderTimeline => 'タイムライン名';
+
+  @override
+  String get csvHeaderStart => '開始時刻';
+
+  @override
+  String get csvHeaderEnd => '終了時刻';
+
+  @override
+  String get csvHeaderDuration => '時間長';
+
+  @override
+  String get csvHeaderSlotType => '枠タイプ名';
+
+  @override
+  String get csvHeaderPerformer => '演者名';
 }

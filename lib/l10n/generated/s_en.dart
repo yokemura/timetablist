@@ -19,10 +19,13 @@ class SEn extends S {
   String get menuTooltip => 'Menu';
 
   @override
-  String get menuExport => 'Export';
+  String get menuExport => 'Save file';
 
   @override
-  String get menuImport => 'Import';
+  String get menuExportCsv => 'Export CSV';
+
+  @override
+  String get menuImport => 'Load file';
 
   @override
   String get menuNew => 'New';
@@ -313,5 +316,26 @@ class SEn extends S {
 
   @override
   String get errorImportFailed =>
-      'Could not read the file. Make sure it is a JSON file exported from this app.';
+      'Could not read the file. Make sure it is a JSON file saved from this app.';
+
+  @override
+  String get errorExportFailed => 'Could not write the file.';
+
+  @override
+  String get csvHeaderTimeline => 'Timeline';
+
+  @override
+  String get csvHeaderStart => 'Start';
+
+  @override
+  String get csvHeaderEnd => 'End';
+
+  @override
+  String get csvHeaderDuration => 'Duration';
+
+  @override
+  String get csvHeaderSlotType => 'Slot type';
+
+  @override
+  String get csvHeaderPerformer => 'Performer';
 }

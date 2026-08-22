@@ -62,8 +62,9 @@ void main() {
     await tester.tap(find.byIcon(Icons.menu));
     await tester.pumpAndSettle();
 
-    expect(find.text('エクスポート'), findsOneWidget);
-    expect(find.text('インポート'), findsOneWidget);
+    expect(find.text('ファイルに保存'), findsOneWidget);
+    expect(find.text('CSVエクスポート'), findsOneWidget);
+    expect(find.text('ファイルを読み込む'), findsOneWidget);
     expect(find.text('新規作成'), findsOneWidget);
     expect(find.text('取り消す'), findsOneWidget);
     expect(find.text('やり直す'), findsOneWidget);

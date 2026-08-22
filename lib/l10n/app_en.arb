@@ -12,13 +12,17 @@
   "@menuTooltip": {
     "description": "Tooltip of the menu icon in the title bar."
   },
-  "menuExport": "Export",
+  "menuExport": "Save file",
   "@menuExport": {
-    "description": "Menu item: export the document to a JSON file."
+    "description": "Menu item: save the document as a JSON file."
   },
-  "menuImport": "Import",
+  "menuExportCsv": "Export CSV",
+  "@menuExportCsv": {
+    "description": "Menu item: export the timetable as a CSV for spreadsheet finishing."
+  },
+  "menuImport": "Load file",
   "@menuImport": {
-    "description": "Menu item: import a document from a JSON file, overwriting the current one."
+    "description": "Menu item: load a document from a JSON file, overwriting the current one."
   },
   "menuNew": "New",
   "@menuNew": {
@@ -413,8 +417,36 @@
   "@confirmImportReplace": {
     "description": "Confirmation dialog shown before an import overwrites the current document."
   },
-  "errorImportFailed": "Could not read the file. Make sure it is a JSON file exported from this app.",
+  "errorImportFailed": "Could not read the file. Make sure it is a JSON file saved from this app.",
   "@errorImportFailed": {
-    "description": "Error dialog shown when the picked import file cannot be parsed."
+    "description": "Error dialog shown when the picked file cannot be parsed."
+  },
+  "errorExportFailed": "Could not write the file.",
+  "@errorExportFailed": {
+    "description": "Error dialog shown when saving a JSON or CSV file fails."
+  },
+  "csvHeaderTimeline": "Timeline",
+  "@csvHeaderTimeline": {
+    "description": "CSV header for the timeline name column (included only when there are two or more timelines)."
+  },
+  "csvHeaderStart": "Start",
+  "@csvHeaderStart": {
+    "description": "CSV header for slot start time."
+  },
+  "csvHeaderEnd": "End",
+  "@csvHeaderEnd": {
+    "description": "CSV header for slot end time."
+  },
+  "csvHeaderDuration": "Duration",
+  "@csvHeaderDuration": {
+    "description": "CSV header for slot duration in minutes."
+  },
+  "csvHeaderSlotType": "Slot type",
+  "@csvHeaderSlotType": {
+    "description": "CSV header for slot type name."
+  },
+  "csvHeaderPerformer": "Performer",
+  "@csvHeaderPerformer": {
+    "description": "CSV header for performer name on performance slots."
   }
 }

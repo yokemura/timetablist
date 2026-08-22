@@ -5,13 +5,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../files/document_csv.dart';
+import '../files/download_file_name.dart';
 import '../l10n/generated/s.dart';
 import '../models/models.dart';
 import '../state/state.dart';
 import 'dialogs/app_dialogs.dart';
 import 'dialogs/initial_timeline_dialog.dart';
 
-enum MenuAction { export, import, clear, undo, redo }
+enum MenuAction { saveFile, exportCsv, loadFile, clear, undo, redo }
 
 /// Top title bar: brand link on the left, app menu on the right.
 class TitleBar extends ConsumerWidget {
@@ -21,18 +23,57 @@ class TitleBar extends ConsumerWidget {
 
   static final _brandSiteUri = Uri.parse('https://ymck.net/');
 
-  Future<void> _export(WidgetRef ref) {
+  Future<void> _saveFile(BuildContext context, WidgetRef ref) {
     final document = ref.read(documentProvider);
-    final name = document.name.trim();
-    return ref
-        .read(documentFilePortProvider)
-        .exportJson(
-          fileName: '${name.isEmpty ? 'timetable' : name}.json',
-          json: const JsonEncoder.withIndent('  ').convert(document.toJson()),
-        );
+    return _writeFile(
+      context,
+      ref,
+      fileName: downloadFileName(document.name, 'json'),
+      contents: const JsonEncoder.withIndent('  ').convert(document.toJson()),
+      mimeType: 'application/json',
+    );
   }
 
-  Future<void> _import(BuildContext context, WidgetRef ref) async {
+  Future<void> _exportCsv(BuildContext context, WidgetRef ref) {
+    final s = S.of(context);
+    final document = ref.read(documentProvider);
+    return _writeFile(
+      context,
+      ref,
+      fileName: downloadFileName(document.name, 'csv'),
+      contents: encodeDocumentCsv(
+        document,
+        DocumentCsvLabels(
+          timeline: s.csvHeaderTimeline,
+          start: s.csvHeaderStart,
+          end: s.csvHeaderEnd,
+          duration: s.csvHeaderDuration,
+          slotType: s.csvHeaderSlotType,
+          performer: s.csvHeaderPerformer,
+        ),
+      ),
+      mimeType: 'text/csv',
+    );
+  }
+
+  Future<void> _writeFile(
+    BuildContext context,
+    WidgetRef ref, {
+    required String fileName,
+    required String contents,
+    required String mimeType,
+  }) async {
+    try {
+      await ref
+          .read(documentFilePortProvider)
+          .saveFile(fileName: fileName, contents: contents, mimeType: mimeType);
+    } catch (_) {
+      if (!context.mounted) return;
+      await showErrorDialog(context, S.of(context).errorExportFailed);
+    }
+  }
+
+  Future<void> _loadFile(BuildContext context, WidgetRef ref) async {
     final s = S.of(context);
     final text = await ref.read(documentFilePortProvider).importJson();
     if (text == null || !context.mounted) return;
@@ -115,21 +156,27 @@ class TitleBar extends ConsumerWidget {
                       editor.undo();
                     case MenuAction.redo:
                       editor.redo();
-                    case MenuAction.export:
-                      unawaited(_export(ref));
-                    case MenuAction.import:
-                      unawaited(_import(context, ref));
+                    case MenuAction.saveFile:
+                      unawaited(_saveFile(context, ref));
+                    case MenuAction.exportCsv:
+                      unawaited(_exportCsv(context, ref));
+                    case MenuAction.loadFile:
+                      unawaited(_loadFile(context, ref));
                     case MenuAction.clear:
                       unawaited(_clear(context, ref));
                   }
                 },
                 itemBuilder: (context) => [
                   PopupMenuItem(
-                    value: MenuAction.export,
+                    value: MenuAction.saveFile,
                     child: Text(s.menuExport),
                   ),
                   PopupMenuItem(
-                    value: MenuAction.import,
+                    value: MenuAction.exportCsv,
+                    child: Text(s.menuExportCsv),
+                  ),
+                  PopupMenuItem(
+                    value: MenuAction.loadFile,
                     child: Text(s.menuImport),
                   ),
                   PopupMenuItem(

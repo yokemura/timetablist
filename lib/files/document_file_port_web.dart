@@ -5,17 +5,18 @@ import 'package:web/web.dart' as web;
 
 import 'document_file_port.dart';
 
-/// Browser implementation: export triggers a download, import opens the
+/// Browser implementation: save triggers a download, import opens the
 /// standard file picker.
 class WebDocumentFilePort implements DocumentFilePort {
   @override
-  Future<void> exportJson({
+  Future<void> saveFile({
     required String fileName,
-    required String json,
+    required String contents,
+    required String mimeType,
   }) async {
     final blob = web.Blob(
-      [json.toJS].toJS,
-      web.BlobPropertyBag(type: 'application/json'),
+      [contents.toJS].toJS,
+      web.BlobPropertyBag(type: mimeType),
     );
     final url = web.URL.createObjectURL(blob);
     final anchor = web.HTMLAnchorElement()

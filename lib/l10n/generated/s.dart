@@ -115,16 +115,22 @@ abstract class S {
   /// **'Menu'**
   String get menuTooltip;
 
-  /// Menu item: export the document to a JSON file.
+  /// Menu item: save the document as a JSON file.
   ///
   /// In en, this message translates to:
-  /// **'Export'**
+  /// **'Save file'**
   String get menuExport;
 
-  /// Menu item: import a document from a JSON file, overwriting the current one.
+  /// Menu item: export the timetable as a CSV for spreadsheet finishing.
   ///
   /// In en, this message translates to:
-  /// **'Import'**
+  /// **'Export CSV'**
+  String get menuExportCsv;
+
+  /// Menu item: load a document from a JSON file, overwriting the current one.
+  ///
+  /// In en, this message translates to:
+  /// **'Load file'**
   String get menuImport;
 
   /// Menu item: clear the document and start over with the initial timeline dialog.
@@ -661,11 +667,53 @@ abstract class S {
   /// **'Replace the current contents with the imported file? (Undo history will be cleared.)'**
   String get confirmImportReplace;
 
-  /// Error dialog shown when the picked import file cannot be parsed.
+  /// Error dialog shown when the picked file cannot be parsed.
   ///
   /// In en, this message translates to:
-  /// **'Could not read the file. Make sure it is a JSON file exported from this app.'**
+  /// **'Could not read the file. Make sure it is a JSON file saved from this app.'**
   String get errorImportFailed;
+
+  /// Error dialog shown when saving a JSON or CSV file fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not write the file.'**
+  String get errorExportFailed;
+
+  /// CSV header for the timeline name column (included only when there are two or more timelines).
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline'**
+  String get csvHeaderTimeline;
+
+  /// CSV header for slot start time.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get csvHeaderStart;
+
+  /// CSV header for slot end time.
+  ///
+  /// In en, this message translates to:
+  /// **'End'**
+  String get csvHeaderEnd;
+
+  /// CSV header for slot duration in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get csvHeaderDuration;
+
+  /// CSV header for slot type name.
+  ///
+  /// In en, this message translates to:
+  /// **'Slot type'**
+  String get csvHeaderSlotType;
+
+  /// CSV header for performer name on performance slots.
+  ///
+  /// In en, this message translates to:
+  /// **'Performer'**
+  String get csvHeaderPerformer;
 }
 
 class _SDelegate extends LocalizationsDelegate<S> {

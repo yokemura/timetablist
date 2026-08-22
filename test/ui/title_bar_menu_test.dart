@@ -11,17 +11,22 @@ import 'package:timetablist/state/state.dart';
 import '../support/pump_app.dart';
 
 class _FakeDocumentFilePort implements DocumentFilePort {
-  String? exportedFileName;
-  String? exportedJson;
+  String? savedFileName;
+  String? savedContents;
+  String? savedMimeType;
   String? importText;
+  Object? saveError;
 
   @override
-  Future<void> exportJson({
+  Future<void> saveFile({
     required String fileName,
-    required String json,
+    required String contents,
+    required String mimeType,
   }) async {
-    exportedFileName = fileName;
-    exportedJson = json;
+    if (saveError != null) throw saveError!;
+    savedFileName = fileName;
+    savedContents = contents;
+    savedMimeType = mimeType;
   }
 
   @override
@@ -29,16 +34,16 @@ class _FakeDocumentFilePort implements DocumentFilePort {
 }
 
 Document _document() => Document(
-      name: 'マイタイムテーブル',
-      slotCategories: const [
-        SlotCategory(
-          id: 'perf',
-          name: '出演枠',
-          durationMinutes: 30,
-          isPerformanceSlot: true,
-        ),
-      ],
-    );
+  name: 'マイタイムテーブル',
+  slotCategories: const [
+    SlotCategory(
+      id: 'perf',
+      name: '出演枠',
+      durationMinutes: 30,
+      isPerformanceSlot: true,
+    ),
+  ],
+);
 
 Future<void> _selectMenuAction(WidgetTester tester, String label) async {
   await tester.tap(find.byIcon(Icons.menu));
@@ -48,21 +53,48 @@ Future<void> _selectMenuAction(WidgetTester tester, String label) async {
 }
 
 void main() {
-  testWidgets('export hands the document JSON to the file port',
-      (tester) async {
+  testWidgets('save file hands the document JSON to the file port', (
+    tester,
+  ) async {
     final port = _FakeDocumentFilePort();
     await pumpApp(tester, initialDocument: _document(), filePort: port);
 
-    await _selectMenuAction(tester, 'エクスポート');
+    await _selectMenuAction(tester, 'ファイルに保存');
 
-    expect(port.exportedFileName, 'マイタイムテーブル.json');
-    final decoded =
-        Document.fromJson(jsonDecode(port.exportedJson!) as Map<String, dynamic>);
+    expect(port.savedFileName, 'マイタイムテーブル.json');
+    expect(port.savedMimeType, 'application/json');
+    final decoded = Document.fromJson(
+      jsonDecode(port.savedContents!) as Map<String, dynamic>,
+    );
     expect(decoded, _document());
   });
 
-  testWidgets('import replaces the document after confirmation',
-      (tester) async {
+  testWidgets('export CSV hands a spreadsheet CSV to the file port', (
+    tester,
+  ) async {
+    final port = _FakeDocumentFilePort();
+    await pumpApp(tester, initialDocument: _document(), filePort: port);
+
+    await _selectMenuAction(tester, 'CSVエクスポート');
+
+    expect(port.savedFileName, 'マイタイムテーブル.csv');
+    expect(port.savedMimeType, 'text/csv');
+    expect(port.savedContents, startsWith('\uFEFF'));
+    expect(port.savedContents, contains('開始時刻,終了時刻,時間長,枠タイプ名,演者名'));
+  });
+
+  testWidgets('save file shows an error when writing fails', (tester) async {
+    final port = _FakeDocumentFilePort()..saveError = Exception('disk');
+    await pumpApp(tester, initialDocument: _document(), filePort: port);
+
+    await _selectMenuAction(tester, 'ファイルに保存');
+
+    expect(find.textContaining('ファイルを書き出せませんでした'), findsOneWidget);
+  });
+
+  testWidgets('import replaces the document after confirmation', (
+    tester,
+  ) async {
     final port = _FakeDocumentFilePort()
       ..importText = jsonEncode(Document.empty(name: '読み込んだ表').toJson());
     final container = await pumpApp(
@@ -71,12 +103,9 @@ void main() {
       filePort: port,
     );
 
-    await _selectMenuAction(tester, 'インポート');
+    await _selectMenuAction(tester, 'ファイルを読み込む');
 
-    expect(
-      find.textContaining('現在の内容を読み込んだファイルの内容で置き換えますか'),
-      findsOneWidget,
-    );
+    expect(find.textContaining('現在の内容を読み込んだファイルの内容で置き換えますか'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'OK'));
     await tester.pumpAndSettle();
 
@@ -94,7 +123,7 @@ void main() {
       filePort: port,
     );
 
-    await _selectMenuAction(tester, 'インポート');
+    await _selectMenuAction(tester, 'ファイルを読み込む');
 
     expect(find.textContaining('ファイルを読み込めませんでした'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'OK'));
@@ -102,8 +131,9 @@ void main() {
     expect(container.read(documentProvider).name, 'マイタイムテーブル');
   });
 
-  testWidgets('new resets to an empty document then opens the initial dialog',
-      (tester) async {
+  testWidgets('new resets to an empty document then opens the initial dialog', (
+    tester,
+  ) async {
     final container = await pumpApp(tester, initialDocument: _document());
 
     await _selectMenuAction(tester, '新規作成');
@@ -125,9 +155,7 @@ void main() {
       final container = await pumpApp(tester, initialDocument: _document());
       await tester.pump(); // Let the shortcut scope's autofocus take effect.
 
-      container
-          .read(documentEditorProvider.notifier)
-          .renameDocument('変更後の名前');
+      container.read(documentEditorProvider.notifier).renameDocument('変更後の名前');
       await tester.pump();
 
       await tester.sendKeyDownEvent(LogicalKeyboardKey.controlLeft);

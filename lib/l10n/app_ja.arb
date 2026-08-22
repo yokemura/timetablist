@@ -3,8 +3,9 @@
   "appTitle": "Timetablist",
   "defaultDocumentName": "タイムテーブル",
   "menuTooltip": "メニュー",
-  "menuExport": "エクスポート",
-  "menuImport": "インポート",
+  "menuExport": "ファイルに保存",
+  "menuExportCsv": "CSVエクスポート",
+  "menuImport": "ファイルを読み込む",
   "menuNew": "新規作成",
   "menuUndo": "取り消す",
   "menuRedo": "やり直す",
@@ -94,5 +95,12 @@
   "confirmSwapParticipant": "この枠にはすでに演者が割り当てられています。入れ替えますか？",
   "confirmClearDocument": "内容をすべてクリアして新規作成しますか？",
   "confirmImportReplace": "現在の内容を読み込んだファイルの内容で置き換えますか？（取り消しの履歴は消去されます）",
-  "errorImportFailed": "ファイルを読み込めませんでした。エクスポートしたJSONファイルかご確認ください。"
+  "errorImportFailed": "ファイルを読み込めませんでした。このアプリで保存したJSONファイルかご確認ください。",
+  "errorExportFailed": "ファイルを書き出せませんでした。",
+  "csvHeaderTimeline": "タイムライン名",
+  "csvHeaderStart": "開始時刻",
+  "csvHeaderEnd": "終了時刻",
+  "csvHeaderDuration": "時間長",
+  "csvHeaderSlotType": "枠タイプ名",
+  "csvHeaderPerformer": "演者名"
 }
