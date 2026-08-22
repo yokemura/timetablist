@@ -131,10 +131,16 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
 
     Future<void> applyDurationChange(int minutes) async {
       if (minutes == category.durationMinutes) return;
-      final choice = await showSlotDurationAdjustmentDialog(context);
-      if (choice == null || !context.mounted) return;
+      final usedOnlyHere = editor.slotCategoryUsageCount(category.id) == 1;
 
       try {
+        if (usedOnlyHere) {
+          editor.updateSlotCategoryDuration(category.id, minutes);
+          return;
+        }
+
+        final choice = await showSlotDurationAdjustmentDialog(context);
+        if (choice == null || !context.mounted) return;
         switch (choice) {
           case SlotDurationAdjustment.thisSlotOnly:
             editor.setSlotDurationForSlotOnly(

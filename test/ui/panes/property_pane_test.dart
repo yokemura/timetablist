@@ -90,4 +90,46 @@ void main() {
       const Selection.document(),
     );
   });
+
+  Future<void> _commitSlotDuration(WidgetTester tester, String next) async {
+    await tester.enterText(find.widgetWithText(TextField, '時間長（分）'), next);
+    await tester.testTextInput.receiveAction(TextInputAction.done);
+    await tester.pumpAndSettle();
+  }
+
+  testWidgets('changing duration of a shared slot type asks this vs all',
+      (tester) async {
+    final container = await pumpApp(tester, initialDocument: sampleDocument());
+    container.read(selectionProvider.notifier).select(
+          const Selection.slot(timelineId: 'day1', slotId: 's1'),
+        );
+    await tester.pumpAndSettle();
+
+    await _commitSlotDuration(tester, '45');
+
+    expect(find.text('この枠のみを変更'), findsOneWidget);
+    expect(find.text('すべての同じタイプの枠を変更'), findsOneWidget);
+    expect(
+      container.read(documentProvider).slotCategoryById('perf')!.durationMinutes,
+      30,
+    );
+  });
+
+  testWidgets('changing duration of a singly used slot type updates it directly',
+      (tester) async {
+    final container = await pumpApp(tester, initialDocument: sampleDocument());
+    container.read(selectionProvider.notifier).select(
+          const Selection.slot(timelineId: 'day1', slotId: 's2'),
+        );
+    await tester.pumpAndSettle();
+
+    await _commitSlotDuration(tester, '15');
+
+    expect(find.text('この枠のみを変更'), findsNothing);
+    expect(find.text('すべての同じタイプの枠を変更'), findsNothing);
+    expect(
+      container.read(documentProvider).slotCategoryById('gap')!.durationMinutes,
+      15,
+    );
+  });
 }
