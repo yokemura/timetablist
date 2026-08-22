@@ -39,4 +39,7 @@ Future<void> loadDocumentFromFile(
   }
 
   ref.read(documentEditorProvider.notifier).replaceDocument(imported);
+  if (imported.timelines.isNotEmpty) {
+    ref.read(timelinePaneScrollCueProvider.notifier).request();
+  }
 }

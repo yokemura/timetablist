@@ -3,3 +3,4 @@ export 'document_editor_state.dart';
 export 'document_file.dart';
 export 'document_store.dart';
 export 'selection.dart';
+export 'timeline_pane_scroll.dart';

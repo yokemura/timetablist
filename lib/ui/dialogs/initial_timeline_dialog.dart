@@ -82,15 +82,15 @@ class _InitialTimelineDialogState extends ConsumerState<InitialTimelineDialog> {
     final sequence = _draft.slotSequence!;
 
     String defaultNameOf(InitialSlotKind kind) => switch (kind) {
-          InitialSlotKind.venuePrep => s.defaultCategoryVenuePrep,
-          InitialSlotKind.rehearsal => s.defaultCategoryRehearsal,
-          InitialSlotKind.rehearsalChangeover =>
-            s.defaultCategoryRehearsalChangeover,
-          InitialSlotKind.doors => s.defaultCategoryDoors,
-          InitialSlotKind.performance => s.defaultCategoryPerformance,
-          InitialSlotKind.changeover => s.defaultCategoryChangeover,
-          InitialSlotKind.teardown => s.defaultCategoryTeardown,
-        };
+      InitialSlotKind.venuePrep => s.defaultCategoryVenuePrep,
+      InitialSlotKind.rehearsal => s.defaultCategoryRehearsal,
+      InitialSlotKind.rehearsalChangeover =>
+        s.defaultCategoryRehearsalChangeover,
+      InitialSlotKind.doors => s.defaultCategoryDoors,
+      InitialSlotKind.performance => s.defaultCategoryPerformance,
+      InitialSlotKind.changeover => s.defaultCategoryChangeover,
+      InitialSlotKind.teardown => s.defaultCategoryTeardown,
+    };
     bool isPerformanceOf(InitialSlotKind kind) =>
         kind == InitialSlotKind.rehearsal ||
         kind == InitialSlotKind.performance;
@@ -127,6 +127,7 @@ class _InitialTimelineDialogState extends ConsumerState<InitialTimelineDialog> {
           timeline: timeline,
           newCategories: newCategories,
         );
+    ref.read(timelinePaneScrollCueProvider.notifier).request();
     Navigator.of(context).pop();
   }
 
@@ -208,8 +209,7 @@ class _InitialTimelineDialogState extends ConsumerState<InitialTimelineDialog> {
                     controller: _rehearsalDurationController,
                     label: s.fieldRehearsalDuration,
                     keyboardType: TextInputType.number,
-                    errorText:
-                        _minutesError(s, _draft.rehearsalDurationText),
+                    errorText: _minutesError(s, _draft.rehearsalDurationText),
                     onChanged: (text) =>
                         _update(_draft.copyWith(rehearsalDurationText: text)),
                   ),
@@ -226,8 +226,10 @@ class _InitialTimelineDialogState extends ConsumerState<InitialTimelineDialog> {
                       controller: _rehearsalChangeoverController,
                       label: s.fieldRehearsalChangeoverDuration,
                       keyboardType: TextInputType.number,
-                      errorText:
-                          _minutesError(s, _draft.rehearsalChangeoverText),
+                      errorText: _minutesError(
+                        s,
+                        _draft.rehearsalChangeoverText,
+                      ),
                       onChanged: (text) => _update(
                         _draft.copyWith(rehearsalChangeoverText: text),
                       ),
@@ -289,7 +291,11 @@ class _InitialTimelineDialogState extends ConsumerState<InitialTimelineDialog> {
                     onChanged: (text) =>
                         _update(_draft.copyWith(changeoverText: text)),
                   ),
-                _derivedRow(theme, s.fieldShowEndTime, _timeLabel(times.showEnd)),
+                _derivedRow(
+                  theme,
+                  s.fieldShowEndTime,
+                  _timeLabel(times.showEnd),
+                ),
                 _checkbox(
                   key: const Key('initial.hasTeardown'),
                   value: _draft.hasTeardown,

@@ -28,6 +28,7 @@ class TimelinePane extends ConsumerStatefulWidget {
 class _TimelinePaneState extends ConsumerState<TimelinePane> {
   final _vertical = ScrollController();
   final _horizontal = ScrollController();
+  TimeLayout? _layout;
 
   @override
   void dispose() {
@@ -37,6 +38,21 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
   }
 
   DocumentEditor get _editor => ref.read(documentEditorProvider.notifier);
+
+  void _scrollToEarliestStart() {
+    final layout = _layout;
+    if (layout == null || !_vertical.hasClients) return;
+    final timelines = ref.read(documentProvider).timelines;
+    if (timelines.isEmpty) return;
+
+    var earliest = timelines.first.startTime;
+    for (final timeline in timelines.skip(1)) {
+      if (timeline.startTime < earliest) earliest = timeline.startTime;
+    }
+    final offset = TimelineLane.headerHeight + layout.yOf(earliest);
+    final max = _vertical.position.maxScrollExtent;
+    _vertical.jumpTo(offset.clamp(0.0, max));
+  }
 
   Future<void> _handleSlotCategoryDrop(
     Timeline timeline,
@@ -136,6 +152,13 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(timelinePaneScrollCueProvider, (previous, next) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _scrollToEarliestStart();
+      });
+    });
+
     final s = S.of(context);
     final theme = Theme.of(context);
     final document = ref.watch(documentProvider);
@@ -155,6 +178,7 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
       document,
       measureSlot: measurer.heightOf,
     );
+    _layout = layout;
 
     return ColoredBox(
       color: Theme.of(context).colorScheme.surfaceContainerLow,
