@@ -241,6 +241,11 @@ class SJa extends S {
   }
 
   @override
+  String placedSlotLabel(String start, String end, String name, int minutes) {
+    return '$start〜$end $name($minutes分)';
+  }
+
+  @override
   String get confirmDeleteTimeline => 'このタイムラインを削除しますか？';
 
   @override

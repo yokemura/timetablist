@@ -19,9 +19,7 @@ Document timelineDocument() {
         isPerformanceSlot: true,
       ),
     ],
-    participants: const [
-      Participant(id: 'alice', name: 'Alice'),
-    ],
+    participants: const [Participant(id: 'alice', name: 'Alice')],
     timelines: [
       Timeline(
         id: 'day1',
@@ -58,8 +56,9 @@ void main() {
     expect(find.byType(TimelineLane), findsNothing);
   });
 
-  testWidgets('creating a timeline with no slot types shows an error',
-      (tester) async {
+  testWidgets('creating a timeline with no slot types shows an error', (
+    tester,
+  ) async {
     await pumpApp(tester);
 
     await tester.tap(find.text('タイムライン作成'));
@@ -69,8 +68,9 @@ void main() {
     expect(find.byType(TimelineLane), findsNothing);
   });
 
-  testWidgets('creates a timeline with the selected initial slot type',
-      (tester) async {
+  testWidgets('creates a timeline with the selected initial slot type', (
+    tester,
+  ) async {
     final container = await pumpApp(
       tester,
       initialDocument: documentWithCategoryOnly(),
@@ -105,10 +105,7 @@ void main() {
         ),
       ],
       participants: const [
-        Participant(
-          id: 'long',
-          name: 'とてもとても長い名前の演者グループ・アンサンブル・オーケストラ合唱団',
-        ),
+        Participant(id: 'long', name: 'とてもとても長い名前の演者グループ・アンサンブル・オーケストラ合唱団'),
       ],
       timelines: [
         Timeline(
@@ -129,8 +126,9 @@ void main() {
     expect(tester.takeException(), isNull);
   });
 
-  testWidgets('clicking a slot or timeline name updates the selection',
-      (tester) async {
+  testWidgets('clicking a slot or timeline name updates the selection', (
+    tester,
+  ) async {
     final container = await pumpApp(
       tester,
       initialDocument: timelineDocument(),
@@ -149,5 +147,6 @@ void main() {
       container.read(effectiveSelectionProvider),
       const Selection.slot(timelineId: 'day1', slotId: 's1'),
     );
+    expect(find.text('0:00〜0:30 出演枠(30分)'), findsOneWidget);
   });
 }

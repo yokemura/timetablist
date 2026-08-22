@@ -244,6 +244,11 @@ class SEn extends S {
   }
 
   @override
+  String placedSlotLabel(String start, String end, String name, int minutes) {
+    return '$start-$end $name ($minutes min)';
+  }
+
+  @override
   String get confirmDeleteTimeline => 'Delete this timeline?';
 
   @override

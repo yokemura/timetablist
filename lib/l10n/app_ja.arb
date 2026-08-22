@@ -74,6 +74,7 @@
   "actionDuplicate": "複製",
   "actionOk": "OK",
   "categoryNameWithDuration": "{name}({minutes}分)",
+  "placedSlotLabel": "{start}〜{end} {name}({minutes}分)",
   "confirmDeleteTimeline": "このタイムラインを削除しますか？",
   "confirmDeleteSlotCategory": "この枠タイプを削除しますか？使用中の枠も削除されます。",
   "confirmDeleteSlot": "この枠を削除しますか？",

@@ -541,6 +541,12 @@ abstract class S {
   /// **'{name} ({minutes} min)'**
   String categoryNameWithDuration(String name, int minutes);
 
+  /// Placed slot caption: start–end, type name, and duration.
+  ///
+  /// In en, this message translates to:
+  /// **'{start}-{end} {name} ({minutes} min)'**
+  String placedSlotLabel(String start, String end, String name, int minutes);
+
   /// Confirmation dialog before deleting a timeline.
   ///
   /// In en, this message translates to:

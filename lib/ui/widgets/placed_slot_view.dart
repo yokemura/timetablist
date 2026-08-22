@@ -7,6 +7,14 @@ import '../timeline/time_layout.dart';
 import 'drag_ghosts.dart';
 import 'placed_participant_view.dart';
 
+/// e.g. `16:00〜17:00 転換(20分)` (Japanese) / `16:00-17:00 Changeover (20 min)`.
+String placedSlotTitle(PlacedSlot placed, S s) => s.placedSlotLabel(
+  placed.startTime.toDisplayString(),
+  placed.endTime.toDisplayString(),
+  placed.category.name,
+  placed.durationMinutes,
+);
+
 /// A slot on a timeline. Square corners and no outer padding so it does not
 /// look draggable; a participant inside has padding and rounded corners.
 ///
@@ -33,8 +41,7 @@ class PlacedSlotView extends StatelessWidget {
   Widget build(BuildContext context) {
     if (placed.category.isPerformanceSlot && onParticipantDropped != null) {
       return DragTarget<ParticipantDragData>(
-        onAcceptWithDetails: (details) =>
-            onParticipantDropped!(details.data),
+        onAcceptWithDetails: (details) => onParticipantDropped!(details.data),
         builder: (context, candidates, rejected) =>
             _buildSlot(context, highlighted: candidates.isNotEmpty),
       );
@@ -86,9 +93,7 @@ class PlacedSlotView extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
               child: Text(
-                // e.g. "13:00 転換(30分)"
-                '${placed.startTime.toDisplayString()} '
-                '${S.of(context).categoryNameWithDuration(placed.category.name, placed.durationMinutes)}',
+                placedSlotTitle(placed, S.of(context)),
                 style: theme.textTheme.labelSmall,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,

@@ -27,7 +27,7 @@ class TimeLayout {
       assert(_minutes.length >= 2);
 
   /// Pixels used for one minute when nothing is stretching the scale.
-  static const defaultPixelsPerMinute = 1.0;
+  static const defaultPixelsPerMinute = 1.5;
 
   /// Floor height of a slot, even when its duration is very short.
   static const minSlotHeight = 40.0;
@@ -47,10 +47,7 @@ class TimeLayout {
   factory TimeLayout.empty() => TimeLayout.fromDemands(const []);
 
   factory TimeLayout.fromDemands(Iterable<TimeSpanDemand> demands) {
-    final points = <int>{
-      0,
-      TimelineLimits.maxMinutesFromMidnight,
-    };
+    final points = <int>{0, TimelineLimits.maxMinutesFromMidnight};
     for (final demand in demands) {
       points.add(demand.start.minutesFromMidnight);
       points.add(demand.end.minutesFromMidnight);
@@ -90,12 +87,13 @@ class TimeLayout {
     Document document, {
     double Function(PlacedSlot placed)? measureSlot,
   }) {
-    final measure = measureSlot ??
+    final measure =
+        measureSlot ??
         (placed) => slotMinHeight(
-              durationMinutes: placed.durationMinutes,
-              hasParticipant: placed.participant != null,
-              hasWarning: false,
-            );
+          durationMinutes: placed.durationMinutes,
+          hasParticipant: placed.participant != null,
+          hasWarning: false,
+        );
     return TimeLayout.fromDemands([
       for (final timeline in document.timelines)
         for (final placed in document.placedSlotsOf(timeline))
@@ -176,13 +174,7 @@ class TimeLayout {
     return low;
   }
 
-  static double _lerp(
-    num x0,
-    num x1,
-    double y0,
-    double y1,
-    num x,
-  ) {
+  static double _lerp(num x0, num x1, double y0, double y1, num x) {
     if (x1 == x0) return y0;
     final t = (x - x0) / (x1 - x0);
     return y0 + (y1 - y0) * t;

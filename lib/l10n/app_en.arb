@@ -319,6 +319,24 @@
       }
     }
   },
+  "placedSlotLabel": "{start}-{end} {name} ({minutes} min)",
+  "@placedSlotLabel": {
+    "description": "Placed slot caption: start–end, type name, and duration.",
+    "placeholders": {
+      "start": {
+        "type": "String"
+      },
+      "end": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
   "confirmDeleteTimeline": "Delete this timeline?",
   "@confirmDeleteTimeline": {
     "description": "Confirmation dialog before deleting a timeline."

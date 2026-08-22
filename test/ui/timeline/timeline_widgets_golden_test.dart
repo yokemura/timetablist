@@ -69,7 +69,7 @@ void main() {
         GoldenTestScenario(
           name: 'empty performance slot',
           child: SizedBox(
-            width: 168,
+            width: TimelineLane.width,
             height: 80,
             child: PlacedSlotView(
               placed: _placed(
@@ -86,7 +86,7 @@ void main() {
         GoldenTestScenario(
           name: 'slot with participant',
           child: SizedBox(
-            width: 168,
+            width: TimelineLane.width,
             height: 80,
             child: PlacedSlotView(
               placed: _placed(
@@ -184,7 +184,11 @@ void main() {
             name: 'two lanes share a time scale',
             child: SizedBox(
               width: TimeRuler.width + TimelineLane.width * 2,
-              height: TimelineLane.headerHeight + 120,
+              height:
+                  TimelineLane.headerHeight +
+                  layout.yOf(
+                    TimelineTime.fromHoursAndMinutes(hour: 1, minute: 0),
+                  ),
               child: ClipRect(
                 child: OverflowBox(
                   maxHeight: double.infinity,
@@ -257,18 +261,9 @@ void main() {
         isPerformanceSlot: true,
       );
       const participants = [
-        Participant(
-          id: 'p1',
-          name: 'The Magnificent Riverside Jazz Orchestra',
-        ),
-        Participant(
-          id: 'p2',
-          name: 'Downtown Experimental Music Collective',
-        ),
-        Participant(
-          id: 'p3',
-          name: 'Northern Lights Chamber Players Guild',
-        ),
+        Participant(id: 'p1', name: 'The Magnificent Riverside Jazz Orchestra'),
+        Participant(id: 'p2', name: 'Downtown Experimental Music Collective'),
+        Participant(id: 'p3', name: 'Northern Lights Chamber Players Guild'),
       ];
 
       // Long names wrap to multiple lines; CI fonts need more height than

@@ -33,19 +33,23 @@ class SlotHeightMeasurer {
   static const _subPixelSlack = 1.0;
 
   double heightOf(PlacedSlot placed) {
-    var content = _titleVerticalPadding * 2 +
+    var content =
+        _titleVerticalPadding * 2 +
         _textHeight(
-          '0:00',
+          '${placed.startTime.toDisplayString()}〜'
+          '${placed.endTime.toDisplayString()} ${placed.category.name}',
           titleStyle,
           slotContentWidth - _titleHorizontalPadding * 2,
         );
 
     final participant = placed.participant;
     if (participant != null) {
-      final innerWidth = slotContentWidth -
+      final innerWidth =
+          slotContentWidth -
           TimeLayout.participantPadding * 2 -
           _participantInnerHorizontal * 2;
-      var block = _participantInnerVertical * 2 +
+      var block =
+          _participantInnerVertical * 2 +
           _textHeight(participant.name, nameStyle, innerWidth);
       content += TimeLayout.participantPadding * 2 + block;
     }

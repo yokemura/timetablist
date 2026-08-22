@@ -35,7 +35,7 @@ void main() {
 
     test('the denser of two overlapping lanes wins; same time → same Y', () {
       // Lane A: 10 minutes that need 40px (4 px/min).
-      // Lane B: 60 minutes that need 60px (1 px/min).
+      // Lane B: 60 minutes that need 60px (1 px/min), below the default.
       final ten = TimelineTime.parse('10:00');
       final tenTen = TimelineTime.parse('10:10');
       final eleven = TimelineTime.parse('11:00');
@@ -46,8 +46,11 @@ void main() {
 
       expect(layout.yOf(ten), layout.yOf(TimelineTime.parse('10:00')));
       expect(layout.heightOf(ten, tenTen), 40);
-      // The remaining 50 minutes of B stay at 1 px/min, so B is 40+50.
-      expect(layout.heightOf(ten, eleven), 90);
+      // The remaining 50 minutes use the default density, so B is 40+75.
+      expect(
+        layout.heightOf(ten, eleven),
+        40 + 50 * TimeLayout.defaultPixelsPerMinute,
+      );
     });
 
     test('timeOf is the inverse of yOf at hour marks', () {

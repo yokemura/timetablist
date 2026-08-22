@@ -24,7 +24,7 @@ class TimelineLane extends StatefulWidget {
     super.key,
   });
 
-  static const width = 168.0;
+  static const width = 336.0;
 
   /// Space reserved above the 0:00 line so a timeline starting at 0:00 still
   /// has room for its name label (drawn directly above its first slot).
@@ -40,10 +40,9 @@ class TimelineLane extends StatefulWidget {
   final TimeLayout layout;
   final Selection selection;
   final ValueChanged<Selection> onSelect;
-  final void Function(SlotDrop drop, SlotCategory category)?
-      onSlotCategoryDrop;
+  final void Function(SlotDrop drop, SlotCategory category)? onSlotCategoryDrop;
   final void Function(PlacedSlot target, ParticipantDragData data)?
-      onParticipantDrop;
+  onParticipantDrop;
 
   @override
   State<TimelineLane> createState() => _TimelineLaneState();
@@ -117,8 +116,7 @@ class _TimelineLaneState extends State<TimelineLane> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 SizedBox(
-                  height:
-                      TimelineLane.headerHeight - TimelineLane.slotPadding,
+                  height: TimelineLane.headerHeight - TimelineLane.slotPadding,
                   child: InkWell(
                     onTap: () => widget.onSelect(
                       Selection.timeline(timelineId: timeline.id),
@@ -155,22 +153,19 @@ class _TimelineLaneState extends State<TimelineLane> {
                     timelineId: timeline.id,
                     slotId: placed.slot.id,
                   ),
-              timelineId:
-                  widget.onParticipantDrop != null ? timeline.id : null,
+              timelineId: widget.onParticipantDrop != null ? timeline.id : null,
               onParticipantDropped: widget.onParticipantDrop == null
                   ? null
                   : (data) => widget.onParticipantDrop!(placed, data),
               onTap: () => widget.onSelect(
-                Selection.slot(
-                  timelineId: timeline.id,
-                  slotId: placed.slot.id,
-                ),
+                Selection.slot(timelineId: timeline.id, slotId: placed.slot.id),
               ),
             ),
           ),
         if (_pendingDrop != null)
           Positioned(
-            top: _laneY(_pendingDrop!.barTime) -
+            top:
+                _laneY(_pendingDrop!.barTime) -
                 TimelineLane.insertionBarThickness / 2,
             height: TimelineLane.insertionBarThickness,
             left: TimelineLane.slotPadding,
@@ -185,8 +180,7 @@ class _TimelineLaneState extends State<TimelineLane> {
       // `stack` variable (which would make the DragTarget build itself).
       final child = stack;
       stack = DragTarget<SlotCategoryDragData>(
-        onMove: (details) =>
-            setState(() => _pendingDrop = _dropFor(details)),
+        onMove: (details) => setState(() => _pendingDrop = _dropFor(details)),
         onLeave: (_) => setState(() => _pendingDrop = null),
         onAcceptWithDetails: (details) {
           final drop = _dropFor(details);
