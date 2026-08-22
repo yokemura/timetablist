@@ -56,6 +56,56 @@ void main() {
     expect(find.text('出演枠'), findsWidgets);
     expect(find.text('演者'), findsWidgets);
     expect(find.text('Alice'), findsWidgets);
+    expect(find.text('枠タイプ情報'), findsNothing);
+    expect(find.text('演者情報'), findsNothing);
+    expect(find.widgetWithText(FilledButton, 'OK'), findsNothing);
+    final checkbox = tester.widget<Checkbox>(find.byType(Checkbox));
+    expect(checkbox.value, isTrue);
+    expect(checkbox.onChanged, isNull);
+  });
+
+  testWidgets('changing the slot category dropdown applies immediately',
+      (tester) async {
+    final container = await pumpApp(tester, initialDocument: sampleDocument());
+    container.read(selectionProvider.notifier).select(
+          const Selection.slot(timelineId: 'day1', slotId: 's1'),
+        );
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byType(DropdownButtonFormField<String>));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('転換').last);
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('出演枠属性のない枠タイプに変更しますか？割り当て済みの演者は未割り当てになります。'),
+      findsOneWidget,
+    );
+    await tester.tap(find.text('OK'));
+    await tester.pumpAndSettle();
+
+    final slot = container
+        .read(documentProvider)
+        .timelineById('day1')!
+        .slots
+        .firstWhere((candidate) => candidate.id == 's1');
+    expect(slot.categoryId, 'gap');
+    expect(slot.participantId, isNull);
+  });
+
+  testWidgets('shows a disabled performance checkbox for a slot category',
+      (tester) async {
+    final container = await pumpApp(tester, initialDocument: sampleDocument());
+    container.read(selectionProvider.notifier).select(
+          const Selection.slotCategory(slotCategoryId: 'gap'),
+        );
+
+    await tester.pumpAndSettle();
+
+    expect(find.byType(Checkbox), findsOneWidget);
+    final checkbox = tester.widget<Checkbox>(find.byType(Checkbox));
+    expect(checkbox.value, isFalse);
+    expect(checkbox.onChanged, isNull);
   });
 
   testWidgets('renaming the document commits through the editor',

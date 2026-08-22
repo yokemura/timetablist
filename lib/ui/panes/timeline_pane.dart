@@ -148,7 +148,8 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
       nameStyle: defaultStyle.merge(
         theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
       ),
-      slotContentWidth: TimelineLane.width - TimelineLane.slotPadding * 2,
+      slotContentWidth:
+          TimelineLane.width - TimelineLane.slotHorizontalPadding * 2,
     );
     final layout = TimeLayout.fromDocument(
       document,
@@ -218,7 +219,8 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
                                 onDrop: _handleEmptyAreaDrop,
                                 child: SizedBox(
                                   width: TimelineLane.width,
-                                  height: TimelineLane.headerHeight +
+                                  height:
+                                      TimelineLane.headerHeight +
                                       layout.totalHeight,
                                 ),
                               ),
@@ -231,7 +233,7 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
           ),
           Padding(
             padding: const EdgeInsets.all(8),
-            child: FilledButton.tonalIcon(
+            child: FilledButton.icon(
               onPressed: () => showTimelineCreateDialog(context, ref),
               icon: const Icon(Icons.add),
               label: Text(s.createTimelineButton),
@@ -286,7 +288,8 @@ class _NewTimelineDropAreaState extends State<_NewTimelineDropArea> {
           widget.child,
           if (_pendingTime != null)
             Positioned(
-              top: TimelineLane.headerHeight +
+              top:
+                  TimelineLane.headerHeight +
                   widget.layout.yOf(_pendingTime!) -
                   TimelineLane.insertionBarThickness / 2,
               height: TimelineLane.insertionBarThickness,

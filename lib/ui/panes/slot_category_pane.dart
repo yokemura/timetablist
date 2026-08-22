@@ -56,8 +56,16 @@ class SlotCategoryPane extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8),
-            child: FilledButton.tonalIcon(
-              onPressed: () => showSlotCategoryCreateDialog(context),
+            child: FilledButton.icon(
+              onPressed: () async {
+                final result = await showSlotCategoryCreateDialog(context);
+                if (result == null || !context.mounted) return;
+                ref.read(documentEditorProvider.notifier).createSlotCategory(
+                      name: result.name,
+                      durationMinutes: result.durationMinutes,
+                      isPerformanceSlot: result.isPerformanceSlot,
+                    );
+              },
               icon: const Icon(Icons.add),
               label: Text(s.createSlotCategoryButton),
             ),

@@ -2,6 +2,7 @@ import 'package:alchemist/alchemist.dart';
 import 'package:flutter/material.dart';
 import 'package:timetablist/l10n/generated/s.dart';
 import 'package:timetablist/models/models.dart';
+import 'package:timetablist/ui/app_theme.dart';
 import 'package:timetablist/ui/widgets/participant_list_item.dart';
 import 'package:timetablist/ui/widgets/slot_category_list_item.dart';
 
@@ -17,9 +18,7 @@ void main() {
           localizationsDelegates: S.localizationsDelegates,
           supportedLocales: S.supportedLocales,
           locale: const Locale('en'),
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-          ),
+          theme: appTheme,
           home: Scaffold(body: Center(child: widget)),
         ),
       );

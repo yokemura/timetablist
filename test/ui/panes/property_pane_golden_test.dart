@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timetablist/l10n/generated/s.dart';
 import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
+import 'package:timetablist/ui/app_theme.dart';
 import 'package:timetablist/ui/panes/property/document_property_view.dart';
 import 'package:timetablist/ui/panes/property/participant_property_view.dart';
 import 'package:timetablist/ui/panes/property/slot_category_property_view.dart';
@@ -73,9 +74,7 @@ void main() {
           localizationsDelegates: S.localizationsDelegates,
           supportedLocales: S.supportedLocales,
           locale: const Locale('en'),
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-          ),
+          theme: appTheme,
           home: Scaffold(body: Center(child: widget)),
         ),
       );
@@ -104,7 +103,7 @@ void main() {
           name: 'slot with participant',
           child: _scoped(
             const SlotPropertyView(timelineId: 'day1', slotId: 's1'),
-            height: 640,
+            height: 420,
           ),
         ),
         GoldenTestScenario(

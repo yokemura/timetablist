@@ -6,6 +6,7 @@ import 'package:timetablist/l10n/generated/s.dart';
 import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
 import 'package:timetablist/ui/app_shell.dart';
+import 'package:timetablist/ui/app_theme.dart';
 import 'package:timetablist/ui/dialogs/participant_create_dialog.dart';
 import 'package:timetablist/ui/dialogs/slot_category_create_dialog.dart';
 import 'package:timetablist/ui/dialogs/timeline_create_dialog.dart';
@@ -57,9 +58,7 @@ Future<void> _pumpApp(
         localizationsDelegates: S.localizationsDelegates,
         supportedLocales: S.supportedLocales,
         locale: const Locale('en'),
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        ),
+        theme: appTheme,
         home: Scaffold(body: Center(child: widget)),
       ),
     ),
@@ -78,27 +77,21 @@ void main() {
           name: 'slot category create dialog',
           child: const SizedBox(
             width: 400,
-            child: ExcludeFocus(
-              child: SlotCategoryCreateDialog(),
-            ),
+            child: ExcludeFocus(child: SlotCategoryCreateDialog()),
           ),
         ),
         GoldenTestScenario(
           name: 'participant create dialog',
           child: const SizedBox(
             width: 400,
-            child: ExcludeFocus(
-              child: ParticipantCreateDialog(),
-            ),
+            child: ExcludeFocus(child: ParticipantCreateDialog()),
           ),
         ),
         GoldenTestScenario(
           name: 'timeline create dialog',
           child: const SizedBox(
             width: 400,
-            child: ExcludeFocus(
-              child: TimelineCreateDialog(),
-            ),
+            child: ExcludeFocus(child: TimelineCreateDialog()),
           ),
         ),
       ],

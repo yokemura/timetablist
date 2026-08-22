@@ -24,10 +24,10 @@ class SlotCategoryDragGhost extends StatelessWidget {
     final isPerformance = category.isPerformanceSlot;
     final fill = isPerformance
         ? scheme.primaryContainer
-        : scheme.surfaceContainerHighest;
+        : scheme.secondaryContainer;
     final titleColor = isPerformance
         ? scheme.onPrimaryContainer
-        : scheme.onSurface;
+        : scheme.onSecondaryContainer;
     return Material(
       type: MaterialType.transparency,
       child: Opacity(

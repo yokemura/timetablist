@@ -59,7 +59,7 @@ class ParticipantPane extends ConsumerWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(8),
-            child: FilledButton.tonalIcon(
+            child: FilledButton.icon(
               onPressed: () => showParticipantCreateDialog(context),
               icon: const Icon(Icons.add),
               label: Text(s.createParticipantButton),

@@ -80,10 +80,8 @@ class PlacedSlotView extends StatelessWidget {
       fill = scheme.tertiaryContainer;
     } else if (isPerformance) {
       fill = scheme.primaryContainer;
-    } else if (selected) {
-      fill = scheme.secondaryContainer;
     } else {
-      fill = scheme.surfaceContainerHighest;
+      fill = scheme.secondaryContainer;
     }
 
     final Color titleColor;
@@ -91,16 +89,15 @@ class PlacedSlotView extends StatelessWidget {
       titleColor = scheme.onTertiaryContainer;
     } else if (isPerformance) {
       titleColor = scheme.onPrimaryContainer;
-    } else if (selected) {
-      titleColor = scheme.onSecondaryContainer;
     } else {
-      titleColor = scheme.onSurface;
+      titleColor = scheme.onSecondaryContainer;
     }
 
-    final borderColor = selected && !highlighted
-        ? (isPerformance ? scheme.primary : scheme.outlineVariant)
+    final selectedOutline = selected && !highlighted;
+    final borderColor = selectedOutline
+        ? scheme.primary
         : scheme.outlineVariant;
-    final borderWidth = selected && isPerformance && !highlighted ? 2.0 : 1.0;
+    final borderWidth = selectedOutline ? 2.0 : 1.0;
 
     return Material(
       color: fill,

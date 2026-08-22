@@ -47,8 +47,8 @@
 
 # カラースキーム
 
-- カラーは Material Design に基づいて決める
-- 具体的な色指定は仕様としては定義しない（実装時に調整）
+- カラーは Material Design の ColorScheme 役割に基づいて決める
+- ブランド色は ColorScheme の各役割へ割り当てる（実装は `lib/ui/app_theme.dart`）
 
 # 参考
 

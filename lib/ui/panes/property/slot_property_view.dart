@@ -5,9 +5,8 @@ import '../../../l10n/generated/s.dart';
 import '../../../models/models.dart';
 import '../../../state/state.dart';
 import '../../dialogs/app_dialogs.dart';
-import '../../timeline/timeline_draft.dart';
+import '../../dialogs/slot_category_create_dialog.dart';
 import '../../widgets/commit_int_field.dart';
-import '../../widgets/commit_text_field.dart';
 import '../../widgets/slot_category_picker.dart';
 import 'property_scaffold.dart';
 
@@ -26,9 +25,6 @@ class SlotPropertyView extends ConsumerStatefulWidget {
 }
 
 class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
-  CategoryDraft? _categoryDraft;
-  String? _pendingCategoryId;
-
   @override
   Widget build(BuildContext context) {
     final s = S.of(context);
@@ -47,82 +43,50 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
     final resolvedSlot = slot;
 
     final category = document.slotCategoryById(resolvedSlot.categoryId)!;
-    final placed = document.placedSlotsOf(timeline).firstWhere(
-          (candidate) => candidate.slot.id == widget.slotId,
-        );
-    final participant = placed.participant;
     final editor = ref.read(documentEditorProvider.notifier);
 
-    _categoryDraft ??= CategoryDraft(
-      existing: category,
-      isPerformanceSlot: category.isPerformanceSlot,
-    );
-    _pendingCategoryId ??= category.id;
-
-    final categoryDraft = _categoryDraft!;
-    final canApplyCategory = categoryDraft.isNew
-        ? categoryDraft.name.isNotEmpty &&
-            categoryDraft.durationMinutes != null &&
-            !document.isSlotCategoryNameTaken(categoryDraft.name)
-        : _pendingCategoryId != category.id;
-
-    Future<void> applyCategoryChange() async {
-      if (categoryDraft.isNew) {
-        final duration = categoryDraft.durationMinutes;
-        if (duration == null) return;
-        final newCategory = SlotCategory(
-          id: generateEntityId(),
-          name: categoryDraft.name,
-          durationMinutes: duration,
-          isPerformanceSlot: categoryDraft.isPerformanceSlot,
-        );
-        if (category.isPerformanceSlot &&
-            !newCategory.isPerformanceSlot &&
-            resolvedSlot.participantId != null) {
-          final confirmed = await showRemovePerformanceAttributeDialog(context);
-          if (confirmed != true || !context.mounted) return;
-        }
-        try {
-          editor.changeSlotCategoryWithNew(
-            timelineId: widget.timelineId,
-            slotId: widget.slotId,
-            newCategory: newCategory,
-          );
-          setState(() {
-            _categoryDraft = CategoryDraft(
-              existing: newCategory,
-              isPerformanceSlot: newCategory.isPerformanceSlot,
-            );
-            _pendingCategoryId = newCategory.id;
-          });
-        } on ArgumentError catch (error) {
-          if (!context.mounted) return;
-          await showErrorDialog(context, editorErrorMessage(s, error));
-        }
-        return;
-      }
-
-      final nextCategoryId = _pendingCategoryId!;
-      if (nextCategoryId == category.id) return;
-      final nextCategory = document.slotCategoryById(nextCategoryId)!;
+    Future<bool> confirmIfRemovingPerformance(SlotCategory nextCategory) async {
       if (category.isPerformanceSlot &&
           !nextCategory.isPerformanceSlot &&
           resolvedSlot.participantId != null) {
         final confirmed = await showRemovePerformanceAttributeDialog(context);
-        if (confirmed != true || !context.mounted) return;
+        return confirmed == true && context.mounted;
       }
+      return true;
+    }
+
+    Future<void> applyExistingCategory(String categoryId) async {
+      if (categoryId == category.id) return;
+      final nextCategory = document.slotCategoryById(categoryId)!;
+      if (!await confirmIfRemovingPerformance(nextCategory)) return;
       try {
         editor.changeSlotCategory(
           timelineId: widget.timelineId,
           slotId: widget.slotId,
-          categoryId: nextCategoryId,
+          categoryId: categoryId,
         );
-        setState(() {
-          _categoryDraft = CategoryDraft(
-            existing: nextCategory,
-            isPerformanceSlot: nextCategory.isPerformanceSlot,
-          );
-        });
+      } on ArgumentError catch (error) {
+        if (!context.mounted) return;
+        await showErrorDialog(context, editorErrorMessage(s, error));
+      }
+    }
+
+    Future<void> applyNewCategory() async {
+      final result = await showSlotCategoryCreateDialog(context);
+      if (result == null || !context.mounted) return;
+      final newCategory = SlotCategory(
+        id: generateEntityId(),
+        name: result.name,
+        durationMinutes: result.durationMinutes,
+        isPerformanceSlot: result.isPerformanceSlot,
+      );
+      if (!await confirmIfRemovingPerformance(newCategory)) return;
+      try {
+        editor.changeSlotCategoryWithNew(
+          timelineId: widget.timelineId,
+          slotId: widget.slotId,
+          newCategory: newCategory,
+        );
       } on ArgumentError catch (error) {
         if (!context.mounted) return;
         await showErrorDialog(context, editorErrorMessage(s, error));
@@ -162,73 +126,34 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
     return PropertyScaffold(
       children: [
         PropertySectionTitle(s.fieldSlotCategory),
-        if (document.slotCategories.isEmpty)
-          SlotCategoryPicker(
-            draft: categoryDraft.copyWith(clearExisting: true),
-            candidates: const [],
-            takenNames: document.slotCategories.map((c) => c.name).toSet(),
-            onChanged: (draft) => setState(() => _categoryDraft = draft),
-          )
-        else ...[
-          DropdownButtonFormField<String>(
-            value: categoryDraft.isNew
-                ? SlotCategoryPicker.newSentinel
-                : _pendingCategoryId,
-            isExpanded: true,
-            decoration: const InputDecoration(
-              isDense: true,
-              border: OutlineInputBorder(),
-            ),
-            items: [
-              for (final candidate in document.slotCategories)
-                DropdownMenuItem(
-                  value: candidate.id,
-                  child: Text(candidate.name, overflow: TextOverflow.ellipsis),
-                ),
-              DropdownMenuItem(
-                value: SlotCategoryPicker.newSentinel,
-                child: Text(s.slotCategoryPickerCreateNew),
-              ),
-            ],
-            onChanged: (value) {
-              if (value == null) return;
-              setState(() {
-                if (value == SlotCategoryPicker.newSentinel) {
-                  _categoryDraft = CategoryDraft(
-                    newName: category.name,
-                    isPerformanceSlot: category.isPerformanceSlot,
-                  );
-                  _pendingCategoryId = value;
-                } else {
-                  _pendingCategoryId = value;
-                  _categoryDraft = CategoryDraft(
-                    existing: document.slotCategoryById(value),
-                    isPerformanceSlot:
-                        document.slotCategoryById(value)!.isPerformanceSlot,
-                  );
-                }
-              });
-            },
+        DropdownButtonFormField<String>(
+          value: category.id,
+          isExpanded: true,
+          decoration: const InputDecoration(
+            isDense: true,
+            border: OutlineInputBorder(),
           ),
-          if (categoryDraft.isNew) ...[
-            const SizedBox(height: 8),
-            SlotCategoryPicker(
-              draft: categoryDraft,
-              candidates: const [],
-              takenNames: document.slotCategories.map((c) => c.name).toSet(),
-              onChanged: (draft) => setState(() => _categoryDraft = draft),
+          items: [
+            for (final candidate in document.slotCategories)
+              DropdownMenuItem(
+                value: candidate.id,
+                child: Text(candidate.name, overflow: TextOverflow.ellipsis),
+              ),
+            DropdownMenuItem(
+              value: SlotCategoryPicker.newSentinel,
+              child: Text(s.slotCategoryPickerCreateNew),
             ),
           ],
-          Align(
-            alignment: Alignment.centerRight,
-            child: FilledButton(
-              onPressed: canApplyCategory ? applyCategoryChange : null,
-              child: Text(s.actionOk),
-            ),
-          ),
-        ],
-        PropertySectionTitle(s.sectionSlotCategoryDetails),
-        ReadOnlyField(label: s.fieldName, value: category.name),
+          onChanged: (value) async {
+            if (value == null) return;
+            if (value == SlotCategoryPicker.newSentinel) {
+              await applyNewCategory();
+            } else {
+              await applyExistingCategory(value);
+            }
+            if (mounted) setState(() {});
+          },
+        ),
         CommitIntField(
           value: category.durationMinutes,
           label: s.fieldDurationMinutes,
@@ -236,14 +161,11 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
           max: TimelineLimits.maxSlotDurationMinutes,
           onCommit: applyDurationChange,
         ),
-        ReadOnlyField(
-          label: s.fieldPerformanceAttribute,
-          value: category.isPerformanceSlot
-              ? s.performanceAttributeLabel
-              : '—',
+        ReadOnlyCheckbox(
+          label: s.performanceAttributeLabel,
+          value: category.isPerformanceSlot,
         ),
-        if (category.isPerformanceSlot) ...[
-          PropertySectionTitle(s.fieldParticipant),
+        if (category.isPerformanceSlot)
           DropdownButtonFormField<String?>(
             value: resolvedSlot.participantId,
             isExpanded: true,
@@ -271,31 +193,7 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
               );
             },
           ),
-        ],
-        if (participant != null) ...[
-          PropertySectionTitle(s.sectionParticipantDetails),
-          CommitTextField(
-            value: participant.name,
-            label: s.fieldName,
-            validator: (name) {
-              if (document.isParticipantNameTaken(
-                name,
-                exceptId: participant.id,
-              )) {
-                return s.errorDuplicateParticipantName;
-              }
-              return null;
-            },
-            onCommit: (name) {
-              try {
-                editor.updateParticipant(participant.copyWith(name: name));
-              } on ArgumentError catch (error) {
-                showErrorDialog(context, editorErrorMessage(s, error));
-              }
-            },
-          ),
-        ],
-        FilledButton.tonal(
+        FilledButton(
           onPressed: () async {
             final confirmed = await showConfirmDialog(
               context,

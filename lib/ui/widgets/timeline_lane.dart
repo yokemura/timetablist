@@ -30,8 +30,11 @@ class TimelineLane extends StatefulWidget {
   /// has room for its name label (drawn directly above its first slot).
   static const headerHeight = 28.0;
 
-  /// Padding between the timeline component and the slots it contains.
+  /// Vertical inset between the timeline component and the slots it contains.
   static const slotPadding = 3.0;
+
+  /// Horizontal inset between the timeline component and the slots it contains.
+  static const slotHorizontalPadding = 6.0;
 
   static const insertionBarThickness = 3.0;
 
@@ -80,7 +83,8 @@ class _TimelineLaneState extends State<TimelineLane> {
     final midnightY = _laneY(TimeLayout.afterMidnight);
 
     // The timeline component: name label above the first slot, then the
-    // slots inset by [TimelineLane.slotPadding] on the remaining sides.
+    // slots inset by [TimelineLane.slotPadding] below and
+    // [TimelineLane.slotHorizontalPadding] on the sides.
     final blockTop = _laneY(timeline.startTime) - TimelineLane.headerHeight;
     final endTime = widget.placedSlots.isEmpty
         ? timeline.startTime
@@ -110,8 +114,11 @@ class _TimelineLaneState extends State<TimelineLane> {
           right: 0,
           child: Material(
             color: selected
-                ? scheme.secondaryContainer
-                : scheme.surfaceContainer,
+                ? Color.alphaBlend(
+                    scheme.tertiary.withValues(alpha: 0.4),
+                    scheme.tertiaryContainer,
+                  )
+                : scheme.tertiaryContainer,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -127,7 +134,9 @@ class _TimelineLaneState extends State<TimelineLane> {
                         alignment: Alignment.centerLeft,
                         child: Text(
                           timeline.name,
-                          style: theme.textTheme.labelSmall,
+                          style: theme.textTheme.labelSmall?.copyWith(
+                            color: scheme.onTertiaryContainer,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -143,8 +152,8 @@ class _TimelineLaneState extends State<TimelineLane> {
           Positioned(
             top: _laneY(placed.startTime),
             height: _layout.heightOf(placed.startTime, placed.endTime),
-            left: TimelineLane.slotPadding,
-            right: TimelineLane.slotPadding,
+            left: TimelineLane.slotHorizontalPadding,
+            right: TimelineLane.slotHorizontalPadding,
             child: PlacedSlotView(
               placed: placed,
               selected:
@@ -168,8 +177,8 @@ class _TimelineLaneState extends State<TimelineLane> {
                 _laneY(_pendingDrop!.barTime) -
                 TimelineLane.insertionBarThickness / 2,
             height: TimelineLane.insertionBarThickness,
-            left: TimelineLane.slotPadding,
-            right: TimelineLane.slotPadding,
+            left: TimelineLane.slotHorizontalPadding,
+            right: TimelineLane.slotHorizontalPadding,
             child: ColoredBox(color: scheme.primary),
           ),
       ],

@@ -5,8 +5,22 @@ import '../../l10n/generated/s.dart';
 import '../../models/models.dart';
 import '../../state/state.dart';
 
-Future<void> showSlotCategoryCreateDialog(BuildContext context) {
-  return showDialog<void>(
+class SlotCategoryCreateResult {
+  const SlotCategoryCreateResult({
+    required this.name,
+    required this.durationMinutes,
+    required this.isPerformanceSlot,
+  });
+
+  final String name;
+  final int durationMinutes;
+  final bool isPerformanceSlot;
+}
+
+Future<SlotCategoryCreateResult?> showSlotCategoryCreateDialog(
+  BuildContext context,
+) {
+  return showDialog<SlotCategoryCreateResult>(
     context: context,
     builder: (_) => const SlotCategoryCreateDialog(),
   );
@@ -63,14 +77,13 @@ class _SlotCategoryCreateDialogState
   }
 
   void _create() {
-    ref
-        .read(documentEditorProvider.notifier)
-        .createSlotCategory(
-          name: _name,
-          durationMinutes: _duration!,
-          isPerformanceSlot: _isPerformance,
-        );
-    Navigator.of(context).pop();
+    Navigator.of(context).pop(
+      SlotCategoryCreateResult(
+        name: _name,
+        durationMinutes: _duration!,
+        isPerformanceSlot: _isPerformance,
+      ),
+    );
   }
 
   @override

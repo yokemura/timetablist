@@ -56,3 +56,26 @@ class ReadOnlyField extends StatelessWidget {
     );
   }
 }
+
+class ReadOnlyCheckbox extends StatelessWidget {
+  const ReadOnlyCheckbox({
+    required this.label,
+    required this.value,
+    super.key,
+  });
+
+  final String label;
+  final bool value;
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile(
+      value: value,
+      onChanged: null,
+      title: Text(label),
+      controlAffinity: ListTileControlAffinity.leading,
+      contentPadding: EdgeInsets.zero,
+      dense: true,
+    );
+  }
+}

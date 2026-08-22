@@ -5,6 +5,7 @@ import 'l10n/generated/s.dart';
 import 'models/models.dart';
 import 'state/state.dart';
 import 'ui/app_shell.dart';
+import 'ui/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +47,7 @@ class MainApp extends StatelessWidget {
       onGenerateTitle: (context) => S.of(context).appTitle,
       localizationsDelegates: S.localizationsDelegates,
       supportedLocales: S.supportedLocales,
-      theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo)),
+      theme: appTheme,
       home: const AppShell(),
     );
   }

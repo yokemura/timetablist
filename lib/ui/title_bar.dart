@@ -24,7 +24,9 @@ class TitleBar extends ConsumerWidget {
   Future<void> _export(WidgetRef ref) {
     final document = ref.read(documentProvider);
     final name = document.name.trim();
-    return ref.read(documentFilePortProvider).exportJson(
+    return ref
+        .read(documentFilePortProvider)
+        .exportJson(
           fileName: '${name.isEmpty ? 'timetable' : name}.json',
           json: const JsonEncoder.withIndent('  ').convert(document.toJson()),
         );
@@ -73,72 +75,83 @@ class TitleBar extends ConsumerWidget {
     final s = S.of(context);
     final editorState = ref.watch(documentEditorProvider);
 
+    final scheme = theme.colorScheme;
+
     return Material(
-      color: theme.colorScheme.surfaceContainer,
+      color: scheme.primary,
       child: SizedBox(
         height: height,
-        child: Row(
-          children: [
-            const SizedBox(width: 4),
-            InkWell(
-              onTap: () => unawaited(launchUrl(_brandSiteUri)),
-              borderRadius: BorderRadius.circular(4),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-                child: Text(
-                  'Timetablist by YMCK',
-                  style: theme.textTheme.titleSmall,
+        child: IconTheme(
+          data: IconThemeData(color: scheme.onPrimary),
+          child: Row(
+            children: [
+              const SizedBox(width: 4),
+              InkWell(
+                onTap: () => unawaited(launchUrl(_brandSiteUri)),
+                borderRadius: BorderRadius.circular(4),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 6,
+                  ),
+                  child: Text(
+                    'Timetablist by YMCK',
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      color: scheme.onPrimary,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            const Spacer(),
-            PopupMenuButton<MenuAction>(
-              icon: const Icon(Icons.menu),
-              tooltip: s.menuTooltip,
-              position: PopupMenuPosition.under,
-              onSelected: (action) {
-                final editor = ref.read(documentEditorProvider.notifier);
-                switch (action) {
-                  case MenuAction.undo:
-                    editor.undo();
-                  case MenuAction.redo:
-                    editor.redo();
-                  case MenuAction.export:
-                    unawaited(_export(ref));
-                  case MenuAction.import:
-                    unawaited(_import(context, ref));
-                  case MenuAction.clear:
-                    unawaited(_clear(context, ref));
-                }
-              },
-              itemBuilder: (context) => [
-                PopupMenuItem(
-                  value: MenuAction.export,
-                  child: Text(s.menuExport),
-                ),
-                PopupMenuItem(
-                  value: MenuAction.import,
-                  child: Text(s.menuImport),
-                ),
-                PopupMenuItem(
-                  value: MenuAction.clear,
-                  child: Text(s.menuNew),
-                ),
-                const PopupMenuDivider(),
-                PopupMenuItem(
-                  value: MenuAction.undo,
-                  enabled: editorState.canUndo,
-                  child: Text(s.menuUndo),
-                ),
-                PopupMenuItem(
-                  value: MenuAction.redo,
-                  enabled: editorState.canRedo,
-                  child: Text(s.menuRedo),
-                ),
-              ],
-            ),
-            const SizedBox(width: 4),
-          ],
+              const Spacer(),
+              PopupMenuButton<MenuAction>(
+                icon: const Icon(Icons.menu),
+                iconColor: scheme.onPrimary,
+                tooltip: s.menuTooltip,
+                position: PopupMenuPosition.under,
+                onSelected: (action) {
+                  final editor = ref.read(documentEditorProvider.notifier);
+                  switch (action) {
+                    case MenuAction.undo:
+                      editor.undo();
+                    case MenuAction.redo:
+                      editor.redo();
+                    case MenuAction.export:
+                      unawaited(_export(ref));
+                    case MenuAction.import:
+                      unawaited(_import(context, ref));
+                    case MenuAction.clear:
+                      unawaited(_clear(context, ref));
+                  }
+                },
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: MenuAction.export,
+                    child: Text(s.menuExport),
+                  ),
+                  PopupMenuItem(
+                    value: MenuAction.import,
+                    child: Text(s.menuImport),
+                  ),
+                  PopupMenuItem(
+                    value: MenuAction.clear,
+                    child: Text(s.menuNew),
+                  ),
+                  const PopupMenuDivider(),
+                  PopupMenuItem(
+                    value: MenuAction.undo,
+                    enabled: editorState.canUndo,
+                    child: Text(s.menuUndo),
+                  ),
+                  PopupMenuItem(
+                    value: MenuAction.redo,
+                    enabled: editorState.canRedo,
+                    child: Text(s.menuRedo),
+                  ),
+                ],
+              ),
+              const SizedBox(width: 4),
+            ],
+          ),
         ),
       ),
     );

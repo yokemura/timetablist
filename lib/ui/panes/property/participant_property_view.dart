@@ -40,7 +40,7 @@ class ParticipantPropertyView extends ConsumerWidget {
             }
           },
         ),
-        FilledButton.tonal(
+        FilledButton(
           onPressed: () async {
             final confirmed = await showConfirmDialog(
               context,

@@ -102,7 +102,7 @@ class TimelinePropertyView extends ConsumerWidget {
           label: s.fieldEndTime,
           onCommit: handleEndCommit,
         ),
-        FilledButton.tonal(
+        FilledButton(
           onPressed: () {
             editor.duplicateTimeline(
               timelineId,
@@ -111,7 +111,7 @@ class TimelinePropertyView extends ConsumerWidget {
           },
           child: Text(s.actionDuplicate),
         ),
-        FilledButton.tonal(
+        FilledButton(
           onPressed: () async {
             final confirmed = await showConfirmDialog(
               context,

@@ -6,6 +6,7 @@ import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
 import 'package:timetablist/ui/ad_area.dart';
 import 'package:timetablist/ui/app_shell.dart';
+import 'package:timetablist/ui/app_theme.dart';
 import 'package:timetablist/ui/four_pane_layout.dart';
 import 'package:timetablist/ui/panes/participant_pane.dart';
 import 'package:timetablist/ui/panes/property_pane.dart';
@@ -28,11 +29,12 @@ Future<ProviderContainer> pumpShell(WidgetTester tester) async {
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,
-      child: const MaterialApp(
+      child: MaterialApp(
         localizationsDelegates: S.localizationsDelegates,
         supportedLocales: S.supportedLocales,
-        locale: Locale('ja'),
-        home: AppShell(promptInitialTimeline: false),
+        locale: const Locale('ja'),
+        theme: appTheme,
+        home: const AppShell(promptInitialTimeline: false),
       ),
     ),
   );
@@ -52,8 +54,9 @@ void main() {
     expect(tester.getSize(find.byType(AdArea)).height, AdArea.height);
   });
 
-  testWidgets('menu lists all actions; undo/redo start disabled',
-      (tester) async {
+  testWidgets('menu lists all actions; undo/redo start disabled', (
+    tester,
+  ) async {
     await pumpShell(tester);
 
     await tester.tap(find.byIcon(Icons.menu));
@@ -75,8 +78,9 @@ void main() {
     expect(itemOf('やり直す').enabled, isFalse);
   });
 
-  testWidgets('undo menu item becomes enabled and undoes a change',
-      (tester) async {
+  testWidgets('undo menu item becomes enabled and undoes a change', (
+    tester,
+  ) async {
     final container = await pumpShell(tester);
     container.read(documentEditorProvider.notifier).renameDocument('ライブA');
     await tester.pump();

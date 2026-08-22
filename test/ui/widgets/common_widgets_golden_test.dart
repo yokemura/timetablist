@@ -2,6 +2,7 @@ import 'package:alchemist/alchemist.dart';
 import 'package:flutter/material.dart';
 import 'package:timetablist/l10n/generated/s.dart';
 import 'package:timetablist/models/models.dart';
+import 'package:timetablist/ui/app_theme.dart';
 import 'package:timetablist/ui/widgets/commit_int_field.dart';
 import 'package:timetablist/ui/widgets/commit_text_field.dart';
 import 'package:timetablist/ui/widgets/commit_time_field.dart';
@@ -19,9 +20,7 @@ void main() {
           localizationsDelegates: S.localizationsDelegates,
           supportedLocales: S.supportedLocales,
           locale: const Locale('en'),
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-          ),
+          theme: appTheme,
           home: Scaffold(body: Center(child: widget)),
         ),
       );

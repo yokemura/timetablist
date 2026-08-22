@@ -6,6 +6,7 @@ import 'package:timetablist/l10n/generated/s.dart';
 import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
 import 'package:timetablist/ui/app_shell.dart';
+import 'package:timetablist/ui/app_theme.dart';
 
 import 'recording_document_store.dart';
 
@@ -30,11 +31,12 @@ Future<ProviderContainer> pumpApp(
   await tester.pumpWidget(
     UncontrolledProviderScope(
       container: container,
-      child: const MaterialApp(
+      child: MaterialApp(
         localizationsDelegates: S.localizationsDelegates,
         supportedLocales: S.supportedLocales,
-        locale: Locale('ja'),
-        home: AppShell(promptInitialTimeline: false),
+        locale: const Locale('ja'),
+        theme: appTheme,
+        home: const AppShell(promptInitialTimeline: false),
       ),
     ),
   );

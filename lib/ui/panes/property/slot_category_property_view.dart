@@ -55,13 +55,11 @@ class SlotCategoryPropertyView extends ConsumerWidget {
             }
           },
         ),
-        ReadOnlyField(
-          label: s.fieldPerformanceAttribute,
-          value: category.isPerformanceSlot
-              ? s.performanceAttributeLabel
-              : '—',
+        ReadOnlyCheckbox(
+          label: s.performanceAttributeLabel,
+          value: category.isPerformanceSlot,
         ),
-        FilledButton.tonal(
+        FilledButton(
           onPressed: () async {
             final confirmed = await showConfirmDialog(
               context,
