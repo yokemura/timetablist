@@ -29,6 +29,7 @@
   "durationMinutesLabel": "{minutes}分",
   "createTimelineButton": "タイムライン作成",
   "timelineCreateTitle": "タイムライン作成",
+  "startupEmptyPrompt": "タイムラインがありません。新規作成するか、ファイルから読み込みますか？",
   "initialTimelineCreateTitle": "初期タイムライン作成",
   "fieldTimelineName": "タイムライン名",
   "fieldPerformanceCount": "出演枠数",

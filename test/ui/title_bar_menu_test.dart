@@ -16,6 +16,7 @@ class _FakeDocumentFilePort implements DocumentFilePort {
   String? savedMimeType;
   String? importText;
   Object? saveError;
+  var importCallCount = 0;
 
   @override
   Future<void> saveFile({
@@ -30,7 +31,10 @@ class _FakeDocumentFilePort implements DocumentFilePort {
   }
 
   @override
-  Future<String?> importJson() async => importText;
+  Future<String?> importJson() async {
+    importCallCount += 1;
+    return importText;
+  }
 }
 
 Document _document() => Document(
@@ -106,8 +110,11 @@ void main() {
     await _selectMenuAction(tester, 'ファイルを読み込む');
 
     expect(find.textContaining('現在の内容を読み込んだファイルの内容で置き換えますか'), findsOneWidget);
+    expect(port.importCallCount, 0);
     await tester.tap(find.widgetWithText(FilledButton, 'OK'));
     await tester.pumpAndSettle();
+
+    expect(port.importCallCount, 1);
 
     final state = container.read(documentEditorProvider);
     expect(state.document.name, '読み込んだ表');
@@ -125,9 +132,32 @@ void main() {
 
     await _selectMenuAction(tester, 'ファイルを読み込む');
 
+    expect(find.textContaining('現在の内容を読み込んだファイルの内容で置き換えますか'), findsOneWidget);
+    await tester.tap(find.widgetWithText(FilledButton, 'OK'));
+    await tester.pumpAndSettle();
+
     expect(find.textContaining('ファイルを読み込めませんでした'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'OK'));
     await tester.pumpAndSettle();
+    expect(container.read(documentProvider).name, 'マイタイムテーブル');
+  });
+
+  testWidgets('import cancel on overwrite confirmation does not pick a file', (
+    tester,
+  ) async {
+    final port = _FakeDocumentFilePort()
+      ..importText = jsonEncode(Document.empty(name: '読み込んだ表').toJson());
+    final container = await pumpApp(
+      tester,
+      initialDocument: _document(),
+      filePort: port,
+    );
+
+    await _selectMenuAction(tester, 'ファイルを読み込む');
+    await tester.tap(find.widgetWithText(TextButton, 'キャンセル'));
+    await tester.pumpAndSettle();
+
+    expect(port.importCallCount, 0);
     expect(container.read(documentProvider).name, 'マイタイムテーブル');
   });
 

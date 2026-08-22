@@ -105,6 +105,10 @@ class SEn extends S {
   String get timelineCreateTitle => 'New timeline';
 
   @override
+  String get startupEmptyPrompt =>
+      'There are no timelines. Create a new one, or load from a file?';
+
+  @override
   String get initialTimelineCreateTitle => 'Create the first timeline';
 
   @override

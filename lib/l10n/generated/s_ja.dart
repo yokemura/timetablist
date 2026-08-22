@@ -103,6 +103,9 @@ class SJa extends S {
   String get timelineCreateTitle => 'タイムライン作成';
 
   @override
+  String get startupEmptyPrompt => 'タイムラインがありません。新規作成するか、ファイルから読み込みますか？';
+
+  @override
   String get initialTimelineCreateTitle => '初期タイムライン作成';
 
   @override

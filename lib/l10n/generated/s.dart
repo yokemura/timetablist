@@ -271,7 +271,13 @@ abstract class S {
   /// **'New timeline'**
   String get timelineCreateTitle;
 
-  /// Title of the initial timeline creation dialog shown at startup (when no timelines exist) and after the New menu action. Cannot be cancelled.
+  /// Non-cancellable dialog shown at startup when the document has no timelines. Offers create-new or load-file.
+  ///
+  /// In en, this message translates to:
+  /// **'There are no timelines. Create a new one, or load from a file?'**
+  String get startupEmptyPrompt;
+
+  /// Title of the initial timeline creation dialog shown after choosing New at startup and after the New menu action. Cannot be cancelled.
   ///
   /// In en, this message translates to:
   /// **'Create the first timeline'**

@@ -131,9 +131,13 @@
   "@timelineCreateTitle": {
     "description": "Title of the timeline creation dialog opened from the pane button."
   },
+  "startupEmptyPrompt": "There are no timelines. Create a new one, or load from a file?",
+  "@startupEmptyPrompt": {
+    "description": "Non-cancellable dialog shown at startup when the document has no timelines. Offers create-new or load-file."
+  },
   "initialTimelineCreateTitle": "Create the first timeline",
   "@initialTimelineCreateTitle": {
-    "description": "Title of the initial timeline creation dialog shown at startup (when no timelines exist) and after the New menu action. Cannot be cancelled."
+    "description": "Title of the initial timeline creation dialog shown after choosing New at startup and after the New menu action. Cannot be cancelled."
   },
   "fieldTimelineName": "Timeline name",
   "@fieldTimelineName": {

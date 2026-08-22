@@ -15,6 +15,7 @@ Future<ProviderContainer> pumpApp(
   WidgetTester tester, {
   Document? initialDocument,
   DocumentFilePort? filePort,
+  bool promptInitialTimeline = false,
 }) async {
   final container = ProviderContainer(
     overrides: [
@@ -36,7 +37,7 @@ Future<ProviderContainer> pumpApp(
         supportedLocales: S.supportedLocales,
         locale: const Locale('ja'),
         theme: appTheme,
-        home: const AppShell(promptInitialTimeline: false),
+        home: AppShell(promptInitialTimeline: promptInitialTimeline),
       ),
     ),
   );

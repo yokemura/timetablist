@@ -8,10 +8,10 @@ import 'package:url_launcher/url_launcher.dart';
 import '../files/document_csv.dart';
 import '../files/download_file_name.dart';
 import '../l10n/generated/s.dart';
-import '../models/models.dart';
 import '../state/state.dart';
 import 'dialogs/app_dialogs.dart';
 import 'dialogs/initial_timeline_dialog.dart';
+import 'document_file_actions.dart';
 
 enum MenuAction { saveFile, exportCsv, loadFile, clear, undo, redo }
 
@@ -73,26 +73,8 @@ class TitleBar extends ConsumerWidget {
     }
   }
 
-  Future<void> _loadFile(BuildContext context, WidgetRef ref) async {
-    final s = S.of(context);
-    final text = await ref.read(documentFilePortProvider).importJson();
-    if (text == null || !context.mounted) return;
-
-    final Document imported;
-    try {
-      imported = Document.fromJson(jsonDecode(text) as Map<String, dynamic>);
-    } catch (_) {
-      await showErrorDialog(context, s.errorImportFailed);
-      return;
-    }
-
-    final confirmed = await showConfirmDialog(
-      context,
-      message: s.confirmImportReplace,
-      confirmLabel: s.actionOk,
-    );
-    if (confirmed != true || !context.mounted) return;
-    ref.read(documentEditorProvider.notifier).replaceDocument(imported);
+  Future<void> _loadFile(BuildContext context, WidgetRef ref) {
+    return loadDocumentFromFile(context, ref, confirmReplace: true);
   }
 
   Future<void> _clear(BuildContext context, WidgetRef ref) async {

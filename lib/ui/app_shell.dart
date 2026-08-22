@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../state/state.dart';
 import 'ad_area.dart';
 import 'dialogs/initial_timeline_dialog.dart';
+import 'dialogs/startup_empty_dialog.dart';
+import 'document_file_actions.dart';
 import 'four_pane_layout.dart';
 import 'panes/participant_pane.dart';
 import 'panes/property_pane.dart';
@@ -17,9 +19,8 @@ import 'undo_redo_shortcuts.dart';
 class AppShell extends ConsumerStatefulWidget {
   const AppShell({this.promptInitialTimeline = true, super.key});
 
-  /// When true, shows the non-cancellable initial timeline dialog if the
-  /// document has no timelines (startup). Tests disable this so they can
-  /// drive the empty pane themselves.
+  /// When true, shows the startup empty-document dialog if there are no
+  /// timelines. Tests disable this so they can drive the empty pane themselves.
   final bool promptInitialTimeline;
 
   @override
@@ -35,10 +36,23 @@ class _AppShellState extends ConsumerState<AppShell> {
     if (!widget.promptInitialTimeline) return;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || _didPrompt) return;
-      if (ref.read(documentProvider).timelines.isNotEmpty) return;
       _didPrompt = true;
-      showInitialTimelineDialog(context);
+      _promptIfEmpty();
     });
+  }
+
+  Future<void> _promptIfEmpty() async {
+    while (mounted && ref.read(documentProvider).timelines.isEmpty) {
+      final choice = await showStartupEmptyDocumentDialog(context);
+      if (!mounted) return;
+      switch (choice) {
+        case StartupEmptyChoice.createNew:
+          await showInitialTimelineDialog(context);
+          return;
+        case StartupEmptyChoice.loadFile:
+          await loadDocumentFromFile(context, ref, confirmReplace: false);
+      }
+    }
   }
 
   @override
