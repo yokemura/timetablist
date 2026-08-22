@@ -16,8 +16,7 @@ import '../../support/recording_document_store.dart';
 // CJK font, so Japanese text would render as tofu.
 
 /// One timeline (performance / changeover / performance); Alice is assigned
-/// to the first performance slot and violates her min-duration requirement so
-/// the slot view shows the violation list.
+/// to the first performance slot.
 Document _sampleDocument() {
   return Document(
     name: 'Timetable',
@@ -35,16 +34,9 @@ Document _sampleDocument() {
         isPerformanceSlot: false,
       ),
     ],
-    participants: [
-      Participant(
-        id: 'alice',
-        name: 'Alice',
-        requirements: ParticipantRequirements(
-          minDurationMinutes: 60,
-          finishBy: TimelineTime.parse('21:00'),
-        ),
-      ),
-      const Participant(id: 'bob', name: 'Bob'),
+    participants: const [
+      Participant(id: 'alice', name: 'Alice'),
+      Participant(id: 'bob', name: 'Bob'),
     ],
     timelines: [
       Timeline(
@@ -98,7 +90,7 @@ void main() {
           name: 'timeline',
           child: _scoped(
             const TimelinePropertyView(timelineId: 'day1'),
-            height: 420,
+            height: 360,
           ),
         ),
         GoldenTestScenario(
@@ -109,17 +101,17 @@ void main() {
           ),
         ),
         GoldenTestScenario(
-          name: 'slot with participant and violation',
+          name: 'slot with participant',
           child: _scoped(
             const SlotPropertyView(timelineId: 'day1', slotId: 's1'),
-            height: 1100,
+            height: 640,
           ),
         ),
         GoldenTestScenario(
           name: 'participant',
           child: _scoped(
             const ParticipantPropertyView(participantId: 'bob'),
-            height: 640,
+            height: 200,
           ),
         ),
       ],

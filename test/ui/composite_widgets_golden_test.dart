@@ -6,10 +6,9 @@ import 'package:timetablist/l10n/generated/s.dart';
 import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
 import 'package:timetablist/ui/app_shell.dart';
-import 'package:timetablist/ui/sheets/participant_create_sheet.dart';
-import 'package:timetablist/ui/sheets/slot_category_create_sheet.dart';
-import 'package:timetablist/ui/sheets/timeline_create_sheet.dart';
-import 'package:timetablist/ui/widgets/requirements_editor.dart';
+import 'package:timetablist/ui/dialogs/participant_create_dialog.dart';
+import 'package:timetablist/ui/dialogs/slot_category_create_dialog.dart';
+import 'package:timetablist/ui/dialogs/timeline_create_dialog.dart';
 
 import '../support/recording_document_store.dart';
 
@@ -33,16 +32,9 @@ Document _sampleDocument() {
         isPerformanceSlot: false,
       ),
     ],
-    participants: [
-      const Participant(id: 'bob', name: 'Bob'),
-      Participant(
-        id: 'carol',
-        name: 'Carol',
-        requirements: ParticipantRequirements(
-          minDurationMinutes: 30,
-          finishBy: TimelineTime.parse('21:00'),
-        ),
-      ),
+    participants: const [
+      Participant(id: 'bob', name: 'Bob'),
+      Participant(id: 'carol', name: 'Carol'),
     ],
   );
 }
@@ -76,74 +68,36 @@ Future<void> _pumpApp(
 
 void main() {
   goldenTest(
-    'requirements editor',
-    fileName: 'requirements_editor',
-    pumpWidget: (tester, widget) => _pumpApp(tester, widget),
-    builder: () => GoldenTestGroup(
-      children: [
-        GoldenTestScenario(
-          name: 'all unchecked',
-          child: SizedBox(
-            width: 320,
-            child: RequirementsEditor(
-              initialValue: const ParticipantRequirements(),
-              onChanged: (_) {},
-            ),
-          ),
-        ),
-        GoldenTestScenario(
-          name: 'partially filled',
-          child: SizedBox(
-            width: 320,
-            child: RequirementsEditor(
-              initialValue: ParticipantRequirements(
-                minDurationMinutes: 30,
-                finishBy: TimelineTime.parse('21:00'),
-                preferredOrderFrom: 2,
-              ),
-              onChanged: (_) {},
-            ),
-          ),
-        ),
-      ],
-    ),
-  );
-
-  goldenTest(
-    'creation sheets',
-    fileName: 'creation_sheets',
+    'creation dialogs',
+    fileName: 'creation_dialogs',
     pumpWidget: (tester, widget) =>
         _pumpApp(tester, widget, document: _sampleDocument()),
     builder: () => GoldenTestGroup(
       children: [
         GoldenTestScenario(
-          name: 'slot category create sheet',
+          name: 'slot category create dialog',
           child: const SizedBox(
             width: 400,
-            // ExcludeFocus keeps the autofocused field's cursor out of the
-            // golden so the image stays deterministic. The Material stands in
-            // for the one a real bottom sheet provides.
             child: ExcludeFocus(
-              child: Material(child: SlotCategoryCreateSheet()),
+              child: SlotCategoryCreateDialog(),
             ),
           ),
         ),
         GoldenTestScenario(
-          name: 'participant create sheet',
+          name: 'participant create dialog',
           child: const SizedBox(
             width: 400,
             child: ExcludeFocus(
-              child: Material(child: ParticipantCreateSheet()),
+              child: ParticipantCreateDialog(),
             ),
           ),
         ),
         GoldenTestScenario(
-          name: 'timeline create sheet',
+          name: 'timeline create dialog',
           child: const SizedBox(
             width: 400,
-            height: 560,
             child: ExcludeFocus(
-              child: Material(child: TimelineCreateSheet()),
+              child: TimelineCreateDialog(),
             ),
           ),
         ),
@@ -163,7 +117,7 @@ void main() {
           child: const SizedBox(
             width: 1000,
             height: 640,
-            child: AppShell(),
+            child: AppShell(promptInitialTimeline: false),
           ),
         ),
       ],

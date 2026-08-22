@@ -9,6 +9,7 @@ import '../l10n/generated/s.dart';
 import '../models/models.dart';
 import '../state/state.dart';
 import 'dialogs/app_dialogs.dart';
+import 'dialogs/initial_timeline_dialog.dart';
 
 enum MenuAction { export, import, clear, undo, redo }
 
@@ -62,6 +63,8 @@ class TitleBar extends ConsumerWidget {
     ref
         .read(documentEditorProvider.notifier)
         .clearDocument(documentName: s.defaultDocumentName);
+    if (!context.mounted) return;
+    await showInitialTimelineDialog(context);
   }
 
   @override
@@ -119,7 +122,7 @@ class TitleBar extends ConsumerWidget {
                 ),
                 PopupMenuItem(
                   value: MenuAction.clear,
-                  child: Text(s.menuClear),
+                  child: Text(s.menuNew),
                 ),
                 const PopupMenuDivider(),
                 PopupMenuItem(

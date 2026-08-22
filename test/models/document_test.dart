@@ -111,7 +111,6 @@ void main() {
       expect(placed[2].performanceOrder, 2);
       expect(document.endTimeOf(timeline).toDisplayString(), '11:10');
       expect(timeline.performanceSlotCount(categories: document.slotCategories), 2);
-      expect(document.unassignedParticipants(), isEmpty);
     });
 
     test('round-trips through JSON', () {
@@ -125,17 +124,8 @@ void main() {
             isPerformanceSlot: true,
           ),
         ],
-        participants: [
-          Participant(
-            id: 'alice',
-            name: 'Alice',
-            requirements: ParticipantRequirements(
-              minDurationMinutes: 30,
-              finishBy: TimelineTime.fromHoursAndMinutes(hour: 18, minute: 0),
-              preferredOrderFrom: 1,
-              preferredOrderBefore: 4,
-            ),
-          ),
+        participants: const [
+          Participant(id: 'alice', name: 'Alice'),
         ],
         timelines: [
           Timeline(
@@ -151,92 +141,56 @@ void main() {
 
       final restored = Document.fromJson(original.toJson());
       expect(restored, original);
-      expect(
-        restored.participants.single.requirements.finishBy?.toDisplayString(),
-        '18:00',
-      );
-    });
-  });
-
-  group('ParticipantRequirements.hasContradiction', () {
-    test('is false for empty or consistent requirements', () {
-      expect(const ParticipantRequirements().hasContradiction, isFalse);
-      expect(
-        ParticipantRequirements(
-          minDurationMinutes: 30,
-          maxDurationMinutes: 60,
-          startAfter: TimelineTime.parse('18:00'),
-          finishBy: TimelineTime.parse('19:00'),
-          preferredOrderFrom: 2,
-          preferredOrderBefore: 5,
-        ).hasContradiction,
-        isFalse,
-      );
-    });
-
-    test('detects min duration above max duration', () {
-      expect(
-        const ParticipantRequirements(
-          minDurationMinutes: 60,
-          maxDurationMinutes: 30,
-        ).hasContradiction,
-        isTrue,
-      );
-    });
-
-    test('detects start-after at or past finish-by', () {
-      expect(
-        ParticipantRequirements(
-          startAfter: TimelineTime.parse('19:00'),
-          finishBy: TimelineTime.parse('19:00'),
-        ).hasContradiction,
-        isTrue,
-      );
-    });
-
-    test('detects a time window shorter than the min duration', () {
-      expect(
-        ParticipantRequirements(
-          minDurationMinutes: 90,
-          startAfter: TimelineTime.parse('18:00'),
-          finishBy: TimelineTime.parse('19:00'),
-        ).hasContradiction,
-        isTrue,
-      );
-    });
-
-    test('detects an empty preferred-order range', () {
-      expect(
-        const ParticipantRequirements(
-          preferredOrderFrom: 3,
-          preferredOrderBefore: 3,
-        ).hasContradiction,
-        isTrue,
-      );
     });
   });
 
   group('Document.nextAvailableSlotCategoryName', () {
-    test('numbers taken names with the first free suffix', () {
+    test('uses the common (2), (3) suffix rule', () {
       const document = Document(
         name: 'タイムテーブル',
         slotCategories: [
           SlotCategory(
             id: 'a',
-            name: '転換枠',
+            name: '空き',
             durationMinutes: 10,
             isPerformanceSlot: false,
           ),
           SlotCategory(
             id: 'b',
-            name: '転換枠(1)',
+            name: '空き(2)',
             durationMinutes: 10,
             isPerformanceSlot: false,
           ),
         ],
       );
-      expect(document.nextAvailableSlotCategoryName('転換枠'), '転換枠(2)');
-      expect(document.nextAvailableSlotCategoryName('準備'), '準備');
+      expect(document.nextAvailableSlotCategoryName('空き'), '空き(3)');
+      expect(document.nextAvailableSlotCategoryName('会場準備'), '会場準備');
+    });
+  });
+
+  group('Document.nextAvailableTimelineName', () {
+    test('uses the common (2), (3) suffix rule', () {
+      final document = Document(
+        name: 'タイムテーブル',
+        slotCategories: const [
+          SlotCategory(
+            id: 'perf',
+            name: '出演',
+            durationMinutes: 30,
+            isPerformanceSlot: true,
+          ),
+        ],
+        timelines: [
+          Timeline(
+            id: 't1',
+            name: 'タイムライン',
+            startTime: TimelineTime.midnight,
+            slots: const [Slot(id: 's1', categoryId: 'perf')],
+          ),
+        ],
+      );
+      expect(document.nextAvailableTimelineName('タイムライン'), 'タイムライン(2)');
+      expect(document.nextAvailableTimelineName('会場A'), '会場A');
     });
   });
 

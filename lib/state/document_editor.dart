@@ -109,7 +109,7 @@ class DocumentEditor extends _$DocumentEditor {
   }
 
   /// Deletes the category, every slot using it, and timelines left empty.
-  /// Participants assigned to removed slots become unassigned automatically.
+  /// Assignments on removed slots disappear with the slots.
   void deleteSlotCategory(String id) {
     _requireSlotCategory(id);
     final timelines = <Timeline>[];
@@ -132,18 +132,11 @@ class DocumentEditor extends _$DocumentEditor {
 
   // --- Participants ---
 
-  Participant createParticipant({
-    required String name,
-    ParticipantRequirements requirements = const ParticipantRequirements(),
-  }) {
+  Participant createParticipant({required String name}) {
     if (_document.isParticipantNameTaken(name)) {
       throw ArgumentError.value(name, 'name', 'Participant name is taken');
     }
-    final participant = Participant(
-      id: generateEntityId(),
-      name: name,
-      requirements: requirements,
-    );
+    final participant = Participant(id: generateEntityId(), name: name);
     _commit(
       _document.copyWith(
         participants: [..._document.participants, participant],
@@ -171,8 +164,8 @@ class DocumentEditor extends _$DocumentEditor {
     );
   }
 
-  /// Deletes the participant. Slots that referenced it become unassigned;
-  /// the slots themselves are kept.
+  /// Deletes the participant. Every slot that referenced it becomes
+  /// unassigned; the slots themselves are kept.
   void deleteParticipant(String id) {
     _requireParticipant(id);
     _commit(
@@ -202,7 +195,7 @@ class DocumentEditor extends _$DocumentEditor {
       addTimelineWithCategories(timeline: timeline);
 
   /// Adds [timeline] and any [newCategories] it references in one undoable
-  /// change (used by the create-timeline sheet).
+  /// change (used by the timeline creation dialogs).
   void addTimelineWithCategories({
     required Timeline timeline,
     List<SlotCategory> newCategories = const [],
@@ -410,8 +403,8 @@ class DocumentEditor extends _$DocumentEditor {
     _commit(next);
   }
 
-  /// Deletes the timeline. Assigned participants return to the pane
-  /// (they simply become unassigned); slot categories are kept.
+  /// Deletes the timeline. Slot assignments disappear with the slots
+  /// (participants themselves are kept); slot categories are kept.
   void deleteTimeline(String id) {
     _requireTimeline(id);
     _commit(
@@ -425,7 +418,7 @@ class DocumentEditor extends _$DocumentEditor {
 
   /// Duplicates a timeline with fresh slot IDs. Categories are shared (not
   /// copied) and participants are not copied. [name] is the already-computed
-  /// copy name (e.g. `(コピー)元の名前`).
+  /// copy name (common auto-naming rule, e.g. `元の名前(2)`).
   Timeline duplicateTimeline(String id, {required String name}) {
     final source = _requireTimeline(id);
     final copy = Timeline(
@@ -465,7 +458,7 @@ class DocumentEditor extends _$DocumentEditor {
   }
 
   /// Drops a slot before the timeline start: the start moves to
-  /// [newStartTime], the new slot goes first, and an auto-created changeover
+  /// [newStartTime], the new slot goes first, and an auto-created gap
   /// category (named [gapCategoryName]) fills the gap up to the old start.
   Slot insertSlotWithLeadingGap({
     required String timelineId,
@@ -518,7 +511,7 @@ class DocumentEditor extends _$DocumentEditor {
     return slot;
   }
 
-  /// Drops a slot after the timeline end: an auto-created changeover category
+  /// Drops a slot after the timeline end: an auto-created gap category
   /// (named [gapCategoryName]) fills the gap from the old end to
   /// [slotStartTime], then the new slot goes last.
   Slot insertSlotWithTrailingGap({
@@ -585,7 +578,7 @@ class DocumentEditor extends _$DocumentEditor {
   }
 
   /// Changes the slot's category. If the new category is not a performance
-  /// slot, the assigned participant (if any) returns to the pane.
+  /// slot, the assigned participant (if any) is unassigned.
   void changeSlotCategory({
     required String timelineId,
     required String slotId,
@@ -701,11 +694,17 @@ class DocumentEditor extends _$DocumentEditor {
   }
 
   /// Assigns [participantId] to the slot (null to unassign). A participant
-  /// can occupy only one slot, so any previous placement is cleared.
+  /// may occupy multiple slots, so other placements are left untouched.
+  ///
+  /// When the participant is being moved out of another slot (dragging it
+  /// from a placed slot), pass that slot via [clearTimelineId] /
+  /// [clearSlotId]; it is unassigned in the same undoable change.
   void assignParticipant({
     required String timelineId,
     required String slotId,
     required String? participantId,
+    String? clearTimelineId,
+    String? clearSlotId,
   }) {
     final timeline = _requireTimeline(timelineId);
     final slot = _requireSlot(timeline, slotId);
@@ -718,6 +717,9 @@ class DocumentEditor extends _$DocumentEditor {
         );
       }
     }
+    final isMove = clearTimelineId != null &&
+        clearSlotId != null &&
+        !(clearTimelineId == timelineId && clearSlotId == slotId);
     _commit(
       _document.copyWith(
         timelines: [
@@ -727,8 +729,9 @@ class DocumentEditor extends _$DocumentEditor {
                 for (final s in t.slots)
                   if (t.id == timelineId && s.id == slotId)
                     s.copyWith(participantId: participantId)
-                  else if (participantId != null &&
-                      s.participantId == participantId)
+                  else if (isMove &&
+                      t.id == clearTimelineId &&
+                      s.id == clearSlotId)
                     s.copyWith(participantId: null)
                   else
                     s,

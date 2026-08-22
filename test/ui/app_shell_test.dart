@@ -32,7 +32,7 @@ Future<ProviderContainer> pumpShell(WidgetTester tester) async {
         localizationsDelegates: S.localizationsDelegates,
         supportedLocales: S.supportedLocales,
         locale: Locale('ja'),
-        home: AppShell(),
+        home: AppShell(promptInitialTimeline: false),
       ),
     ),
   );
@@ -61,7 +61,7 @@ void main() {
 
     expect(find.text('エクスポート'), findsOneWidget);
     expect(find.text('インポート'), findsOneWidget);
-    expect(find.text('クリア（新規作成）'), findsOneWidget);
+    expect(find.text('新規作成'), findsOneWidget);
     expect(find.text('取り消す'), findsOneWidget);
     expect(find.text('やり直す'), findsOneWidget);
 

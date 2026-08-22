@@ -117,11 +117,7 @@ void main() {
       final timeline = document.timelineById('day1');
       expect(timeline, isNotNull);
       expect(timeline!.slots.map((slot) => slot.id), ['s2']);
-      // Alice, previously assigned to a removed slot, returns to the pane.
-      expect(
-        document.unassignedParticipants().map((p) => p.id),
-        containsAll(['alice', 'bob']),
-      );
+      expect(document.participantById('alice'), isNotNull);
 
       // Deleting the remaining category empties the timeline → it is removed.
       editor.deleteSlotCategory('gap');
@@ -156,7 +152,7 @@ void main() {
       expect(slots.every((slot) => slot.participantId == null), isTrue);
     });
 
-    test('assign moves a participant out of their previous slot', () {
+    test('assign keeps the participant on other slots unless moving', () {
       final (:container, :store) = createHarness(
         initialDocument: sampleDocument(),
       );
@@ -168,9 +164,20 @@ void main() {
         participantId: 'alice',
       );
 
-      final slots = container.read(documentProvider).timelineById('day1')!.slots;
-      expect(slots[0].participantId, isNull);
+      var slots = container.read(documentProvider).timelineById('day1')!.slots;
+      expect(slots[0].participantId, 'alice');
       expect(slots[2].participantId, 'alice');
+
+      editor.assignParticipant(
+        timelineId: 'day1',
+        slotId: 's3',
+        participantId: 'bob',
+        clearTimelineId: 'day1',
+        clearSlotId: 's1',
+      );
+      slots = container.read(documentProvider).timelineById('day1')!.slots;
+      expect(slots[0].participantId, isNull);
+      expect(slots[2].participantId, 'bob');
     });
 
     test('assign rejects non-performance slots, unassign works', () {

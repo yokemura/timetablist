@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
 import 'package:timetablist/ui/panes/property_pane.dart';
 import 'package:timetablist/ui/widgets/commit_text_field.dart';
@@ -27,7 +26,6 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.widgetWithText(CommitTextField, 'Bob'), findsOneWidget);
-    expect(find.text('要求項目'), findsOneWidget);
     expect(find.text('削除'), findsOneWidget);
   });
 
@@ -43,8 +41,6 @@ void main() {
     expect(find.widgetWithText(CommitTextField, '１日目'), findsOneWidget);
     expect(find.text('開始時刻'), findsOneWidget);
     expect(find.text('終了時刻'), findsOneWidget);
-    expect(find.text('出演枠数'), findsOneWidget);
-    expect(find.text('2'), findsOneWidget);
     expect(find.text('複製'), findsOneWidget);
   });
 
@@ -60,7 +56,6 @@ void main() {
     expect(find.text('出演枠'), findsWidgets);
     expect(find.text('演者'), findsWidgets);
     expect(find.text('Alice'), findsWidgets);
-    expect(find.text('要求不一致'), findsNothing);
   });
 
   testWidgets('renaming the document commits through the editor',

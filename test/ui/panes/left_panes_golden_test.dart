@@ -59,25 +59,18 @@ void main() {
           ),
         ),
         GoldenTestScenario(
-          name: 'participant with requirements',
+          name: 'participant',
           child: SizedBox(
             width: 240,
             child: ParticipantListItem(
-              participant: Participant(
-                id: 'p1',
-                name: 'Alice',
-                requirements: ParticipantRequirements(
-                  minDurationMinutes: 30,
-                  finishBy: TimelineTime.parse('21:00'),
-                ),
-              ),
+              participant: const Participant(id: 'p1', name: 'Alice'),
               selected: false,
               onTap: () {},
             ),
           ),
         ),
         GoldenTestScenario(
-          name: 'participant without requirements (selected)',
+          name: 'participant (selected)',
           child: SizedBox(
             width: 240,
             child: ParticipantListItem(

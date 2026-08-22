@@ -94,7 +94,7 @@ class TimeLayout {
         (placed) => slotMinHeight(
               durationMinutes: placed.durationMinutes,
               hasParticipant: placed.participant != null,
-              hasWarning: placed.requirementViolations().isNotEmpty,
+              hasWarning: false,
             );
     return TimeLayout.fromDemands([
       for (final timeline in document.timelines)

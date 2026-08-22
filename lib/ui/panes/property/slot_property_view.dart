@@ -10,8 +10,6 @@ import '../../widgets/commit_int_field.dart';
 import '../../widgets/commit_text_field.dart';
 import '../../widgets/slot_category_picker.dart';
 import 'property_scaffold.dart';
-import 'requirement_violation_list.dart';
-import 'requirements_property_section.dart';
 
 class SlotPropertyView extends ConsumerStatefulWidget {
   const SlotPropertyView({
@@ -143,10 +141,8 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
               timelineId: widget.timelineId,
               slotId: widget.slotId,
               newDurationMinutes: minutes,
-              derivedCategoryName: s.categoryNameWithDuration(
-                category.name,
-                minutes,
-              ),
+              derivedCategoryName:
+                  document.nextAvailableSlotCategoryName(category.name),
             );
           case SlotDurationAdjustment.allSameType:
             editor.updateSlotCategoryDuration(category.id, minutes);
@@ -156,11 +152,6 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
         await showErrorDialog(context, editorErrorMessage(s, error));
       }
     }
-
-    final participantCandidates = <Participant>[
-      ...document.unassignedParticipants(),
-      if (participant != null) participant,
-    ];
 
     return PropertyScaffold(
       children: [
@@ -260,7 +251,7 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
                 value: null,
                 child: Text(s.fieldParticipantNone),
               ),
-              for (final candidate in participantCandidates)
+              for (final candidate in document.participants)
                 DropdownMenuItem(
                   value: candidate.id,
                   child: Text(candidate.name, overflow: TextOverflow.ellipsis),
@@ -297,8 +288,6 @@ class _SlotPropertyViewState extends ConsumerState<SlotPropertyView> {
               }
             },
           ),
-          RequirementsPropertySection(participant: participant),
-          RequirementViolationList(violations: placed.requirementViolations()),
         ],
         FilledButton.tonal(
           onPressed: () async {

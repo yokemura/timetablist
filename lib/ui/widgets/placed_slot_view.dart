@@ -46,15 +46,10 @@ class PlacedSlotView extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final participant = placed.participant;
-    final hasMismatch =
-        participant != null && placed.requirementViolations().isNotEmpty;
 
     Widget? participantChild;
     if (participant != null) {
-      participantChild = PlacedParticipantView(
-        participant: participant,
-        hasMismatch: hasMismatch,
-      );
+      participantChild = PlacedParticipantView(participant: participant);
       final timelineId = this.timelineId;
       if (timelineId != null) {
         participantChild = Draggable<ParticipantDragData>(

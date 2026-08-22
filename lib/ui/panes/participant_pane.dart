@@ -3,16 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/generated/s.dart';
 import '../../state/state.dart';
-import '../sheets/participant_create_sheet.dart';
+import '../dialogs/participant_create_dialog.dart';
 import '../timeline/drag_data.dart';
 import '../widgets/drag_ghosts.dart';
 import '../widgets/participant_list_item.dart';
 
 /// Bottom-left pane: scrollable participant list plus a creation button.
 ///
-/// Only unassigned participants appear here; assigning one to a slot removes
-/// it from the pane and unassigning returns it. Shows nothing but the button
-/// while the list is empty.
+/// Assigned participants stay in the list, so one participant can occupy
+/// multiple slots. Shows nothing but the button while the list is empty.
 class ParticipantPane extends ConsumerWidget {
   const ParticipantPane({super.key});
 
@@ -21,7 +20,7 @@ class ParticipantPane extends ConsumerWidget {
     final s = S.of(context);
     final document = ref.watch(documentProvider);
     final selection = ref.watch(effectiveSelectionProvider);
-    final participants = document.unassignedParticipants();
+    final participants = document.participants;
 
     return ColoredBox(
       color: Theme.of(context).colorScheme.surface,
@@ -52,8 +51,6 @@ class ParticipantPane extends ConsumerWidget {
                     data: ParticipantDragData(participant: participant),
                     dragAnchorStrategy: pointerDragAnchorStrategy,
                     feedback: ParticipantDragGhost(participant: participant),
-                    // The participant leaves the pane while dragging.
-                    childWhenDragging: const SizedBox.shrink(),
                     child: item,
                   );
                 },
@@ -63,7 +60,7 @@ class ParticipantPane extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: FilledButton.tonalIcon(
-              onPressed: () => showParticipantCreateSheet(context),
+              onPressed: () => showParticipantCreateDialog(context),
               icon: const Icon(Icons.add),
               label: Text(s.createParticipantButton),
             ),

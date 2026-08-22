@@ -127,11 +127,11 @@ abstract class S {
   /// **'Import'**
   String get menuImport;
 
-  /// Menu item: reset the document to the initial empty state.
+  /// Menu item: clear the document and start over with the initial timeline dialog.
   ///
   /// In en, this message translates to:
-  /// **'Clear (New)'**
-  String get menuClear;
+  /// **'New'**
+  String get menuNew;
 
   /// Menu item: undo the last data change.
   ///
@@ -175,31 +175,25 @@ abstract class S {
   /// **'Enter a time between 0:00 and 30:00'**
   String get errorTimeOutOfRange;
 
-  /// Fixed short warning shown on a placed participant whose requirements are not met. Details appear in the property pane.
-  ///
-  /// In en, this message translates to:
-  /// **'Requirement mismatch'**
-  String get requirementMismatchLabel;
-
-  /// Button in the slot category pane that opens the creation sheet.
+  /// Button in the slot category pane that opens the creation dialog.
   ///
   /// In en, this message translates to:
   /// **'New slot type'**
   String get createSlotCategoryButton;
 
-  /// Button in the participant pane that opens the creation sheet.
+  /// Button in the participant pane that opens the creation dialog.
   ///
   /// In en, this message translates to:
   /// **'New participant'**
   String get createParticipantButton;
 
-  /// Title of the slot category creation bottom sheet.
+  /// Title of the slot category creation dialog.
   ///
   /// In en, this message translates to:
   /// **'New slot type'**
   String get slotCategoryCreateTitle;
 
-  /// Title of the participant creation bottom sheet.
+  /// Title of the participant creation dialog.
   ///
   /// In en, this message translates to:
   /// **'New participant'**
@@ -223,13 +217,13 @@ abstract class S {
   /// **'Performance slot'**
   String get fieldPerformanceAttribute;
 
-  /// Confirm button of creation sheets.
+  /// Confirm button of creation dialogs.
   ///
   /// In en, this message translates to:
   /// **'Create'**
   String get actionCreate;
 
-  /// Cancel button of sheets and dialogs.
+  /// Cancel button of dialogs.
   ///
   /// In en, this message translates to:
   /// **'Cancel'**
@@ -247,12 +241,6 @@ abstract class S {
   /// **'A participant with this name already exists'**
   String get errorDuplicateParticipantName;
 
-  /// Warning shown when the checked requirement items contradict each other.
-  ///
-  /// In en, this message translates to:
-  /// **'Requirements contradict each other'**
-  String get errorRequirementsContradiction;
-
   /// Short badge label indicating a slot category has the performance attribute.
   ///
   /// In en, this message translates to:
@@ -265,113 +253,131 @@ abstract class S {
   /// **'{minutes} min'**
   String durationMinutesLabel(int minutes);
 
-  /// Requirement editor row: minimum slot duration in minutes.
-  ///
-  /// In en, this message translates to:
-  /// **'Min duration (min)'**
-  String get reqMinDurationLabel;
-
-  /// Requirement editor row: maximum slot duration in minutes.
-  ///
-  /// In en, this message translates to:
-  /// **'Max duration (min)'**
-  String get reqMaxDurationLabel;
-
-  /// Requirement editor row: wants to finish by the given time.
-  ///
-  /// In en, this message translates to:
-  /// **'Finish by'**
-  String get reqFinishByLabel;
-
-  /// Requirement editor row: wants to start at or after the given time.
-  ///
-  /// In en, this message translates to:
-  /// **'Start at or after'**
-  String get reqStartAfterLabel;
-
-  /// Requirement editor row: preferred performance order, inclusive lower bound.
-  ///
-  /// In en, this message translates to:
-  /// **'Prefer position or later'**
-  String get reqOrderFromLabel;
-
-  /// Requirement editor row: preferred performance order, exclusive upper bound.
-  ///
-  /// In en, this message translates to:
-  /// **'Prefer position earlier than'**
-  String get reqOrderBeforeLabel;
-
-  /// List item summary: minimum duration requirement.
-  ///
-  /// In en, this message translates to:
-  /// **'Min {minutes} min'**
-  String reqSummaryMinDuration(int minutes);
-
-  /// List item summary: maximum duration requirement.
-  ///
-  /// In en, this message translates to:
-  /// **'Max {minutes} min'**
-  String reqSummaryMaxDuration(int minutes);
-
-  /// List item summary: finish-by requirement.
-  ///
-  /// In en, this message translates to:
-  /// **'Finish by {time}'**
-  String reqSummaryFinishBy(String time);
-
-  /// List item summary: start-after requirement.
-  ///
-  /// In en, this message translates to:
-  /// **'Start after {time}'**
-  String reqSummaryStartAfter(String time);
-
-  /// List item summary: preferred order lower bound (inclusive).
-  ///
-  /// In en, this message translates to:
-  /// **'Position {position}+'**
-  String reqSummaryOrderFrom(int position);
-
-  /// List item summary: preferred order upper bound (exclusive).
-  ///
-  /// In en, this message translates to:
-  /// **'Position < {position}'**
-  String reqSummaryOrderBefore(int position);
-
-  /// Separator used when joining requirement summaries into one line.
-  ///
-  /// In en, this message translates to:
-  /// **', '**
-  String get reqSummarySeparator;
-
-  /// Button in the timeline pane that opens the creation sheet.
+  /// Button in the timeline pane that opens the creation dialog.
   ///
   /// In en, this message translates to:
   /// **'New timeline'**
   String get createTimelineButton;
 
-  /// Title of the timeline creation bottom sheet.
+  /// Title of the timeline creation dialog opened from the pane button.
   ///
   /// In en, this message translates to:
   /// **'New timeline'**
   String get timelineCreateTitle;
 
-  /// Start time of the timeline sequence in the create sheet.
+  /// Title of the initial timeline creation dialog shown at startup (when no timelines exist) and after the New menu action. Cannot be cancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Create the first timeline'**
+  String get initialTimelineCreateTitle;
+
+  /// Label of the timeline name field.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeline name'**
+  String get fieldTimelineName;
+
+  /// How many performance slots to create. The same count is used for rehearsal slots.
+  ///
+  /// In en, this message translates to:
+  /// **'Number of performance slots'**
+  String get fieldPerformanceCount;
+
+  /// Start time of the timeline sequence in the initial creation dialog.
   ///
   /// In en, this message translates to:
   /// **'Sequence start'**
   String get fieldSequenceStart;
 
-  /// Checkbox: prepend a preparation slot to the timeline.
+  /// Checkbox: prepend a venue setup slot to the timeline.
   ///
   /// In en, this message translates to:
-  /// **'Include preparation'**
-  String get fieldHasPrep;
+  /// **'Include venue setup'**
+  String get fieldHasVenuePrep;
 
-  /// Checkbox: insert interval slots between performance slots.
+  /// Checkbox: add rehearsal slots before the performances.
   ///
   /// In en, this message translates to:
-  /// **'Include intervals'**
-  String get fieldHasInterval;
+  /// **'Include rehearsal'**
+  String get fieldHasRehearsal;
+
+  /// Start time of the rehearsal block. Hidden when there is no venue setup (it then equals the sequence start).
+  ///
+  /// In en, this message translates to:
+  /// **'Rehearsal start'**
+  String get fieldRehearsalStart;
+
+  /// Duration of each rehearsal slot in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Rehearsal duration (min)'**
+  String get fieldRehearsalDuration;
+
+  /// Checkbox: insert changeover slots between rehearsal slots.
+  ///
+  /// In en, this message translates to:
+  /// **'Include rehearsal changeovers'**
+  String get fieldHasRehearsalChangeover;
+
+  /// Duration of each rehearsal changeover slot in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Rehearsal changeover (min)'**
+  String get fieldRehearsalChangeoverDuration;
+
+  /// Read-only end time of the rehearsal block, derived from the sequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Rehearsal end'**
+  String get fieldRehearsalEnd;
+
+  /// Checkbox: insert a doors (audience entry) slot between the rehearsal end and the performance start. Hidden when there is no rehearsal.
+  ///
+  /// In en, this message translates to:
+  /// **'Include doors'**
+  String get fieldHasDoors;
+
+  /// Label of read-only durations derived from the surrounding times (venue setup, doors, teardown).
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get fieldDerivedDuration;
+
+  /// Section heading of the performance slot fields in the initial creation dialog.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance slots'**
+  String get sectionPerformanceSlots;
+
+  /// Start time of the first performance slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance start'**
+  String get fieldPerformanceStart;
+
+  /// Duration of each performance slot in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance duration (min)'**
+  String get fieldPerformanceDuration;
+
+  /// Checkbox: insert changeover slots between performance slots.
+  ///
+  /// In en, this message translates to:
+  /// **'Include changeovers'**
+  String get fieldHasChangeover;
+
+  /// Duration of each changeover slot in minutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Changeover (min)'**
+  String get fieldChangeoverDuration;
+
+  /// Read-only end time of the last performance slot, derived from the sequence.
+  ///
+  /// In en, this message translates to:
+  /// **'Show end time'**
+  String get fieldShowEndTime;
 
   /// Checkbox: append a teardown slot to the timeline.
   ///
@@ -379,23 +385,11 @@ abstract class S {
   /// **'Include teardown'**
   String get fieldHasTeardown;
 
-  /// How many performance slots to create.
+  /// Time the teardown slot ends; its duration is derived from the show end time.
   ///
   /// In en, this message translates to:
-  /// **'Number of slots'**
-  String get fieldPerformanceCount;
-
-  /// Read-only start time of the first performance slot, derived from the sequence.
-  ///
-  /// In en, this message translates to:
-  /// **'Performance start'**
-  String get fieldPerformanceStart;
-
-  /// Read-only start time of the teardown slot, derived from the sequence.
-  ///
-  /// In en, this message translates to:
-  /// **'Teardown start'**
-  String get fieldTeardownStart;
+  /// **'Teardown complete'**
+  String get fieldTeardownEnd;
 
   /// Read-only end time of the timeline, derived from the sequence.
   ///
@@ -409,41 +403,77 @@ abstract class S {
   /// **'The end time exceeds the timeline maximum'**
   String get errorTimelineExceedsMax;
 
+  /// Warning in the initial timeline dialog when the entered times contradict each other (e.g. a derived duration would be zero or negative).
+  ///
+  /// In en, this message translates to:
+  /// **'The entered times are inconsistent'**
+  String get errorTimesContradiction;
+
+  /// Error dialog shown when the timeline creation button is pressed while no slot categories exist.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a slot type first, then create a timeline.'**
+  String get errorNoSlotCategoriesForTimeline;
+
+  /// Dropdown in the pane's timeline creation dialog choosing the slot type of the single initial slot.
+  ///
+  /// In en, this message translates to:
+  /// **'Initial slot type'**
+  String get fieldInitialSlotCategory;
+
   /// Dropdown item that switches the slot category picker to the new-category fields.
   ///
   /// In en, this message translates to:
   /// **'Create new'**
   String get slotCategoryPickerCreateNew;
 
-  /// Default name for a newly created preparation slot category. Stored as-is and not retranslated later.
+  /// Name of the venue setup slot category created by the initial timeline dialog. Stored as-is and not retranslated later.
   ///
   /// In en, this message translates to:
-  /// **'Preparation'**
-  String get defaultCategoryPrep;
+  /// **'Venue setup'**
+  String get defaultCategoryVenuePrep;
 
-  /// Default name for a newly created performance slot category. Stored as-is and not retranslated later.
+  /// Name of the rehearsal slot category created by the initial timeline dialog. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Rehearsal'**
+  String get defaultCategoryRehearsal;
+
+  /// Name of the rehearsal changeover slot category created by the initial timeline dialog. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Rehearsal changeover'**
+  String get defaultCategoryRehearsalChangeover;
+
+  /// Name of the doors (audience entry) slot category created by the initial timeline dialog. Stored as-is and not retranslated later.
+  ///
+  /// In en, this message translates to:
+  /// **'Doors'**
+  String get defaultCategoryDoors;
+
+  /// Name of the performance slot category created by the initial timeline dialog. Stored as-is and not retranslated later.
   ///
   /// In en, this message translates to:
   /// **'Performance'**
   String get defaultCategoryPerformance;
 
-  /// Default name for a newly created interval slot category. Stored as-is and not retranslated later.
+  /// Name of the changeover slot category created by the initial timeline dialog. Stored as-is and not retranslated later.
   ///
   /// In en, this message translates to:
   /// **'Changeover'**
-  String get defaultCategoryInterval;
+  String get defaultCategoryChangeover;
 
-  /// Default name for a newly created teardown slot category. Stored as-is and not retranslated later.
+  /// Name of the teardown slot category created by the initial timeline dialog. Stored as-is and not retranslated later.
   ///
   /// In en, this message translates to:
-  /// **'Teardown'**
+  /// **'Cleanup'**
   String get defaultCategoryTeardown;
 
-  /// Default name assigned when a new timeline is created. Stored as-is and not retranslated later.
+  /// Initial value of the timeline name field in the creation dialogs. Stored as-is and not retranslated later.
   ///
   /// In en, this message translates to:
-  /// **'Timeline {n}'**
-  String defaultTimelineName(int n);
+  /// **'Timeline'**
+  String get defaultTimelineBaseName;
 
   /// Label of the document name field in the property pane.
   ///
@@ -451,23 +481,11 @@ abstract class S {
   /// **'Document name'**
   String get fieldDocumentName;
 
-  /// Label of the timeline name field in the property pane.
-  ///
-  /// In en, this message translates to:
-  /// **'Timeline name'**
-  String get fieldTimelineName;
-
   /// Label of a timeline or slot start time field.
   ///
   /// In en, this message translates to:
   /// **'Start time'**
   String get fieldStartTime;
-
-  /// Read-only count of performance slots on a timeline.
-  ///
-  /// In en, this message translates to:
-  /// **'Performance slots'**
-  String get fieldPerformanceSlotCount;
 
   /// Label of the slot type selector on a placed slot.
   ///
@@ -487,7 +505,7 @@ abstract class S {
   /// **'Unassigned'**
   String get fieldParticipantNone;
 
-  /// Section heading for read-only slot type fields on a placed slot.
+  /// Section heading for slot type fields on a placed slot.
   ///
   /// In en, this message translates to:
   /// **'Slot type details'**
@@ -498,18 +516,6 @@ abstract class S {
   /// In en, this message translates to:
   /// **'Participant details'**
   String get sectionParticipantDetails;
-
-  /// Section heading for participant requirement fields.
-  ///
-  /// In en, this message translates to:
-  /// **'Requirements'**
-  String get sectionRequirements;
-
-  /// Section heading listing requirement violations for a placed slot.
-  ///
-  /// In en, this message translates to:
-  /// **'Requirement mismatches'**
-  String get sectionRequirementViolations;
 
   /// Destructive action button in the property pane.
   ///
@@ -529,13 +535,7 @@ abstract class S {
   /// **'OK'**
   String get actionOk;
 
-  /// Name assigned when duplicating a timeline. Stored as-is and not retranslated later.
-  ///
-  /// In en, this message translates to:
-  /// **'(Copy) {name}'**
-  String timelineCopyName(String name);
-
-  /// Derived slot type name when forking a type with a new duration. Stored as-is and not retranslated later.
+  /// Display of a slot type name with its duration, used on placed slots.
   ///
   /// In en, this message translates to:
   /// **'{name} ({minutes} min)'**
@@ -625,65 +625,17 @@ abstract class S {
   /// **'Start time cannot be before 0:00'**
   String get errorTimelineStartBeforeMidnight;
 
-  /// Requirement violation shown in the property pane.
+  /// Base name of the gap slot category auto-created when a drop leaves open time. Follows the common auto-naming rule ((2), (3)...) when taken. Stored as-is and not retranslated later.
   ///
   /// In en, this message translates to:
-  /// **'Slot duration is below the minimum'**
-  String get violationBelowMinDuration;
-
-  /// Requirement violation shown in the property pane.
-  ///
-  /// In en, this message translates to:
-  /// **'Slot duration exceeds the maximum'**
-  String get violationAboveMaxDuration;
-
-  /// Requirement violation shown in the property pane.
-  ///
-  /// In en, this message translates to:
-  /// **'Slot ends after the requested finish time'**
-  String get violationFinishesTooLate;
-
-  /// Requirement violation shown in the property pane.
-  ///
-  /// In en, this message translates to:
-  /// **'Slot starts before the requested start time'**
-  String get violationStartsTooEarly;
-
-  /// Requirement violation shown in the property pane.
-  ///
-  /// In en, this message translates to:
-  /// **'Performance order is earlier than requested'**
-  String get violationOrderTooEarly;
-
-  /// Requirement violation shown in the property pane.
-  ///
-  /// In en, this message translates to:
-  /// **'Performance order is later than requested'**
-  String get violationOrderTooLate;
-
-  /// Base name of the changeover slot category auto-created when a drop leaves a gap. Numbered (1), (2)... when taken. Stored as-is and not retranslated later.
-  ///
-  /// In en, this message translates to:
-  /// **'Changeover slot'**
+  /// **'Gap'**
   String get autoGapCategoryName;
 
-  /// Confirmation dialog when a slot is dropped beyond the timeline start or end, leaving a gap.
+  /// Confirmation dialog when a slot is dropped beyond the timeline start or end, leaving open time.
   ///
   /// In en, this message translates to:
-  /// **'Create a changeover slot to fill the gap?'**
+  /// **'Create a gap slot to fill the open time?'**
   String get confirmCreateGapSlot;
-
-  /// Empty-area drop dialog option: create a timeline containing only the dragged slot.
-  ///
-  /// In en, this message translates to:
-  /// **'Create with this slot only'**
-  String get choiceCreateTimelineWithSlot;
-
-  /// Empty-area drop dialog option: open the regular timeline creation sheet instead.
-  ///
-  /// In en, this message translates to:
-  /// **'Create from template'**
-  String get choiceCreateTimelineFromTemplate;
 
   /// Confirmation dialog when a participant is dropped on a slot that already has one.
   ///
@@ -691,7 +643,7 @@ abstract class S {
   /// **'This slot already has a participant. Replace them?'**
   String get confirmSwapParticipant;
 
-  /// Confirmation dialog for the menu's clear (new document) action.
+  /// Confirmation dialog for the menu's New action.
   ///
   /// In en, this message translates to:
   /// **'Clear everything and start a new timetable?'**

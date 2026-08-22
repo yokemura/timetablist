@@ -9,25 +9,19 @@ import 'time_layout.dart';
 /// participant names wrap to multiple lines still fit.
 ///
 /// Mirrors the build of `PlacedSlotView` / `PlacedParticipantView`: a title
-/// line, then an optional participant block (name plus optional warning)
-/// with its paddings.
+/// line, then an optional participant block with its paddings.
 class SlotHeightMeasurer {
   SlotHeightMeasurer({
     required this.titleStyle,
     required this.nameStyle,
-    required this.warningStyle,
     required this.slotContentWidth,
-    required this.warningLabel,
   });
 
   final TextStyle titleStyle;
   final TextStyle nameStyle;
-  final TextStyle warningStyle;
 
   /// Width slots lay out their contents in (lane width minus paddings).
   final double slotContentWidth;
-
-  final String warningLabel;
 
   static const _titleHorizontalPadding = 6.0;
   static const _titleVerticalPadding = 2.0;
@@ -53,9 +47,6 @@ class SlotHeightMeasurer {
           _participantInnerHorizontal * 2;
       var block = _participantInnerVertical * 2 +
           _textHeight(participant.name, nameStyle, innerWidth);
-      if (placed.requirementViolations().isNotEmpty) {
-        block += _textHeight(warningLabel, warningStyle, innerWidth);
-      }
       content += TimeLayout.participantPadding * 2 + block;
     }
 

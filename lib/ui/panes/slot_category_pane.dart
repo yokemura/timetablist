@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../l10n/generated/s.dart';
 import '../../state/state.dart';
-import '../sheets/slot_category_create_sheet.dart';
+import '../dialogs/slot_category_create_dialog.dart';
 import '../timeline/drag_data.dart';
 import '../widgets/drag_ghosts.dart';
 import '../widgets/slot_category_list_item.dart';
@@ -57,7 +57,7 @@ class SlotCategoryPane extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.all(8),
             child: FilledButton.tonalIcon(
-              onPressed: () => showSlotCategoryCreateSheet(context),
+              onPressed: () => showSlotCategoryCreateDialog(context),
               icon: const Icon(Icons.add),
               label: Text(s.createSlotCategoryButton),
             ),

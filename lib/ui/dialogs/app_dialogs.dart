@@ -36,40 +36,6 @@ Future<bool?> showConfirmDialog(
   );
 }
 
-enum NewTimelineDropChoice { slotOnly, template }
-
-/// Asked when a slot category is dropped outside every lane: create a
-/// timeline with just that slot, or open the regular template sheet.
-Future<NewTimelineDropChoice?> showNewTimelineDropDialog(
-  BuildContext context,
-) {
-  final s = S.of(context);
-  return showDialog<NewTimelineDropChoice>(
-    context: context,
-    builder: (context) => SimpleDialog(
-      title: Text(s.timelineCreateTitle),
-      children: [
-        SimpleDialogOption(
-          onPressed: () => Navigator.of(context).pop(
-            NewTimelineDropChoice.slotOnly,
-          ),
-          child: Text(s.choiceCreateTimelineWithSlot),
-        ),
-        SimpleDialogOption(
-          onPressed: () => Navigator.of(context).pop(
-            NewTimelineDropChoice.template,
-          ),
-          child: Text(s.choiceCreateTimelineFromTemplate),
-        ),
-        SimpleDialogOption(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(s.actionCancel),
-        ),
-      ],
-    ),
-  );
-}
-
 Future<void> showErrorDialog(BuildContext context, String message) {
   final s = S.of(context);
   return showDialog<void>(

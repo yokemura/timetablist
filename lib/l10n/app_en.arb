@@ -20,9 +20,9 @@
   "@menuImport": {
     "description": "Menu item: import a document from a JSON file, overwriting the current one."
   },
-  "menuClear": "Clear (New)",
-  "@menuClear": {
-    "description": "Menu item: reset the document to the initial empty state."
+  "menuNew": "New",
+  "@menuNew": {
+    "description": "Menu item: clear the document and start over with the initial timeline dialog."
   },
   "menuUndo": "Undo",
   "@menuUndo": {
@@ -62,25 +62,21 @@
   "@errorTimeOutOfRange": {
     "description": "Validation error for time fields when the time is past the timeline maximum."
   },
-  "requirementMismatchLabel": "Requirement mismatch",
-  "@requirementMismatchLabel": {
-    "description": "Fixed short warning shown on a placed participant whose requirements are not met. Details appear in the property pane."
-  },
   "createSlotCategoryButton": "New slot type",
   "@createSlotCategoryButton": {
-    "description": "Button in the slot category pane that opens the creation sheet."
+    "description": "Button in the slot category pane that opens the creation dialog."
   },
   "createParticipantButton": "New participant",
   "@createParticipantButton": {
-    "description": "Button in the participant pane that opens the creation sheet."
+    "description": "Button in the participant pane that opens the creation dialog."
   },
   "slotCategoryCreateTitle": "New slot type",
   "@slotCategoryCreateTitle": {
-    "description": "Title of the slot category creation bottom sheet."
+    "description": "Title of the slot category creation dialog."
   },
   "participantCreateTitle": "New participant",
   "@participantCreateTitle": {
-    "description": "Title of the participant creation bottom sheet."
+    "description": "Title of the participant creation dialog."
   },
   "fieldName": "Name",
   "@fieldName": {
@@ -96,11 +92,11 @@
   },
   "actionCreate": "Create",
   "@actionCreate": {
-    "description": "Confirm button of creation sheets."
+    "description": "Confirm button of creation dialogs."
   },
   "actionCancel": "Cancel",
   "@actionCancel": {
-    "description": "Cancel button of sheets and dialogs."
+    "description": "Cancel button of dialogs."
   },
   "errorDuplicateCategoryName": "A slot type with this name already exists",
   "@errorDuplicateCategoryName": {
@@ -109,10 +105,6 @@
   "errorDuplicateParticipantName": "A participant with this name already exists",
   "@errorDuplicateParticipantName": {
     "description": "Warning shown when the entered participant name is already taken."
-  },
-  "errorRequirementsContradiction": "Requirements contradict each other",
-  "@errorRequirementsContradiction": {
-    "description": "Warning shown when the checked requirement items contradict each other."
   },
   "performanceAttributeLabel": "Performance",
   "@performanceAttributeLabel": {
@@ -127,123 +119,97 @@
       }
     }
   },
-  "reqMinDurationLabel": "Min duration (min)",
-  "@reqMinDurationLabel": {
-    "description": "Requirement editor row: minimum slot duration in minutes."
-  },
-  "reqMaxDurationLabel": "Max duration (min)",
-  "@reqMaxDurationLabel": {
-    "description": "Requirement editor row: maximum slot duration in minutes."
-  },
-  "reqFinishByLabel": "Finish by",
-  "@reqFinishByLabel": {
-    "description": "Requirement editor row: wants to finish by the given time."
-  },
-  "reqStartAfterLabel": "Start at or after",
-  "@reqStartAfterLabel": {
-    "description": "Requirement editor row: wants to start at or after the given time."
-  },
-  "reqOrderFromLabel": "Prefer position or later",
-  "@reqOrderFromLabel": {
-    "description": "Requirement editor row: preferred performance order, inclusive lower bound."
-  },
-  "reqOrderBeforeLabel": "Prefer position earlier than",
-  "@reqOrderBeforeLabel": {
-    "description": "Requirement editor row: preferred performance order, exclusive upper bound."
-  },
-  "reqSummaryMinDuration": "Min {minutes} min",
-  "@reqSummaryMinDuration": {
-    "description": "List item summary: minimum duration requirement.",
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
-  "reqSummaryMaxDuration": "Max {minutes} min",
-  "@reqSummaryMaxDuration": {
-    "description": "List item summary: maximum duration requirement.",
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
-  "reqSummaryFinishBy": "Finish by {time}",
-  "@reqSummaryFinishBy": {
-    "description": "List item summary: finish-by requirement.",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "reqSummaryStartAfter": "Start after {time}",
-  "@reqSummaryStartAfter": {
-    "description": "List item summary: start-after requirement.",
-    "placeholders": {
-      "time": {
-        "type": "String"
-      }
-    }
-  },
-  "reqSummaryOrderFrom": "Position {position}+",
-  "@reqSummaryOrderFrom": {
-    "description": "List item summary: preferred order lower bound (inclusive).",
-    "placeholders": {
-      "position": {
-        "type": "int"
-      }
-    }
-  },
-  "reqSummaryOrderBefore": "Position < {position}",
-  "@reqSummaryOrderBefore": {
-    "description": "List item summary: preferred order upper bound (exclusive).",
-    "placeholders": {
-      "position": {
-        "type": "int"
-      }
-    }
-  },
-  "reqSummarySeparator": ", ",
-  "@reqSummarySeparator": {
-    "description": "Separator used when joining requirement summaries into one line."
-  },
   "createTimelineButton": "New timeline",
   "@createTimelineButton": {
-    "description": "Button in the timeline pane that opens the creation sheet."
+    "description": "Button in the timeline pane that opens the creation dialog."
   },
   "timelineCreateTitle": "New timeline",
   "@timelineCreateTitle": {
-    "description": "Title of the timeline creation bottom sheet."
+    "description": "Title of the timeline creation dialog opened from the pane button."
+  },
+  "initialTimelineCreateTitle": "Create the first timeline",
+  "@initialTimelineCreateTitle": {
+    "description": "Title of the initial timeline creation dialog shown at startup (when no timelines exist) and after the New menu action. Cannot be cancelled."
+  },
+  "fieldTimelineName": "Timeline name",
+  "@fieldTimelineName": {
+    "description": "Label of the timeline name field."
+  },
+  "fieldPerformanceCount": "Number of performance slots",
+  "@fieldPerformanceCount": {
+    "description": "How many performance slots to create. The same count is used for rehearsal slots."
   },
   "fieldSequenceStart": "Sequence start",
   "@fieldSequenceStart": {
-    "description": "Start time of the timeline sequence in the create sheet."
+    "description": "Start time of the timeline sequence in the initial creation dialog."
   },
-  "fieldHasPrep": "Include preparation",
-  "@fieldHasPrep": {
-    "description": "Checkbox: prepend a preparation slot to the timeline."
+  "fieldHasVenuePrep": "Include venue setup",
+  "@fieldHasVenuePrep": {
+    "description": "Checkbox: prepend a venue setup slot to the timeline."
   },
-  "fieldHasInterval": "Include intervals",
-  "@fieldHasInterval": {
-    "description": "Checkbox: insert interval slots between performance slots."
+  "fieldHasRehearsal": "Include rehearsal",
+  "@fieldHasRehearsal": {
+    "description": "Checkbox: add rehearsal slots before the performances."
+  },
+  "fieldRehearsalStart": "Rehearsal start",
+  "@fieldRehearsalStart": {
+    "description": "Start time of the rehearsal block. Hidden when there is no venue setup (it then equals the sequence start)."
+  },
+  "fieldRehearsalDuration": "Rehearsal duration (min)",
+  "@fieldRehearsalDuration": {
+    "description": "Duration of each rehearsal slot in minutes."
+  },
+  "fieldHasRehearsalChangeover": "Include rehearsal changeovers",
+  "@fieldHasRehearsalChangeover": {
+    "description": "Checkbox: insert changeover slots between rehearsal slots."
+  },
+  "fieldRehearsalChangeoverDuration": "Rehearsal changeover (min)",
+  "@fieldRehearsalChangeoverDuration": {
+    "description": "Duration of each rehearsal changeover slot in minutes."
+  },
+  "fieldRehearsalEnd": "Rehearsal end",
+  "@fieldRehearsalEnd": {
+    "description": "Read-only end time of the rehearsal block, derived from the sequence."
+  },
+  "fieldHasDoors": "Include doors",
+  "@fieldHasDoors": {
+    "description": "Checkbox: insert a doors (audience entry) slot between the rehearsal end and the performance start. Hidden when there is no rehearsal."
+  },
+  "fieldDerivedDuration": "Duration",
+  "@fieldDerivedDuration": {
+    "description": "Label of read-only durations derived from the surrounding times (venue setup, doors, teardown)."
+  },
+  "sectionPerformanceSlots": "Performance slots",
+  "@sectionPerformanceSlots": {
+    "description": "Section heading of the performance slot fields in the initial creation dialog."
+  },
+  "fieldPerformanceStart": "Performance start",
+  "@fieldPerformanceStart": {
+    "description": "Start time of the first performance slot."
+  },
+  "fieldPerformanceDuration": "Performance duration (min)",
+  "@fieldPerformanceDuration": {
+    "description": "Duration of each performance slot in minutes."
+  },
+  "fieldHasChangeover": "Include changeovers",
+  "@fieldHasChangeover": {
+    "description": "Checkbox: insert changeover slots between performance slots."
+  },
+  "fieldChangeoverDuration": "Changeover (min)",
+  "@fieldChangeoverDuration": {
+    "description": "Duration of each changeover slot in minutes."
+  },
+  "fieldShowEndTime": "Show end time",
+  "@fieldShowEndTime": {
+    "description": "Read-only end time of the last performance slot, derived from the sequence."
   },
   "fieldHasTeardown": "Include teardown",
   "@fieldHasTeardown": {
     "description": "Checkbox: append a teardown slot to the timeline."
   },
-  "fieldPerformanceCount": "Number of slots",
-  "@fieldPerformanceCount": {
-    "description": "How many performance slots to create."
-  },
-  "fieldPerformanceStart": "Performance start",
-  "@fieldPerformanceStart": {
-    "description": "Read-only start time of the first performance slot, derived from the sequence."
-  },
-  "fieldTeardownStart": "Teardown start",
-  "@fieldTeardownStart": {
-    "description": "Read-only start time of the teardown slot, derived from the sequence."
+  "fieldTeardownEnd": "Teardown complete",
+  "@fieldTeardownEnd": {
+    "description": "Time the teardown slot ends; its duration is derived from the show end time."
   },
   "fieldEndTime": "End time",
   "@fieldEndTime": {
@@ -253,50 +219,61 @@
   "@errorTimelineExceedsMax": {
     "description": "Warning when the drafted timeline would end after 30:00."
   },
+  "errorTimesContradiction": "The entered times are inconsistent",
+  "@errorTimesContradiction": {
+    "description": "Warning in the initial timeline dialog when the entered times contradict each other (e.g. a derived duration would be zero or negative)."
+  },
+  "errorNoSlotCategoriesForTimeline": "Create a slot type first, then create a timeline.",
+  "@errorNoSlotCategoriesForTimeline": {
+    "description": "Error dialog shown when the timeline creation button is pressed while no slot categories exist."
+  },
+  "fieldInitialSlotCategory": "Initial slot type",
+  "@fieldInitialSlotCategory": {
+    "description": "Dropdown in the pane's timeline creation dialog choosing the slot type of the single initial slot."
+  },
   "slotCategoryPickerCreateNew": "Create new",
   "@slotCategoryPickerCreateNew": {
     "description": "Dropdown item that switches the slot category picker to the new-category fields."
   },
-  "defaultCategoryPrep": "Preparation",
-  "@defaultCategoryPrep": {
-    "description": "Default name for a newly created preparation slot category. Stored as-is and not retranslated later."
+  "defaultCategoryVenuePrep": "Venue setup",
+  "@defaultCategoryVenuePrep": {
+    "description": "Name of the venue setup slot category created by the initial timeline dialog. Stored as-is and not retranslated later."
+  },
+  "defaultCategoryRehearsal": "Rehearsal",
+  "@defaultCategoryRehearsal": {
+    "description": "Name of the rehearsal slot category created by the initial timeline dialog. Stored as-is and not retranslated later."
+  },
+  "defaultCategoryRehearsalChangeover": "Rehearsal changeover",
+  "@defaultCategoryRehearsalChangeover": {
+    "description": "Name of the rehearsal changeover slot category created by the initial timeline dialog. Stored as-is and not retranslated later."
+  },
+  "defaultCategoryDoors": "Doors",
+  "@defaultCategoryDoors": {
+    "description": "Name of the doors (audience entry) slot category created by the initial timeline dialog. Stored as-is and not retranslated later."
   },
   "defaultCategoryPerformance": "Performance",
   "@defaultCategoryPerformance": {
-    "description": "Default name for a newly created performance slot category. Stored as-is and not retranslated later."
+    "description": "Name of the performance slot category created by the initial timeline dialog. Stored as-is and not retranslated later."
   },
-  "defaultCategoryInterval": "Changeover",
-  "@defaultCategoryInterval": {
-    "description": "Default name for a newly created interval slot category. Stored as-is and not retranslated later."
+  "defaultCategoryChangeover": "Changeover",
+  "@defaultCategoryChangeover": {
+    "description": "Name of the changeover slot category created by the initial timeline dialog. Stored as-is and not retranslated later."
   },
-  "defaultCategoryTeardown": "Teardown",
+  "defaultCategoryTeardown": "Cleanup",
   "@defaultCategoryTeardown": {
-    "description": "Default name for a newly created teardown slot category. Stored as-is and not retranslated later."
+    "description": "Name of the teardown slot category created by the initial timeline dialog. Stored as-is and not retranslated later."
   },
-  "defaultTimelineName": "Timeline {n}",
-  "@defaultTimelineName": {
-    "description": "Default name assigned when a new timeline is created. Stored as-is and not retranslated later.",
-    "placeholders": {
-      "n": {
-        "type": "int"
-      }
-    }
+  "defaultTimelineBaseName": "Timeline",
+  "@defaultTimelineBaseName": {
+    "description": "Initial value of the timeline name field in the creation dialogs. Stored as-is and not retranslated later."
   },
   "fieldDocumentName": "Document name",
   "@fieldDocumentName": {
     "description": "Label of the document name field in the property pane."
   },
-  "fieldTimelineName": "Timeline name",
-  "@fieldTimelineName": {
-    "description": "Label of the timeline name field in the property pane."
-  },
   "fieldStartTime": "Start time",
   "@fieldStartTime": {
     "description": "Label of a timeline or slot start time field."
-  },
-  "fieldPerformanceSlotCount": "Performance slots",
-  "@fieldPerformanceSlotCount": {
-    "description": "Read-only count of performance slots on a timeline."
   },
   "fieldSlotCategory": "Slot type",
   "@fieldSlotCategory": {
@@ -312,19 +289,11 @@
   },
   "sectionSlotCategoryDetails": "Slot type details",
   "@sectionSlotCategoryDetails": {
-    "description": "Section heading for read-only slot type fields on a placed slot."
+    "description": "Section heading for slot type fields on a placed slot."
   },
   "sectionParticipantDetails": "Participant details",
   "@sectionParticipantDetails": {
     "description": "Section heading for participant fields shown on a placed slot."
-  },
-  "sectionRequirements": "Requirements",
-  "@sectionRequirements": {
-    "description": "Section heading for participant requirement fields."
-  },
-  "sectionRequirementViolations": "Requirement mismatches",
-  "@sectionRequirementViolations": {
-    "description": "Section heading listing requirement violations for a placed slot."
   },
   "actionDelete": "Delete",
   "@actionDelete": {
@@ -338,18 +307,9 @@
   "@actionOk": {
     "description": "Dismiss button on error dialogs."
   },
-  "timelineCopyName": "(Copy) {name}",
-  "@timelineCopyName": {
-    "description": "Name assigned when duplicating a timeline. Stored as-is and not retranslated later.",
-    "placeholders": {
-      "name": {
-        "type": "String"
-      }
-    }
-  },
   "categoryNameWithDuration": "{name} ({minutes} min)",
   "@categoryNameWithDuration": {
-    "description": "Derived slot type name when forking a type with a new duration. Stored as-is and not retranslated later.",
+    "description": "Display of a slot type name with its duration, used on placed slots.",
     "placeholders": {
       "name": {
         "type": "String"
@@ -415,45 +375,13 @@
   "@errorTimelineStartBeforeMidnight": {
     "description": "Error when moving slots would start before midnight."
   },
-  "violationBelowMinDuration": "Slot duration is below the minimum",
-  "@violationBelowMinDuration": {
-    "description": "Requirement violation shown in the property pane."
-  },
-  "violationAboveMaxDuration": "Slot duration exceeds the maximum",
-  "@violationAboveMaxDuration": {
-    "description": "Requirement violation shown in the property pane."
-  },
-  "violationFinishesTooLate": "Slot ends after the requested finish time",
-  "@violationFinishesTooLate": {
-    "description": "Requirement violation shown in the property pane."
-  },
-  "violationStartsTooEarly": "Slot starts before the requested start time",
-  "@violationStartsTooEarly": {
-    "description": "Requirement violation shown in the property pane."
-  },
-  "violationOrderTooEarly": "Performance order is earlier than requested",
-  "@violationOrderTooEarly": {
-    "description": "Requirement violation shown in the property pane."
-  },
-  "violationOrderTooLate": "Performance order is later than requested",
-  "@violationOrderTooLate": {
-    "description": "Requirement violation shown in the property pane."
-  },
-  "autoGapCategoryName": "Changeover slot",
+  "autoGapCategoryName": "Gap",
   "@autoGapCategoryName": {
-    "description": "Base name of the changeover slot category auto-created when a drop leaves a gap. Numbered (1), (2)... when taken. Stored as-is and not retranslated later."
+    "description": "Base name of the gap slot category auto-created when a drop leaves open time. Follows the common auto-naming rule ((2), (3)...) when taken. Stored as-is and not retranslated later."
   },
-  "confirmCreateGapSlot": "Create a changeover slot to fill the gap?",
+  "confirmCreateGapSlot": "Create a gap slot to fill the open time?",
   "@confirmCreateGapSlot": {
-    "description": "Confirmation dialog when a slot is dropped beyond the timeline start or end, leaving a gap."
-  },
-  "choiceCreateTimelineWithSlot": "Create with this slot only",
-  "@choiceCreateTimelineWithSlot": {
-    "description": "Empty-area drop dialog option: create a timeline containing only the dragged slot."
-  },
-  "choiceCreateTimelineFromTemplate": "Create from template",
-  "@choiceCreateTimelineFromTemplate": {
-    "description": "Empty-area drop dialog option: open the regular timeline creation sheet instead."
+    "description": "Confirmation dialog when a slot is dropped beyond the timeline start or end, leaving open time."
   },
   "confirmSwapParticipant": "This slot already has a participant. Replace them?",
   "@confirmSwapParticipant": {
@@ -461,7 +389,7 @@
   },
   "confirmClearDocument": "Clear everything and start a new timetable?",
   "@confirmClearDocument": {
-    "description": "Confirmation dialog for the menu's clear (new document) action."
+    "description": "Confirmation dialog for the menu's New action."
   },
   "confirmImportReplace": "Replace the current contents with the imported file? (Undo history will be cleared.)",
   "@confirmImportReplace": {

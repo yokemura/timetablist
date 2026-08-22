@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Requirement-mismatch warning: small text in the warning color.
-///
-/// Shared by the participant component on the timeline and the slot category
-/// picker warnings.
+/// Small warning-colored label used for validation messages.
 class WarningText extends StatelessWidget {
   const WarningText(this.text, {super.key});
 

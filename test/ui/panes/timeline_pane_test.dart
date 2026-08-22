@@ -19,12 +19,8 @@ Document timelineDocument() {
         isPerformanceSlot: true,
       ),
     ],
-    participants: [
-      Participant(
-        id: 'alice',
-        name: 'Alice',
-        requirements: const ParticipantRequirements(minDurationMinutes: 60),
-      ),
+    participants: const [
+      Participant(id: 'alice', name: 'Alice'),
     ],
     timelines: [
       Timeline(
@@ -39,6 +35,20 @@ Document timelineDocument() {
   );
 }
 
+Document documentWithCategoryOnly() {
+  return Document(
+    name: 'タイムテーブル',
+    slotCategories: const [
+      SlotCategory(
+        id: 'perf',
+        name: '出演枠',
+        durationMinutes: 30,
+        isPerformanceSlot: true,
+      ),
+    ],
+  );
+}
+
 void main() {
   testWidgets('empty pane shows only the create button', (tester) async {
     await pumpApp(tester);
@@ -48,65 +58,39 @@ void main() {
     expect(find.byType(TimelineLane), findsNothing);
   });
 
-  testWidgets('creates a timeline from the sheet and shows a lane',
+  testWidgets('creating a timeline with no slot types shows an error',
       (tester) async {
-    final container = await pumpApp(tester);
-
-    await tester.tap(find.text('タイムライン作成'));
-    await tester.pumpAndSettle();
-
-    expect(find.text('出演枠の開始時刻: 10:00'), findsOneWidget);
-    expect(find.text('終了時刻: —'), findsOneWidget);
-
-    await tester.enterText(find.widgetWithText(TextField, '時間長（分）'), '30');
-    await tester.pump();
-    expect(find.text('終了時刻: 10:30'), findsOneWidget);
-
-    await tester.enterText(find.widgetWithText(TextField, '枠数'), '2');
-    await tester.pump();
-    expect(find.text('終了時刻: 11:00'), findsOneWidget);
-
-    await tester.tap(find.widgetWithText(FilledButton, '作成'));
-    await tester.pumpAndSettle();
-
-    final document = container.read(documentProvider);
-    expect(document.timelines, hasLength(1));
-    expect(document.timelines.single.name, 'タイムライン1');
-    expect(document.timelines.single.slots, hasLength(2));
-    expect(document.slotCategories.single.name, '出演枠');
-    expect(find.byType(TimelineLane), findsOneWidget);
-    expect(find.byType(TimeRuler), findsOneWidget);
-    expect(find.text('タイムライン1'), findsOneWidget);
-  });
-
-  testWidgets('live times include prep and block past 30:00', (tester) async {
     await pumpApp(tester);
 
     await tester.tap(find.text('タイムライン作成'));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('準備あり'));
-    await tester.pump();
-    await tester.enterText(find.widgetWithText(TextField, '時間長（分）').first, '15');
-    await tester.enterText(find.widgetWithText(TextField, '時間長（分）').last, '30');
-    await tester.pump();
-    expect(find.text('出演枠の開始時刻: 10:15'), findsOneWidget);
-    expect(find.text('終了時刻: 10:45'), findsOneWidget);
+    expect(find.text('タイムラインを作成するには、まず枠タイプを作成してください。'), findsOneWidget);
+    expect(find.byType(TimelineLane), findsNothing);
+  });
 
-    await tester.enterText(
-      find.widgetWithText(TextField, 'シーケンス開始時間'),
-      '29:00',
+  testWidgets('creates a timeline with the selected initial slot type',
+      (tester) async {
+    final container = await pumpApp(
+      tester,
+      initialDocument: documentWithCategoryOnly(),
     );
-    await tester.enterText(find.widgetWithText(TextField, '時間長（分）').last, '120');
-    await tester.pump();
-    expect(find.text('終了時刻: 31:15'), findsOneWidget);
-    expect(find.text('終了時刻がタイムラインの最大時刻を超えています'), findsOneWidget);
-    expect(
-      tester
-          .widget<FilledButton>(find.widgetWithText(FilledButton, '作成'))
-          .onPressed,
-      isNull,
-    );
+
+    await tester.tap(find.text('タイムライン作成'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('タイムライン作成'), findsWidgets);
+    await tester.tap(find.widgetWithText(FilledButton, '作成'));
+    await tester.pumpAndSettle();
+
+    final document = container.read(documentProvider);
+    expect(document.timelines, hasLength(1));
+    expect(document.timelines.single.name, 'タイムライン');
+    expect(document.timelines.single.slots, hasLength(1));
+    expect(document.timelines.single.slots.single.categoryId, 'perf');
+    expect(find.byType(TimelineLane), findsOneWidget);
+    expect(find.byType(TimeRuler), findsOneWidget);
+    expect(find.text('タイムライン'), findsWidgets);
   });
 
   testWidgets('slots grow to fit participant names that wrap', (tester) async {
@@ -165,6 +149,5 @@ void main() {
       container.read(effectiveSelectionProvider),
       const Selection.slot(timelineId: 'day1', slotId: 's1'),
     );
-    expect(find.text('要求不一致'), findsOneWidget);
   });
 }

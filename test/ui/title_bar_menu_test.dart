@@ -102,11 +102,11 @@ void main() {
     expect(container.read(documentProvider).name, 'マイタイムテーブル');
   });
 
-  testWidgets('clear resets to an empty document and is undoable',
+  testWidgets('new resets to an empty document then opens the initial dialog',
       (tester) async {
     final container = await pumpApp(tester, initialDocument: _document());
 
-    await _selectMenuAction(tester, 'クリア（新規作成）');
+    await _selectMenuAction(tester, '新規作成');
 
     expect(find.textContaining('内容をすべてクリア'), findsOneWidget);
     await tester.tap(find.widgetWithText(FilledButton, 'OK'));
@@ -116,6 +116,7 @@ void main() {
     expect(state.document.slotCategories, isEmpty);
     expect(state.document.name, 'タイムテーブル');
     expect(state.canUndo, isTrue);
+    expect(find.text('初期タイムライン作成'), findsOneWidget);
   });
 
   testWidgets('Ctrl+Z / Ctrl+Shift+Z drive undo and redo', (tester) async {

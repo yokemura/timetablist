@@ -23,8 +23,6 @@ class TimelinePropertyView extends ConsumerWidget {
 
     final editor = ref.read(documentEditorProvider.notifier);
     final endTime = document.endTimeOf(timeline);
-    final performanceCount =
-        timeline.performanceSlotCount(categories: document.slotCategories);
     final firstCategory =
         document.slotCategoryById(timeline.slots.first.categoryId)!;
     final lastCategory =
@@ -44,14 +42,11 @@ class TimelinePropertyView extends ConsumerWidget {
       try {
         switch (choice) {
           case TimelineTimeAdjustment.adjustEndpointSlot:
-            final newDuration = firstCategory.durationMinutes + deltaMinutes;
             editor.adjustTimelineStartViaFirstSlot(
               timelineId,
               newStart,
-              derivedCategoryName: s.categoryNameWithDuration(
-                firstCategory.name,
-                newDuration,
-              ),
+              derivedCategoryName:
+                  document.nextAvailableSlotCategoryName(firstCategory.name),
             );
           case TimelineTimeAdjustment.moveAllSlots:
             editor.shiftTimelineStartTime(timelineId, newStart);
@@ -75,14 +70,11 @@ class TimelinePropertyView extends ConsumerWidget {
       try {
         switch (choice) {
           case TimelineTimeAdjustment.adjustEndpointSlot:
-            final newDuration = lastCategory.durationMinutes + deltaMinutes;
             editor.adjustTimelineEndViaLastSlot(
               timelineId,
               newEnd,
-              derivedCategoryName: s.categoryNameWithDuration(
-                lastCategory.name,
-                newDuration,
-              ),
+              derivedCategoryName:
+                  document.nextAvailableSlotCategoryName(lastCategory.name),
             );
           case TimelineTimeAdjustment.moveAllSlots:
             editor.shiftTimelineEndTime(timelineId, newEnd);
@@ -110,15 +102,11 @@ class TimelinePropertyView extends ConsumerWidget {
           label: s.fieldEndTime,
           onCommit: handleEndCommit,
         ),
-        ReadOnlyField(
-          label: s.fieldPerformanceSlotCount,
-          value: '$performanceCount',
-        ),
         FilledButton.tonal(
           onPressed: () {
             editor.duplicateTimeline(
               timelineId,
-              name: s.timelineCopyName(timeline.name),
+              name: document.nextAvailableTimelineName(timeline.name),
             );
           },
           child: Text(s.actionDuplicate),

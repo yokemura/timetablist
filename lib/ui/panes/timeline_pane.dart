@@ -5,7 +5,7 @@ import '../../l10n/generated/s.dart';
 import '../../models/models.dart';
 import '../../state/state.dart';
 import '../dialogs/app_dialogs.dart';
-import '../sheets/timeline_create_sheet.dart';
+import '../dialogs/timeline_create_dialog.dart';
 import '../timeline/drag_data.dart';
 import '../timeline/slot_drop.dart';
 import '../timeline/slot_height_measurer.dart';
@@ -94,28 +94,19 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
     SlotCategory category,
   ) async {
     final s = S.of(context);
-    final choice = await showNewTimelineDropDialog(context);
-    if (choice == null || !mounted) return;
-
-    switch (choice) {
-      case NewTimelineDropChoice.slotOnly:
-        final document = ref.read(documentProvider);
-        try {
-          _editor.addTimeline(
-            Timeline(
-              id: generateEntityId(),
-              name: s.defaultTimelineName(document.timelines.length + 1),
-              startTime: startTime,
-              slots: [Slot(id: generateEntityId(), categoryId: category.id)],
-            ),
-          );
-        } on ArgumentError catch (error) {
-          if (!mounted) return;
-          await showErrorDialog(context, editorErrorMessage(s, error));
-        }
-      case NewTimelineDropChoice.template:
-        // The dragged category is ignored in this flow, per the spec.
-        await showTimelineCreateSheet(context);
+    final document = ref.read(documentProvider);
+    try {
+      _editor.addTimeline(
+        Timeline(
+          id: generateEntityId(),
+          name: document.nextAvailableTimelineName(s.defaultTimelineBaseName),
+          startTime: startTime,
+          slots: [Slot(id: generateEntityId(), categoryId: category.id)],
+        ),
+      );
+    } on ArgumentError catch (error) {
+      if (!mounted) return;
+      await showErrorDialog(context, editorErrorMessage(s, error));
     }
   }
 
@@ -138,6 +129,8 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
       timelineId: timeline.id,
       slotId: target.slot.id,
       participantId: data.participant.id,
+      clearTimelineId: data.fromTimelineId,
+      clearSlotId: data.fromSlotId,
     );
   }
 
@@ -155,9 +148,7 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
       nameStyle: defaultStyle.merge(
         theme.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w600),
       ),
-      warningStyle: defaultStyle.merge(theme.textTheme.labelSmall),
       slotContentWidth: TimelineLane.width - TimelineLane.slotPadding * 2,
-      warningLabel: s.requirementMismatchLabel,
     );
     final layout = TimeLayout.fromDocument(
       document,
@@ -241,7 +232,7 @@ class _TimelinePaneState extends ConsumerState<TimelinePane> {
           Padding(
             padding: const EdgeInsets.all(8),
             child: FilledButton.tonalIcon(
-              onPressed: () => showTimelineCreateSheet(context),
+              onPressed: () => showTimelineCreateDialog(context, ref),
               icon: const Icon(Icons.add),
               label: Text(s.createTimelineButton),
             ),

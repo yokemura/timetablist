@@ -61,30 +61,28 @@ abstract class Document with _$Document {
     );
   }
 
-  /// [base] if free, otherwise `base(1)`, `base(2)`, ... (first free number).
+  /// Common auto-naming rule for copies: [base] if free, otherwise
+  /// `base(2)`, `base(3)`, ... (first free number).
   String nextAvailableSlotCategoryName(String base) {
-    if (!isSlotCategoryNameTaken(base)) return base;
-    var n = 1;
-    while (isSlotCategoryNameTaken('$base($n)')) {
+    return _nextAvailableName(base, isSlotCategoryNameTaken);
+  }
+
+  /// Common auto-naming rule applied to timeline names (used when
+  /// duplicating a timeline).
+  String nextAvailableTimelineName(String base) {
+    return _nextAvailableName(
+      base,
+      (name) => timelines.any((timeline) => timeline.name == name),
+    );
+  }
+
+  static String _nextAvailableName(String base, bool Function(String) taken) {
+    if (!taken(base)) return base;
+    var n = 2;
+    while (taken('$base($n)')) {
       n += 1;
     }
     return '$base($n)';
-  }
-
-  Set<String> assignedParticipantIds() {
-    return {
-      for (final timeline in timelines)
-        for (final slot in timeline.slots)
-          if (slot.participantId != null) slot.participantId!,
-    };
-  }
-
-  List<Participant> unassignedParticipants() {
-    final assigned = assignedParticipantIds();
-    return [
-      for (final participant in participants)
-        if (!assigned.contains(participant.id)) participant,
-    ];
   }
 
   List<PlacedSlot> placedSlotsOf(Timeline timeline) {

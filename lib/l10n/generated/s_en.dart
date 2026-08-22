@@ -25,7 +25,7 @@ class SEn extends S {
   String get menuImport => 'Import';
 
   @override
-  String get menuClear => 'Clear (New)';
+  String get menuNew => 'New';
 
   @override
   String get menuUndo => 'Undo';
@@ -51,9 +51,6 @@ class SEn extends S {
 
   @override
   String get errorTimeOutOfRange => 'Enter a time between 0:00 and 30:00';
-
-  @override
-  String get requirementMismatchLabel => 'Requirement mismatch';
 
   @override
   String get createSlotCategoryButton => 'New slot type';
@@ -91,10 +88,6 @@ class SEn extends S {
       'A participant with this name already exists';
 
   @override
-  String get errorRequirementsContradiction =>
-      'Requirements contradict each other';
-
-  @override
   String get performanceAttributeLabel => 'Performance';
 
   @override
@@ -103,82 +96,73 @@ class SEn extends S {
   }
 
   @override
-  String get reqMinDurationLabel => 'Min duration (min)';
-
-  @override
-  String get reqMaxDurationLabel => 'Max duration (min)';
-
-  @override
-  String get reqFinishByLabel => 'Finish by';
-
-  @override
-  String get reqStartAfterLabel => 'Start at or after';
-
-  @override
-  String get reqOrderFromLabel => 'Prefer position or later';
-
-  @override
-  String get reqOrderBeforeLabel => 'Prefer position earlier than';
-
-  @override
-  String reqSummaryMinDuration(int minutes) {
-    return 'Min $minutes min';
-  }
-
-  @override
-  String reqSummaryMaxDuration(int minutes) {
-    return 'Max $minutes min';
-  }
-
-  @override
-  String reqSummaryFinishBy(String time) {
-    return 'Finish by $time';
-  }
-
-  @override
-  String reqSummaryStartAfter(String time) {
-    return 'Start after $time';
-  }
-
-  @override
-  String reqSummaryOrderFrom(int position) {
-    return 'Position $position+';
-  }
-
-  @override
-  String reqSummaryOrderBefore(int position) {
-    return 'Position < $position';
-  }
-
-  @override
-  String get reqSummarySeparator => ', ';
-
-  @override
   String get createTimelineButton => 'New timeline';
 
   @override
   String get timelineCreateTitle => 'New timeline';
 
   @override
+  String get initialTimelineCreateTitle => 'Create the first timeline';
+
+  @override
+  String get fieldTimelineName => 'Timeline name';
+
+  @override
+  String get fieldPerformanceCount => 'Number of performance slots';
+
+  @override
   String get fieldSequenceStart => 'Sequence start';
 
   @override
-  String get fieldHasPrep => 'Include preparation';
+  String get fieldHasVenuePrep => 'Include venue setup';
 
   @override
-  String get fieldHasInterval => 'Include intervals';
+  String get fieldHasRehearsal => 'Include rehearsal';
 
   @override
-  String get fieldHasTeardown => 'Include teardown';
+  String get fieldRehearsalStart => 'Rehearsal start';
 
   @override
-  String get fieldPerformanceCount => 'Number of slots';
+  String get fieldRehearsalDuration => 'Rehearsal duration (min)';
+
+  @override
+  String get fieldHasRehearsalChangeover => 'Include rehearsal changeovers';
+
+  @override
+  String get fieldRehearsalChangeoverDuration => 'Rehearsal changeover (min)';
+
+  @override
+  String get fieldRehearsalEnd => 'Rehearsal end';
+
+  @override
+  String get fieldHasDoors => 'Include doors';
+
+  @override
+  String get fieldDerivedDuration => 'Duration';
+
+  @override
+  String get sectionPerformanceSlots => 'Performance slots';
 
   @override
   String get fieldPerformanceStart => 'Performance start';
 
   @override
-  String get fieldTeardownStart => 'Teardown start';
+  String get fieldPerformanceDuration => 'Performance duration (min)';
+
+  @override
+  String get fieldHasChangeover => 'Include changeovers';
+
+  @override
+  String get fieldChangeoverDuration => 'Changeover (min)';
+
+  @override
+  String get fieldShowEndTime => 'Show end time';
+
+  @override
+  String get fieldHasTeardown => 'Include teardown';
+
+  @override
+  String get fieldTeardownEnd => 'Teardown complete';
 
   @override
   String get fieldEndTime => 'End time';
@@ -188,36 +172,47 @@ class SEn extends S {
       'The end time exceeds the timeline maximum';
 
   @override
+  String get errorTimesContradiction => 'The entered times are inconsistent';
+
+  @override
+  String get errorNoSlotCategoriesForTimeline =>
+      'Create a slot type first, then create a timeline.';
+
+  @override
+  String get fieldInitialSlotCategory => 'Initial slot type';
+
+  @override
   String get slotCategoryPickerCreateNew => 'Create new';
 
   @override
-  String get defaultCategoryPrep => 'Preparation';
+  String get defaultCategoryVenuePrep => 'Venue setup';
+
+  @override
+  String get defaultCategoryRehearsal => 'Rehearsal';
+
+  @override
+  String get defaultCategoryRehearsalChangeover => 'Rehearsal changeover';
+
+  @override
+  String get defaultCategoryDoors => 'Doors';
 
   @override
   String get defaultCategoryPerformance => 'Performance';
 
   @override
-  String get defaultCategoryInterval => 'Changeover';
+  String get defaultCategoryChangeover => 'Changeover';
 
   @override
-  String get defaultCategoryTeardown => 'Teardown';
+  String get defaultCategoryTeardown => 'Cleanup';
 
   @override
-  String defaultTimelineName(int n) {
-    return 'Timeline $n';
-  }
+  String get defaultTimelineBaseName => 'Timeline';
 
   @override
   String get fieldDocumentName => 'Document name';
 
   @override
-  String get fieldTimelineName => 'Timeline name';
-
-  @override
   String get fieldStartTime => 'Start time';
-
-  @override
-  String get fieldPerformanceSlotCount => 'Performance slots';
 
   @override
   String get fieldSlotCategory => 'Slot type';
@@ -235,12 +230,6 @@ class SEn extends S {
   String get sectionParticipantDetails => 'Participant details';
 
   @override
-  String get sectionRequirements => 'Requirements';
-
-  @override
-  String get sectionRequirementViolations => 'Requirement mismatches';
-
-  @override
   String get actionDelete => 'Delete';
 
   @override
@@ -248,11 +237,6 @@ class SEn extends S {
 
   @override
   String get actionOk => 'OK';
-
-  @override
-  String timelineCopyName(String name) {
-    return '(Copy) $name';
-  }
 
   @override
   String categoryNameWithDuration(String name, int minutes) {
@@ -305,39 +289,10 @@ class SEn extends S {
       'Start time cannot be before 0:00';
 
   @override
-  String get violationBelowMinDuration => 'Slot duration is below the minimum';
+  String get autoGapCategoryName => 'Gap';
 
   @override
-  String get violationAboveMaxDuration => 'Slot duration exceeds the maximum';
-
-  @override
-  String get violationFinishesTooLate =>
-      'Slot ends after the requested finish time';
-
-  @override
-  String get violationStartsTooEarly =>
-      'Slot starts before the requested start time';
-
-  @override
-  String get violationOrderTooEarly =>
-      'Performance order is earlier than requested';
-
-  @override
-  String get violationOrderTooLate =>
-      'Performance order is later than requested';
-
-  @override
-  String get autoGapCategoryName => 'Changeover slot';
-
-  @override
-  String get confirmCreateGapSlot =>
-      'Create a changeover slot to fill the gap?';
-
-  @override
-  String get choiceCreateTimelineWithSlot => 'Create with this slot only';
-
-  @override
-  String get choiceCreateTimelineFromTemplate => 'Create from template';
+  String get confirmCreateGapSlot => 'Create a gap slot to fill the open time?';
 
   @override
   String get confirmSwapParticipant =>

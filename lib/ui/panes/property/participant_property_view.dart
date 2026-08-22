@@ -6,7 +6,6 @@ import '../../../state/state.dart';
 import '../../dialogs/app_dialogs.dart';
 import '../../widgets/commit_text_field.dart';
 import 'property_scaffold.dart';
-import 'requirements_property_section.dart';
 
 class ParticipantPropertyView extends ConsumerWidget {
   const ParticipantPropertyView({required this.participantId, super.key});
@@ -41,7 +40,6 @@ class ParticipantPropertyView extends ConsumerWidget {
             }
           },
         ),
-        RequirementsPropertySection(participant: participant),
         FilledButton.tonal(
           onPressed: () async {
             final confirmed = await showConfirmDialog(

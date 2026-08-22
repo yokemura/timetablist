@@ -34,7 +34,7 @@ Future<ProviderContainer> pumpApp(
         localizationsDelegates: S.localizationsDelegates,
         supportedLocales: S.supportedLocales,
         locale: Locale('ja'),
-        home: AppShell(),
+        home: AppShell(promptInitialTimeline: false),
       ),
     ),
   );

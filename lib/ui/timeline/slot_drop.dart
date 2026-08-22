@@ -6,7 +6,7 @@ import 'time_layout.dart';
 /// - before the start (or after the end) by no more than the dragged
 ///   duration: snap to the start (end);
 /// - further out: free placement at a 10-minute resolution, which creates an
-///   auto changeover slot to fill the gap.
+///   auto gap slot to fill the open time.
 sealed class SlotDrop {
   const SlotDrop();
 
@@ -26,7 +26,7 @@ class SlotDropInsert extends SlotDrop {
 }
 
 /// Place before the timeline start; the timeline start moves to
-/// [newStartTime] and a changeover slot fills the gap.
+/// [newStartTime] and a gap slot fills the open time.
 class SlotDropLeadingGap extends SlotDrop {
   const SlotDropLeadingGap({required this.newStartTime});
 
@@ -36,7 +36,7 @@ class SlotDropLeadingGap extends SlotDrop {
   TimelineTime get barTime => newStartTime;
 }
 
-/// Place after the timeline end; a changeover slot fills the gap and the new
+/// Place after the timeline end; a gap slot fills the open time and the new
 /// slot starts at [slotStartTime].
 class SlotDropTrailingGap extends SlotDrop {
   const SlotDropTrailingGap({required this.slotStartTime});

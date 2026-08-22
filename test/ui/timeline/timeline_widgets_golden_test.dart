@@ -28,12 +28,6 @@ const _gap = SlotCategory(
 
 const _alice = Participant(id: 'alice', name: 'Alice');
 
-final _mismatchAlice = Participant(
-  id: 'alice',
-  name: 'Alice',
-  requirements: const ParticipantRequirements(minDurationMinutes: 60),
-);
-
 PlacedSlot _placed({
   required Slot slot,
   required SlotCategory category,
@@ -112,35 +106,10 @@ void main() {
           ),
         ),
         GoldenTestScenario(
-          name: 'slot with mismatch warning',
-          child: SizedBox(
-            width: 168,
-            height: 96,
-            child: PlacedSlotView(
-              placed: _placed(
-                slot: const Slot(
-                  id: 's1',
-                  categoryId: 'perf',
-                  participantId: 'alice',
-                ),
-                category: _performance,
-                participant: _mismatchAlice,
-                start: TimelineTime.parse('10:00'),
-                performanceOrder: 1,
-              ),
-              selected: true,
-              onTap: () {},
-            ),
-          ),
-        ),
-        GoldenTestScenario(
           name: 'participant only',
           child: const SizedBox(
             width: 160,
-            child: PlacedParticipantView(
-              participant: _alice,
-              hasMismatch: false,
-            ),
+            child: PlacedParticipantView(participant: _alice),
           ),
         ),
       ],

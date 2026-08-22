@@ -25,7 +25,7 @@ class SJa extends S {
   String get menuImport => 'インポート';
 
   @override
-  String get menuClear => 'クリア（新規作成）';
+  String get menuNew => '新規作成';
 
   @override
   String get menuUndo => '取り消す';
@@ -51,9 +51,6 @@ class SJa extends S {
 
   @override
   String get errorTimeOutOfRange => '0:00〜30:00の範囲で入力してください';
-
-  @override
-  String get requirementMismatchLabel => '要求不一致';
 
   @override
   String get createSlotCategoryButton => '枠タイプ作成';
@@ -89,9 +86,6 @@ class SJa extends S {
   String get errorDuplicateParticipantName => '同じ名前の演者がいます';
 
   @override
-  String get errorRequirementsContradiction => '要求項目に矛盾があります';
-
-  @override
   String get performanceAttributeLabel => '出演枠';
 
   @override
@@ -100,82 +94,73 @@ class SJa extends S {
   }
 
   @override
-  String get reqMinDurationLabel => '最低時間（分）';
-
-  @override
-  String get reqMaxDurationLabel => '最長時間（分）';
-
-  @override
-  String get reqFinishByLabel => '〜までに終了したい';
-
-  @override
-  String get reqStartAfterLabel => '〜以降に開始したい';
-
-  @override
-  String get reqOrderFromLabel => '〜番目以降を希望';
-
-  @override
-  String get reqOrderBeforeLabel => '〜番目より前を希望';
-
-  @override
-  String reqSummaryMinDuration(int minutes) {
-    return '最低$minutes分';
-  }
-
-  @override
-  String reqSummaryMaxDuration(int minutes) {
-    return '最長$minutes分';
-  }
-
-  @override
-  String reqSummaryFinishBy(String time) {
-    return '$timeまでに終了';
-  }
-
-  @override
-  String reqSummaryStartAfter(String time) {
-    return '$time以降に開始';
-  }
-
-  @override
-  String reqSummaryOrderFrom(int position) {
-    return '$position番目以降';
-  }
-
-  @override
-  String reqSummaryOrderBefore(int position) {
-    return '$position番目より前';
-  }
-
-  @override
-  String get reqSummarySeparator => '・';
-
-  @override
   String get createTimelineButton => 'タイムライン作成';
 
   @override
   String get timelineCreateTitle => 'タイムライン作成';
 
   @override
+  String get initialTimelineCreateTitle => '初期タイムライン作成';
+
+  @override
+  String get fieldTimelineName => 'タイムライン名';
+
+  @override
+  String get fieldPerformanceCount => '出演枠数';
+
+  @override
   String get fieldSequenceStart => 'シーケンス開始時間';
 
   @override
-  String get fieldHasPrep => '準備あり';
+  String get fieldHasVenuePrep => '会場準備あり';
 
   @override
-  String get fieldHasInterval => 'インターバルあり';
+  String get fieldHasRehearsal => 'リハーサルあり';
 
   @override
-  String get fieldHasTeardown => '撤収あり';
+  String get fieldRehearsalStart => 'リハーサル開始時間';
 
   @override
-  String get fieldPerformanceCount => '枠数';
+  String get fieldRehearsalDuration => 'リハーサル所要時間（分）';
+
+  @override
+  String get fieldHasRehearsalChangeover => 'リハーサル転換時間あり';
+
+  @override
+  String get fieldRehearsalChangeoverDuration => 'リハーサル転換時間長（分）';
+
+  @override
+  String get fieldRehearsalEnd => 'リハーサル終了時間';
+
+  @override
+  String get fieldHasDoors => '客入れあり';
+
+  @override
+  String get fieldDerivedDuration => '所要時間';
+
+  @override
+  String get sectionPerformanceSlots => '出演枠';
 
   @override
   String get fieldPerformanceStart => '出演枠の開始時刻';
 
   @override
-  String get fieldTeardownStart => '撤収の開始時刻';
+  String get fieldPerformanceDuration => '出演時間長（分）';
+
+  @override
+  String get fieldHasChangeover => '転換あり';
+
+  @override
+  String get fieldChangeoverDuration => '転換時間（分）';
+
+  @override
+  String get fieldShowEndTime => '演目終了時刻';
+
+  @override
+  String get fieldHasTeardown => '撤収あり';
+
+  @override
+  String get fieldTeardownEnd => '撤収完了時刻';
 
   @override
   String get fieldEndTime => '終了時刻';
@@ -184,36 +169,47 @@ class SJa extends S {
   String get errorTimelineExceedsMax => '終了時刻がタイムラインの最大時刻を超えています';
 
   @override
+  String get errorTimesContradiction => '入力された時刻に矛盾があります';
+
+  @override
+  String get errorNoSlotCategoriesForTimeline =>
+      'タイムラインを作成するには、まず枠タイプを作成してください。';
+
+  @override
+  String get fieldInitialSlotCategory => '初期配置枠タイプ';
+
+  @override
   String get slotCategoryPickerCreateNew => '新規作成';
 
   @override
-  String get defaultCategoryPrep => '準備';
+  String get defaultCategoryVenuePrep => '会場準備';
 
   @override
-  String get defaultCategoryPerformance => '出演枠';
+  String get defaultCategoryRehearsal => 'リハーサル';
 
   @override
-  String get defaultCategoryInterval => '転換';
+  String get defaultCategoryRehearsalChangeover => 'リハーサル転換';
 
   @override
-  String get defaultCategoryTeardown => '撤収';
+  String get defaultCategoryDoors => '客入れ';
 
   @override
-  String defaultTimelineName(int n) {
-    return 'タイムライン$n';
-  }
+  String get defaultCategoryPerformance => '出演';
+
+  @override
+  String get defaultCategoryChangeover => '転換';
+
+  @override
+  String get defaultCategoryTeardown => '片付け';
+
+  @override
+  String get defaultTimelineBaseName => 'タイムライン';
 
   @override
   String get fieldDocumentName => 'ドキュメント名';
 
   @override
-  String get fieldTimelineName => 'タイムライン名';
-
-  @override
   String get fieldStartTime => '開始時刻';
-
-  @override
-  String get fieldPerformanceSlotCount => '出演枠数';
 
   @override
   String get fieldSlotCategory => '枠タイプ';
@@ -231,12 +227,6 @@ class SJa extends S {
   String get sectionParticipantDetails => '演者情報';
 
   @override
-  String get sectionRequirements => '要求項目';
-
-  @override
-  String get sectionRequirementViolations => '要求不一致';
-
-  @override
   String get actionDelete => '削除';
 
   @override
@@ -244,11 +234,6 @@ class SJa extends S {
 
   @override
   String get actionOk => 'OK';
-
-  @override
-  String timelineCopyName(String name) {
-    return '(コピー)$name';
-  }
 
   @override
   String categoryNameWithDuration(String name, int minutes) {
@@ -299,34 +284,10 @@ class SJa extends S {
   String get errorTimelineStartBeforeMidnight => '開始時刻を0:00より前にできません';
 
   @override
-  String get violationBelowMinDuration => '枠の大きさが最低時間を下回っています';
+  String get autoGapCategoryName => '空き';
 
   @override
-  String get violationAboveMaxDuration => '枠の大きさが最長時間を超えています';
-
-  @override
-  String get violationFinishesTooLate => '枠の終了時刻が希望より遅いです';
-
-  @override
-  String get violationStartsTooEarly => '枠の開始時刻が希望より早いです';
-
-  @override
-  String get violationOrderTooEarly => '出演順が希望より早いです';
-
-  @override
-  String get violationOrderTooLate => '出演順が希望より遅いです';
-
-  @override
-  String get autoGapCategoryName => '転換枠';
-
-  @override
-  String get confirmCreateGapSlot => '空いた時間に転換枠を自動作成して配置しますか？';
-
-  @override
-  String get choiceCreateTimelineWithSlot => 'この枠のみで作成';
-
-  @override
-  String get choiceCreateTimelineFromTemplate => 'テンプレートから作成';
+  String get confirmCreateGapSlot => '空いた時間に空き枠を自動作成して配置しますか？';
 
   @override
   String get confirmSwapParticipant => 'この枠にはすでに演者が割り当てられています。入れ替えますか？';

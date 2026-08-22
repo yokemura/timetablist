@@ -7,7 +7,7 @@ import 'commit_text_field.dart';
 /// [CommitTextField] variant for clock times on a timeline.
 ///
 /// Accepts hours past 24 (e.g. `25:05`) up to the timeline maximum (`30:00`).
-/// Used for timeline start/end times and participant requirement times.
+/// Used for timeline start/end times.
 class CommitTimeField extends StatelessWidget {
   const CommitTimeField({
     required this.value,

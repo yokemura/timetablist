@@ -59,10 +59,7 @@ class ParticipantDragGhost extends StatelessWidget {
         opacity: 0.8,
         child: SizedBox(
           width: TimelineLane.width - TimeLayout.participantPadding * 2,
-          child: PlacedParticipantView(
-            participant: participant,
-            hasMismatch: false,
-          ),
+          child: PlacedParticipantView(participant: participant),
         ),
       ),
     );

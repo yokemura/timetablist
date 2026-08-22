@@ -4,7 +4,6 @@ import 'package:timetablist/models/models.dart';
 import 'package:timetablist/state/state.dart';
 import 'package:timetablist/ui/panes/participant_pane.dart';
 import 'package:timetablist/ui/widgets/participant_list_item.dart';
-import 'package:timetablist/ui/widgets/requirements_editor.dart';
 import 'package:timetablist/ui/widgets/slot_category_list_item.dart';
 
 import '../../support/pump_app.dart';
@@ -47,7 +46,7 @@ void main() {
     expect(find.byType(ParticipantListItem), findsNothing);
   });
 
-  testWidgets('creates a slot category from the sheet', (tester) async {
+  testWidgets('creates a slot category from the dialog', (tester) async {
     final container = await pumpApp(tester);
 
     await tester.tap(find.text('枠タイプ作成'));
@@ -94,22 +93,13 @@ void main() {
     expect(createButton.onPressed, isNull);
   });
 
-  testWidgets('creates a participant with a checked requirement',
-      (tester) async {
+  testWidgets('creates a participant from the dialog', (tester) async {
     final container = await pumpApp(tester);
 
     await tester.tap(find.text('演者作成'));
     await tester.pumpAndSettle();
 
     await tester.enterText(find.widgetWithText(TextField, '名前'), 'Alice');
-    await tester.tap(
-      find.byKey(RequirementsEditor.checkboxKey('minDuration')),
-    );
-    await tester.pump();
-    await tester.enterText(
-      find.byKey(RequirementsEditor.fieldKey('minDuration')),
-      '30',
-    );
     await tester.pump();
     await tester.tap(find.widgetWithText(FilledButton, '作成'));
     await tester.pumpAndSettle();
@@ -117,65 +107,14 @@ void main() {
     final document = container.read(documentProvider);
     final created = document.participants.single;
     expect(created.name, 'Alice');
-    expect(created.requirements.minDurationMinutes, 30);
-    expect(created.requirements.maxDurationMinutes, isNull);
 
-    // The pane shows the name and the requirement summary.
     expect(find.text('Alice'), findsOneWidget);
-    expect(find.text('最低30分'), findsOneWidget);
   });
 
-  testWidgets('contradictory requirements block creation', (tester) async {
-    await pumpApp(tester);
-
-    await tester.tap(find.text('演者作成'));
-    await tester.pumpAndSettle();
-
-    await tester.enterText(find.widgetWithText(TextField, '名前'), 'Alice');
-    await tester.tap(
-      find.byKey(RequirementsEditor.checkboxKey('minDuration')),
-    );
-    await tester.tap(
-      find.byKey(RequirementsEditor.checkboxKey('maxDuration')),
-    );
-    await tester.pump();
-    await tester.enterText(
-      find.byKey(RequirementsEditor.fieldKey('minDuration')),
-      '60',
-    );
-    await tester.enterText(
-      find.byKey(RequirementsEditor.fieldKey('maxDuration')),
-      '30',
-    );
-    await tester.pump();
-
-    expect(find.text('要求項目に矛盾があります'), findsOneWidget);
-    final createButton = tester.widget<FilledButton>(
-      find.widgetWithText(FilledButton, '作成'),
-    );
-    expect(createButton.onPressed, isNull);
-
-    // Resolving the contradiction enables creation again.
-    await tester.enterText(
-      find.byKey(RequirementsEditor.fieldKey('maxDuration')),
-      '90',
-    );
-    await tester.pump();
-    expect(find.text('要求項目に矛盾があります'), findsNothing);
-    expect(
-      tester
-          .widget<FilledButton>(find.widgetWithText(FilledButton, '作成'))
-          .onPressed,
-      isNotNull,
-    );
-  });
-
-  testWidgets('assigned participants are hidden from the pane',
-      (tester) async {
+  testWidgets('assigned participants remain in the pane', (tester) async {
     await pumpApp(tester, initialDocument: documentWithData());
 
-    // Alice is assigned to a slot; only Bob remains in the pane.
-    expect(find.byType(ParticipantListItem), findsOneWidget);
+    expect(find.byType(ParticipantListItem), findsNWidgets(2));
     expect(
       find.descendant(
         of: find.byType(ParticipantPane),
@@ -188,7 +127,7 @@ void main() {
         of: find.byType(ParticipantPane),
         matching: find.text('Alice'),
       ),
-      findsNothing,
+      findsOneWidget,
     );
   });
 
@@ -206,7 +145,7 @@ void main() {
       const Selection.slotCategory(slotCategoryId: 'perf'),
     );
 
-    await tester.tap(find.byType(ParticipantListItem));
+    await tester.tap(find.text('Bob'));
     await tester.pump();
     expect(
       container.read(effectiveSelectionProvider),
